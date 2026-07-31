@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<style>
+html{scroll-behavior:smooth}
+body{margin:0;background:#F2F5F8;color:#0C1B33;font-family:'IBM Plex Sans',sans-serif;-webkit-font-smoothing:antialiased}
+a{color:#0C1B33;text-decoration:none}a:hover{color:#0089C4}
+@keyframes saTicker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes saDash{to{stroke-dashoffset:0}}
+@keyframes saPulse{0%,100%{opacity:.55;transform:scale(1)}50%{opacity:1;transform:scale(1.4)}}
+@keyframes saDrop{0%{transform:translateY(-8px);opacity:0}30%{opacity:1}100%{transform:translateY(14px);opacity:0}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none !important;transition:none !important}}
+</style>
+</helmet>
+
+<header data-screen-label="Nav" style="position:sticky;top:0;z-index:60;background:rgba(242,245,248,.92);backdrop-filter:blur(10px);border-bottom:1px solid rgba(12,27,51,.12)">
+  <div style="max-width:1320px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px clamp(16px,4vw,40px);flex-wrap:wrap">
+    <a href="#top" style="display:flex;align-items:center"><img src="uploads/spatial-alphabet-logo.png" alt="Spatial Alphabet" style="height:34px;display:block"></a>
+    <nav aria-label="Primary" style="display:flex;align-items:center;gap:clamp(12px,2.2vw,26px);flex-wrap:wrap">
+      <a href="#top" style="font-size:14px;font-weight:500">Home</a>
+      <a href="#who" style="font-size:14px;font-weight:500">Who We Are</a>
+      <div onMouseEnter="{{ openMenu }}" onMouseLeave="{{ closeMenu }}" style="position:relative">
+        <button onClick="{{ toggleMenu }}" aria-expanded="{{ menuOpen }}" aria-haspopup="true" style="all:unset;cursor:pointer;font-size:14px;font-weight:500;color:{{ menuColor }};background:{{ menuBg }};padding:10px 12px;border-radius:3px;min-height:44px;box-sizing:border-box;display:inline-flex;align-items:center;gap:6px">What We Deliver <span style="font-size:9px;color:#0089C4">▼</span></button>
+        <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+          <div style="position:absolute;top:100%;left:0;background:#FFFFFF;border:1px solid rgba(12,27,51,.1);border-radius:4px;box-shadow:0 18px 40px -8px rgba(12,27,51,.25);padding:10px 0;min-width:250px;display:flex;flex-direction:column">
+            <a href="#services" onClick="{{ closeMenu }}" style="font-size:14.5px;padding:11px 22px;min-height:44px;box-sizing:border-box;display:flex;align-items:center" style-hover="background:rgba(0,168,232,.08);color:#0089C4">Application Development</a>
+            <a href="#services" onClick="{{ closeMenu }}" style="font-size:14.5px;padding:11px 22px;min-height:44px;box-sizing:border-box;display:flex;align-items:center" style-hover="background:rgba(0,168,232,.08);color:#0089C4">AI-Powered Geospatial</a>
+            <a href="#services" onClick="{{ closeMenu }}" style="font-size:14.5px;padding:11px 22px;min-height:44px;box-sizing:border-box;display:flex;align-items:center" style-hover="background:rgba(0,168,232,.08);color:#0089C4">Engineering Design</a>
+            <a href="#services" onClick="{{ closeMenu }}" style="font-size:14.5px;padding:11px 22px;min-height:44px;box-sizing:border-box;display:flex;align-items:center" style-hover="background:rgba(0,168,232,.08);color:#0089C4">BIM Modeling</a>
+            <a href="#services" onClick="{{ closeMenu }}" style="font-size:14.5px;padding:11px 22px;min-height:44px;box-sizing:border-box;display:flex;align-items:center" style-hover="background:rgba(0,168,232,.08);color:#0089C4">Big Data &amp; Analytics</a>
+            <a href="#services" onClick="{{ closeMenu }}" style="font-size:14.5px;padding:11px 22px;min-height:44px;box-sizing:border-box;display:flex;align-items:center" style-hover="background:rgba(0,168,232,.08);color:#0089C4">Talent Acquisition</a>
+            <a href="#services" onClick="{{ closeMenu }}" style="font-size:14.5px;padding:11px 22px;min-height:44px;box-sizing:border-box;display:flex;align-items:center" style-hover="background:rgba(0,168,232,.08);color:#0089C4">General Software</a>
+          </div>
+        </sc-if>
+      </div>
+      <a href="#industries" style="font-size:14px;font-weight:500">Who We Serve</a>
+      <a href="#insights" style="font-size:14px;font-weight:500">News &amp; Blog</a>
+      <a href="#contact" style="font-size:14px;font-weight:500">Careers</a>
+      <a href="#contact" style="font-size:14px;font-weight:500">Downloads</a>
+      <a href="#contact" style="background:#0A2A5E;color:#F2F5F8;padding:11px 20px;border-radius:4px;font-size:14px;font-weight:600" style-hover="background:#00A8E8;color:#071022">Contact Us</a>
+    </nav>
+  </div>
+</header>
+
+<sc-if value="{{ isA }}" hint-placeholder-val="{{ true }}">
+<section id="top" data-screen-label="Hero A — Living Map" onMouseMove="{{ heroMove }}" onMouseLeave="{{ heroLeave }}" style="position:relative;overflow:hidden;background:#071022;color:#F2F5F8;min-height:92vh;display:flex;align-items:flex-end">
+  <canvas ref="{{ canvasRef }}" style="position:absolute;inset:0;width:100%;height:100%"></canvas>
+  <div aria-hidden="true" style="position:absolute;inset:0;background:repeating-radial-gradient(circle at 72% 18%, transparent 0 52px, rgba(0,168,232,.05) 52px 53px);pointer-events:none"></div>
+  <div aria-hidden="true" style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 45%, transparent 35%, rgba(3,7,16,.75) 100%);pointer-events:none"></div>
+  <div ref="{{ crossRef }}" aria-hidden="true" style="position:absolute;top:0;left:0;opacity:0;transition:opacity .3s;pointer-events:none">
+    <span style="position:absolute;left:0;top:-100vh;width:1px;height:200vh;background:rgba(0,168,232,.28);display:block"></span>
+    <span style="position:absolute;top:0;left:-100vw;height:1px;width:200vw;background:rgba(0,168,232,.28);display:block"></span>
+    <span style="position:absolute;left:-5px;top:-5px;width:10px;height:10px;border:1px solid rgba(0,168,232,.7);display:block"></span>
+  </div>
+  <div style="position:relative;width:100%;max-width:1320px;margin:0 auto;padding:120px clamp(20px,5vw,48px) 0">
+    <p style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.12em;color:#5FC8EE;margin:0 0 20px">AI-ENABLED GEOSPATIAL &amp; ENGINEERING — EST. 2019</p>
+    <h1 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(2.6rem,6.5vw,5.5rem);line-height:1.02;letter-spacing:-0.02em;margin:0;max-width:14ch">We turn <em style="font-style:normal;color:#00A8E8">spatial data</em> into engineered outcomes.</h1>
+    <p style="font-size:clamp(16px,1.3vw,18px);line-height:1.6;color:rgba(242,245,248,.72);max-width:56ch;margin:24px 0 36px">Geospatial intelligence, engineering design, BIM, and software — delivered first-time-right by dual-shore teams in Texas and Hyderabad.</p>
+    <div style="display:flex;gap:14px;flex-wrap:wrap">
+      <a href="#pilot" style="background:#00A8E8;color:#071022;padding:15px 26px;border-radius:2px;font-weight:600;font-size:15px;min-height:44px;box-sizing:border-box;display:inline-flex;align-items:center" style-hover="background:#5FC8EE;color:#071022">Start a Pilot →</a>
+      <a href="#services" style="border:1px solid rgba(242,245,248,.35);color:#F2F5F8;padding:15px 26px;border-radius:2px;font-weight:500;font-size:15px;min-height:44px;box-sizing:border-box;display:inline-flex;align-items:center" style-hover="border-color:#00A8E8;color:#5FC8EE">Explore Services</a>
+    </div>
+    <div style="overflow:hidden;margin-top:64px;border-top:1px solid rgba(242,245,248,.12);padding:16px 0 28px;-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)">
+      <div style="display:flex;width:max-content;animation:saTicker 32s linear infinite;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.1em;color:rgba(242,245,248,.4);white-space:nowrap">
+        <span style="padding-right:32px">ESRI ARCGIS · PLS-CADD · AUTODESK REVIT · QGIS · FME · POSTGIS · AWS · AZURE · TENSORFLOW · MICROSTATION · OCALC PRO · SPIDA CALC ·&nbsp;</span>
+        <span style="padding-right:32px">ESRI ARCGIS · PLS-CADD · AUTODESK REVIT · QGIS · FME · POSTGIS · AWS · AZURE · TENSORFLOW · MICROSTATION · OCALC PRO · SPIDA CALC ·&nbsp;</span>
+      </div>
+    </div>
+  </div>
+</section>
+</sc-if>
+
+<sc-if value="{{ isB }}" hint-placeholder-val="{{ false }}">
+<section id="top" data-screen-label="Hero B — Expertise Carousel" onMouseEnter="{{ pauseHero }}" onMouseLeave="{{ resumeHero }}" style="position:relative;overflow:hidden;background:#081426;color:#F2F5F8;min-height:88vh">
+  <sc-for list="{{ slides }}" as="sl" hint-placeholder-count="5">
+    <div style="{{ sl.wrapStyle }}">
+      <sc-if value="{{ sl.img }}" hint-placeholder-val="{{ false }}"><img src="{{ sl.img }}" alt="{{ sl.alt }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(.42) saturate(1.05)"></sc-if>
+      <div aria-hidden="true" style="position:absolute;inset:0;background:linear-gradient(90deg, rgba(4,10,22,.9) 0%, rgba(4,10,22,.55) 55%, rgba(4,10,22,.22) 100%)"></div>
+      <div style="position:relative;max-width:1320px;margin:0 auto;box-sizing:border-box;min-height:88vh;display:flex;flex-direction:column;justify-content:center;padding:110px clamp(64px,7vw,100px) 90px">
+        <p style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.12em;color:#5FC8EE;margin:0 0 18px">CORE EXPERTISE — {{ sl.counter }}</p>
+        <h1 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(2.3rem,5.2vw,4.6rem);line-height:1.04;letter-spacing:-0.02em;margin:0;max-width:16ch">{{ sl.title }}</h1>
+        <p style="font-size:clamp(16px,1.3vw,18px);line-height:1.6;color:rgba(242,245,248,.75);max-width:52ch;margin:20px 0 14px">{{ sl.sub }}</p>
+        <p style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.1em;color:rgba(242,245,248,.5);margin:0 0 34px">{{ sl.tags }}</p>
+        <div style="display:flex;gap:14px;flex-wrap:wrap">
+          <a href="#pilot" style="background:#00A8E8;color:#071022;padding:15px 26px;border-radius:2px;font-weight:600;font-size:15px;min-height:44px;box-sizing:border-box;display:inline-flex;align-items:center" style-hover="background:#5FC8EE;color:#071022">Start a Pilot →</a>
+          <a href="#services" style="border:1px solid rgba(242,245,248,.35);color:#F2F5F8;padding:15px 26px;border-radius:2px;font-weight:500;font-size:15px;min-height:44px;box-sizing:border-box;display:inline-flex;align-items:center" style-hover="border-color:#00A8E8;color:#5FC8EE">Explore Services</a>
+        </div>
+      </div>
+    </div>
+  </sc-for>
+  <button onClick="{{ prevSlide }}" aria-label="Previous slide" style="position:absolute;left:clamp(8px,1.6vw,26px);top:50%;transform:translateY(-50%);z-index:5;width:48px;height:48px;border-radius:50%;border:1px solid rgba(242,245,248,.35);background:rgba(8,20,38,.55);color:#F2F5F8;font-size:22px;line-height:1;cursor:pointer;backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;padding:0 0 3px" style-hover="border-color:#00A8E8;color:#5FC8EE">‹</button>
+  <button onClick="{{ nextSlide }}" aria-label="Next slide" style="position:absolute;right:clamp(8px,1.6vw,26px);top:50%;transform:translateY(-50%);z-index:5;width:48px;height:48px;border-radius:50%;border:1px solid rgba(242,245,248,.35);background:rgba(8,20,38,.55);color:#F2F5F8;font-size:22px;line-height:1;cursor:pointer;backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;padding:0 0 3px" style-hover="border-color:#00A8E8;color:#5FC8EE">›</button>
+  <div style="position:absolute;bottom:28px;left:0;right:0;z-index:5;display:flex;justify-content:center;gap:9px">
+    <sc-for list="{{ slides }}" as="sl" hint-placeholder-count="5"><button onClick="{{ sl.onDot }}" aria-label="{{ sl.dotLabel }}" style="{{ sl.dotStyle }}"></button></sc-for>
+  </div>
+</section>
+</sc-if>
+
+<sc-if value="{{ isC }}" hint-placeholder-val="{{ false }}">
+<section id="top" data-screen-label="Hero C — Command Center" onMouseEnter="{{ pauseLayers }}" onMouseLeave="{{ resumeLayers }}" style="position:relative;overflow:hidden;background:#071022;color:#F2F5F8;min-height:92vh;display:flex;align-items:stretch">
+  <div aria-hidden="true" style="position:absolute;inset:0;background:radial-gradient(circle at 30% 40%, rgba(72,112,90,.55), transparent 52%), radial-gradient(circle at 72% 68%, rgba(96,84,60,.45), transparent 46%), linear-gradient(140deg,#15231d,#0c1913);transition:opacity .9s ease;opacity:{{ op0 }}"></div>
+  <div aria-hidden="true" style="position:absolute;inset:0;background:radial-gradient(rgba(0,168,232,.85) 1px, transparent 1.5px) 0 0/16px 16px, radial-gradient(rgba(0,168,232,.35) 1px, transparent 1.5px) 8px 8px/16px 16px, #06101C;transition:opacity .9s ease;opacity:{{ op1 }}"></div>
+  <div aria-hidden="true" style="position:absolute;inset:0;background:repeating-linear-gradient(0deg, transparent 0 47px, rgba(0,168,232,.22) 47px 48px), repeating-linear-gradient(90deg, transparent 0 47px, rgba(0,168,232,.22) 47px 48px), linear-gradient(160deg,#081426,#0A1A34);transition:opacity .9s ease;opacity:{{ op2 }}"></div>
+  <div aria-hidden="true" style="position:absolute;inset:0;background:linear-gradient(120deg, rgba(0,168,232,.2), transparent 55%), repeating-linear-gradient(45deg, transparent 0 30px, rgba(232,163,30,.12) 30px 32px), #081426;transition:opacity .9s ease;opacity:{{ op3 }}"></div>
+  <div aria-hidden="true" style="position:absolute;inset:0;background:linear-gradient(90deg, rgba(4,9,20,.88) 0%, rgba(4,9,20,.55) 45%, rgba(4,9,20,.15) 100%);pointer-events:none"></div>
+  <div style="position:relative;width:100%;max-width:1320px;margin:0 auto;padding:110px clamp(20px,5vw,48px) 56px;display:flex;flex-direction:column;justify-content:space-between;gap:40px">
+    <div style="display:flex;flex-wrap:wrap;gap:32px;justify-content:space-between;align-items:flex-start">
+      <div style="max-width:560px">
+        <p style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.12em;color:#5FC8EE;margin:0 0 18px">AI-ENABLED GEOSPATIAL &amp; ENGINEERING — EST. 2019</p>
+        <h1 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(2.6rem,5.8vw,4.8rem);line-height:1.04;letter-spacing:-0.02em;margin:0">Every layer, <em style="font-style:normal;color:#00A8E8">handled.</em></h1>
+        <p style="font-size:17px;line-height:1.6;color:rgba(242,245,248,.72);max-width:44ch;margin:18px 0 0">From raw capture to decision-ready deliverables — one accountable partner.</p>
+      </div>
+      <div role="group" aria-label="Data layers" style="background:rgba(8,20,38,.82);border:1px solid rgba(242,245,248,.16);border-radius:4px;padding:14px;min-width:230px;backdrop-filter:blur(6px)">
+        <p style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.14em;color:rgba(242,245,248,.5);margin:0 0 10px">LAYERS</p>
+        <sc-for list="{{ layers }}" as="ly" hint-placeholder-count="4">
+          <button onClick="{{ ly.onSelect }}" style="all:unset;cursor:pointer;display:flex;align-items:center;gap:10px;width:100%;box-sizing:border-box;padding:10px 10px;min-height:44px;border-left:2px solid {{ ly.btnBorder }};background:{{ ly.btnBg }};margin-bottom:4px" style-hover="background:rgba(0,168,232,.1)">
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#5FC8EE">{{ ly.num }}</span>
+            <span style="font-size:13.5px;font-weight:500;color:#F2F5F8">{{ ly.name }}</span>
+          </button>
+        </sc-for>
+      </div>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:24px;align-items:flex-end;justify-content:space-between">
+      <div>
+        <p style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.12em;color:rgba(242,245,248,.6);margin:0 0 16px">LAYER {{ layerNum }} — <span style="color:#00A8E8">{{ captionUpper }}</span></p>
+        <div style="display:flex;gap:6px;margin-bottom:26px" aria-hidden="true">
+          <sc-for list="{{ layers }}" as="ly" hint-placeholder-count="4"><span style="{{ ly.dotStyle }}"></span></sc-for>
+        </div>
+        <div style="display:flex;gap:14px;flex-wrap:wrap">
+          <a href="#pilot" style="background:#00A8E8;color:#071022;padding:15px 26px;border-radius:2px;font-weight:600;font-size:15px;min-height:44px;box-sizing:border-box;display:inline-flex;align-items:center" style-hover="background:#5FC8EE;color:#071022">Start a Pilot →</a>
+          <a href="#services" style="border:1px solid rgba(242,245,248,.35);color:#F2F5F8;padding:15px 26px;border-radius:2px;font-weight:500;font-size:15px;min-height:44px;box-sizing:border-box;display:inline-flex;align-items:center" style-hover="border-color:#00A8E8;color:#5FC8EE">Explore Services</a>
+        </div>
+      </div>
+      <div aria-hidden="true" style="display:flex;flex-direction:column;align-items:center;gap:0;padding-right:8px">
+        <span style="width:1px;height:56px;background:rgba(242,245,248,.35);display:block"></span>
+        <span style="width:9px;height:9px;border:1px solid #00A8E8;transform:rotate(45deg);display:block;animation:saDrop 2.2s ease-in-out infinite"></span>
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.14em;color:rgba(242,245,248,.45);margin-top:10px">SCROLL</span>
+      </div>
+    </div>
+  </div>
+</section>
+</sc-if>
+
+<section data-screen-label="Trust bar" style="background:#F2F5F8;border-bottom:1px solid rgba(12,27,51,.1);padding:36px clamp(20px,5vw,48px)">
+  <div style="max-width:1320px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;gap:24px clamp(28px,4vw,56px)">
+    <p style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.14em;color:rgba(12,27,51,.5);margin:0">TRUSTED BY INDUSTRY LEADERS</p>
+    <div style="flex:1 1 320px;min-width:0;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent)">
+      <div style="display:flex;width:max-content;animation:saTicker 28s linear infinite;align-items:center;font-family:'Space Grotesk',sans-serif;font-weight:600;color:rgba(12,27,51,.5)">
+        <span style="font-size:16px;padding-right:56px;white-space:nowrap">Pacific Electric &amp; Gas</span>
+        <span style="font-size:16px;padding-right:56px;white-space:nowrap">Nam Technologies</span>
+        <span style="font-size:16px;padding-right:56px;white-space:nowrap">SPI Inc</span>
+        <span style="font-size:16px;padding-right:56px;white-space:nowrap">UDC Inc</span>
+        <span style="font-size:16px;padding-right:56px;white-space:nowrap">SONATA Software</span>
+        <span style="font-size:16px;padding-right:56px;white-space:nowrap">The ComTek</span>
+        <span aria-hidden="true" style="font-size:16px;padding-right:56px;white-space:nowrap">Pacific Electric &amp; Gas</span>
+        <span aria-hidden="true" style="font-size:16px;padding-right:56px;white-space:nowrap">Nam Technologies</span>
+        <span aria-hidden="true" style="font-size:16px;padding-right:56px;white-space:nowrap">SPI Inc</span>
+        <span aria-hidden="true" style="font-size:16px;padding-right:56px;white-space:nowrap">UDC Inc</span>
+        <span aria-hidden="true" style="font-size:16px;padding-right:56px;white-space:nowrap">SONATA Software</span>
+        <span aria-hidden="true" style="font-size:16px;padding-right:56px;white-space:nowrap">The ComTek</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="who" data-screen-label="Intro statement" style="background:#F2F5F8;padding:clamp(72px,10vw,130px) clamp(20px,5vw,48px)">
+  <div style="max-width:1320px;margin:0 auto">
+    <p style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.12em;color:#0089C4;margin:0 0 28px">A1 — WHO WE ARE</p>
+    <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:clamp(1.9rem,4.2vw,3.6rem);line-height:1.12;letter-spacing:-0.015em;margin:0;max-width:24ch">Spatial data is only valuable when it becomes a decision. We make that happen — <em style="font-style:normal;border-bottom:3px solid #00A8E8">first time, every time.</em></h2>
+    <div style="display:flex;flex-wrap:wrap;gap:24px;align-items:baseline;justify-content:space-between;margin-top:36px">
+      <p style="font-size:16.5px;line-height:1.65;color:rgba(12,27,51,.72);max-width:58ch;margin:0">Incorporated in 2019 and led by a team with ~20 years in GIS and engineering design, Spatial Alphabet pairs US leadership in Keller, Texas with a large offshore development center in Hyderabad — one team, two shores, first-time-right output.</p>
+      <a href="#contact" style="font-weight:600;font-size:15px;border-bottom:2px solid #00A8E8;padding-bottom:2px">Who We Are →</a>
+    </div>
+  </div>
+</section>
+
+<section id="services" data-screen-label="Services index" style="background:#F2F5F8;padding:0 clamp(20px,5vw,48px) clamp(72px,10vw,120px)">
+  <div style="max-width:1320px;margin:0 auto">
+    <div style="display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:baseline;border-top:1px solid rgba(12,27,51,.15);padding-top:28px;margin-bottom:20px">
+      <p style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.12em;color:#0089C4;margin:0">B1 — SERVICES</p>
+      <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:clamp(1.7rem,3.4vw,2.6rem);letter-spacing:-0.015em;margin:0">Seven disciplines. One accountable partner.</h2>
+    </div>
+    <sc-for list="{{ services }}" as="s" hint-placeholder-count="7">
+      <div style="border-top:1px solid rgba(12,27,51,.14)">
+        <button onClick="{{ s.onToggle }}" aria-expanded="{{ s.open }}" style="all:unset;cursor:pointer;display:grid;grid-template-columns:52px 1fr 32px;align-items:center;gap:12px;width:100%;box-sizing:border-box;padding:22px 4px;min-height:44px" style-hover="color:#0089C4">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:rgba(12,27,51,.5)">{{ s.num }}</span>
+          <span style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:clamp(1.15rem,2.4vw,1.7rem);letter-spacing:-0.01em">{{ s.name }}</span>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:20px;color:#00A8E8;text-align:right">{{ s.mark }}</span>
+        </button>
+        <sc-if value="{{ s.open }}" hint-placeholder-val="{{ false }}">
+          <div style="padding:0 4px 26px;margin-left:64px;display:flex;flex-direction:column;gap:12px">
+            <p style="font-size:16px;line-height:1.6;color:rgba(12,27,51,.75);max-width:60ch;margin:0">{{ s.promise }}</p>
+            <p style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.08em;color:rgba(12,27,51,.5);margin:0">{{ s.tags }}</p>
+            <a href="#pilot" style="font-size:14px;font-weight:600;color:#0089C4;width:max-content">Scope a pilot for this service →</a>
+          </div>
+        </sc-if>
+      </div>
+    </sc-for>
+    <div style="border-top:1px solid rgba(12,27,51,.14)"></div>
+  </div>
+</section>
+
+<section data-screen-label="Why Spatial Alphabet" style="background:#E3EAF2;padding:clamp(72px,10vw,120px) clamp(20px,5vw,48px)">
+  <div style="max-width:1320px;margin:0 auto;display:flex;flex-wrap:wrap;gap:clamp(36px,5vw,80px)">
+    <div style="flex:1 1 320px;min-width:0">
+      <p style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.12em;color:#0089C4;margin:0 0 22px">B2 — WHY SPATIAL ALPHABET</p>
+      <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:clamp(1.9rem,3.8vw,3.1rem);line-height:1.12;letter-spacing:-0.015em;margin:0">Zero rework isn't a slogan. It's our QC protocol.</h2>
+      <p style="font-size:16px;line-height:1.65;color:rgba(12,27,51,.7);max-width:44ch;margin:22px 0 0">Every deliverable passes rigorous training-backed quality control before it reaches you. That discipline is why clients stop budgeting for revision cycles.</p>
+    </div>
+    <div style="flex:1.4 1 380px;min-width:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:clamp(24px,3vw,40px)">
+      <div style="border-top:2px solid #0C1B33;padding-top:18px">
+        <svg width="30" height="30" viewBox="0 0 30 30" fill="none" aria-hidden="true"><circle cx="15" cy="15" r="12" stroke="#0C1B33" stroke-width="1.4"></circle><path d="M9.5 15.5l4 4 7-8" stroke="#00A8E8" stroke-width="1.6" fill="none"></path></svg>
+        <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:18px;margin:14px 0 8px">100% quality, zero rework</h3>
+        <p style="font-size:14.5px;line-height:1.6;color:rgba(12,27,51,.7);margin:0">Rigorous training and strict QC protocols mean deliverables ship right the first time. No revision cycles baked into your budget.</p>
+      </div>
+      <div style="border-top:2px solid #0C1B33;padding-top:18px">
+        <svg width="30" height="30" viewBox="0 0 30 30" fill="none" aria-hidden="true"><circle cx="11" cy="15" r="8" stroke="#0C1B33" stroke-width="1.4"></circle><circle cx="19" cy="15" r="8" stroke="#00A8E8" stroke-width="1.4"></circle></svg>
+        <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:18px;margin:14px 0 8px">Dual-shore delivery</h3>
+        <p style="font-size:14.5px;line-height:1.6;color:rgba(12,27,51,.7);margin:0">US leadership in Keller, TX sets the standard; our Hyderabad ODC executes at scale. Speed and quality, at a cost structure competitors can't match.</p>
+      </div>
+      <div style="border-top:2px solid #0C1B33;padding-top:18px">
+        <svg width="30" height="30" viewBox="0 0 30 30" fill="none" aria-hidden="true"><circle cx="15" cy="15" r="12" stroke="#0C1B33" stroke-width="1.4"></circle><path d="M15 15l6-6" stroke="#00A8E8" stroke-width="1.6"></path><circle cx="15" cy="15" r="1.6" fill="#0C1B33"></circle></svg>
+        <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:18px;margin:14px 0 8px">~20 years leadership depth</h3>
+        <p style="font-size:14.5px;line-height:1.6;color:rgba(12,27,51,.7);margin:0">Our leads have run GIS and engineering programs across railroad, water, gas, pipeline, and cadastral work in multiple countries.</p>
+      </div>
+      <div style="border-top:2px solid #0C1B33;padding-top:18px">
+        <svg width="30" height="30" viewBox="0 0 30 30" fill="none" aria-hidden="true"><rect x="4" y="4" width="14" height="14" stroke="#0C1B33" stroke-width="1.4" fill="none"></rect><path d="M14 14l10 10M24 24v-7M24 24h-7" stroke="#00A8E8" stroke-width="1.6" fill="none"></path></svg>
+        <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:18px;margin:14px 0 8px">Pilot programs</h3>
+        <p style="font-size:14.5px;line-height:1.6;color:rgba(12,27,51,.7);margin:0">Paid or pro bono: prove us on a scoped pilot before you commit a dollar of program budget.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section data-screen-label="Stats band" style="background:#071022;color:#F2F5F8;padding:clamp(72px,10vw,110px) clamp(20px,5vw,48px);position:relative;overflow:hidden">
+  <div aria-hidden="true" style="position:absolute;inset:0;background:radial-gradient(rgba(0,168,232,.35) 1px, transparent 1.4px) 0 0/26px 26px;opacity:.28"></div>
+  <div ref="{{ statsRef }}" style="position:relative;max-width:1320px;margin:0 auto">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:clamp(28px,4vw,48px);margin-bottom:clamp(48px,6vw,72px)">
+      <div style="border-left:1px solid rgba(0,168,232,.4);padding-left:20px">
+        <p style="font-family:'IBM Plex Mono',monospace;font-size:clamp(2.4rem,4.5vw,3.6rem);font-weight:500;margin:0;color:#5FC8EE">{{ s0 }}</p>
+        <p style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.12em;color:rgba(242,245,248,.6);margin:8px 0 0">YEARS ACTIVE</p>
+      </div>
+      <div style="border-left:1px solid rgba(0,168,232,.4);padding-left:20px">
+        <p style="font-family:'IBM Plex Mono',monospace;font-size:clamp(2.4rem,4.5vw,3.6rem);font-weight:500;margin:0;color:#5FC8EE">{{ s1 }}</p>
+        <p style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.12em;color:rgba(242,245,248,.6);margin:8px 0 0">YEARS LEADERSHIP DEPTH</p>
+      </div>
+      <div style="border-left:1px solid rgba(0,168,232,.4);padding-left:20px">
+        <p style="font-family:'IBM Plex Mono',monospace;font-size:clamp(2.4rem,4.5vw,3.6rem);font-weight:500;margin:0;color:#5FC8EE">{{ s2 }}</p>
+        <p style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.12em;color:rgba(242,245,248,.6);margin:8px 0 0">FIRST-TIME-RIGHT QUALITY</p>
+      </div>
+      <div style="border-left:1px solid rgba(0,168,232,.4);padding-left:20px">
+        <p style="font-family:'IBM Plex Mono',monospace;font-size:clamp(2.4rem,4.5vw,3.6rem);font-weight:500;margin:0;color:#5FC8EE">{{ s3 }}</p>
+        <p style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.12em;color:rgba(242,245,248,.6);margin:8px 0 0">GLOBAL OFFICES</p>
+      </div>
+    </div>
+    <div style="position:relative;height:200px;border:1px solid rgba(242,245,248,.12);border-radius:4px;overflow:hidden">
+      <svg viewBox="0 0 1000 200" preserveAspectRatio="none" style="position:absolute;inset:0;width:100%;height:100%" aria-hidden="true">
+        <path d="M 220 118 Q 500 -30 780 106" stroke="#00A8E8" stroke-width="1.5" fill="none" stroke-dasharray="900" stroke-dashoffset="900" style="animation:saDash 2.6s ease-out forwards"></path>
+      </svg>
+      <div style="position:absolute;left:22%;top:59%;display:flex;flex-direction:column;gap:8px">
+        <span style="width:9px;height:9px;border-radius:50%;background:#00A8E8;box-shadow:0 0 14px #00A8E8;display:block;animation:saPulse 3s ease-in-out infinite"></span>
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;color:rgba(242,245,248,.75);white-space:nowrap;margin-left:-4px">KELLER, TX — 32.9346° N, 97.2517° W</span>
+      </div>
+      <div style="position:absolute;left:78%;top:53%;display:flex;flex-direction:column;align-items:flex-end;gap:8px;transform:translate(-100%,-100%)">
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;color:rgba(242,245,248,.75);white-space:nowrap;text-align:right">HYDERABAD, IN — 17.3850° N, 78.4867° E</span>
+        <span style="width:9px;height:9px;border-radius:50%;background:#E8A31E;box-shadow:0 0 14px #E8A31E;display:block;animation:saPulse 3s ease-in-out infinite 1.5s;margin-right:-9px;margin-bottom:-4px"></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="industries" data-screen-label="Industries" style="background:#F2F5F8;padding:clamp(72px,10vw,120px) 0">
+  <div style="max-width:1320px;margin:0 auto;padding:0 clamp(20px,5vw,48px)">
+    <p style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.12em;color:#0089C4;margin:0 0 16px">C1 — INDUSTRIES</p>
+    <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:clamp(1.7rem,3.4vw,2.6rem);letter-spacing:-0.015em;margin:0 0 36px">Where our work carries weight.</h2>
+  </div>
+  <div style="display:flex;gap:20px;overflow-x:auto;scroll-snap-type:x mandatory;padding:4px clamp(20px,5vw,48px) 20px">
+    <sc-for list="{{ industries }}" as="ind" hint-placeholder-count="6">
+      <div style="flex:0 0 292px;scroll-snap-align:start">
+        <div style="height:190px;margin-bottom:14px">
+          <image-slot id="{{ ind.slot }}" shape="rounded" radius="8" src="{{ ind.src }}" placeholder="{{ ind.placeholder }}"></image-slot>
+        </div>
+        <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:17px;margin:0 0 6px">{{ ind.name }}</h3>
+        <p style="font-size:14px;line-height:1.55;color:rgba(12,27,51,.68);margin:0">{{ ind.line }}</p>
+      </div>
+    </sc-for>
+  </div>
+</section>
+
+<section id="pilot" data-screen-label="Pilot CTA" style="background:#F2F5F8;padding:0 clamp(20px,5vw,48px) clamp(72px,10vw,120px)">
+  <div style="max-width:1320px;margin:0 auto;border:1px solid #0C1B33;background:repeating-linear-gradient(90deg, transparent 0 79px, rgba(0,168,232,.06) 79px 80px), repeating-linear-gradient(0deg, transparent 0 79px, rgba(0,168,232,.06) 79px 80px), #F2F5F8;padding:clamp(36px,6vw,72px)">
+    <p style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.12em;color:#0089C4;margin:0 0 18px">C2 — PILOT PROGRAM</p>
+    <div style="display:flex;flex-wrap:wrap;gap:32px;justify-content:space-between;align-items:flex-end;margin-bottom:clamp(32px,5vw,56px)">
+      <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:clamp(1.9rem,4vw,3.2rem);line-height:1.1;letter-spacing:-0.015em;margin:0;max-width:18ch">Not ready to commit? Start with a pilot.</h2>
+      <a href="#contact" style="background:#00A8E8;color:#071022;padding:15px 26px;border-radius:2px;font-weight:600;font-size:15px;min-height:44px;box-sizing:border-box;display:inline-flex;align-items:center" style-hover="background:#0089C4;color:#F2F5F8">Scope a pilot →</a>
+    </div>
+    <p style="font-size:16px;line-height:1.6;color:rgba(12,27,51,.72);max-width:62ch;margin:0 0 36px">Paid or pro bono — your call. We take a real slice of your program, deliver it to production standard, and you evaluate the result before committing anything further.</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:clamp(24px,3vw,40px)">
+      <div style="border-top:1px solid rgba(12,27,51,.25);padding-top:16px">
+        <p style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#0089C4;margin:0 0 8px">01 — SCOPE</p>
+        <p style="font-size:14.5px;line-height:1.6;color:rgba(12,27,51,.72);margin:0">We define a bounded, representative work package with you — real data, real specs, one to three weeks.</p>
+      </div>
+      <div style="border-top:1px solid rgba(12,27,51,.25);padding-top:16px">
+        <p style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#0089C4;margin:0 0 8px">02 — DELIVER</p>
+        <p style="font-size:14.5px;line-height:1.6;color:rgba(12,27,51,.72);margin:0">Our dual-shore team executes under the same QC protocol as a full engagement. No demo-grade shortcuts.</p>
+      </div>
+      <div style="border-top:1px solid rgba(12,27,51,.25);padding-top:16px">
+        <p style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#0089C4;margin:0 0 8px">03 — EVALUATE</p>
+        <p style="font-size:14.5px;line-height:1.6;color:rgba(12,27,51,.72);margin:0">You audit the deliverables against your own acceptance criteria. Then decide — with evidence, not promises.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="insights" data-screen-label="Insights" style="background:#F2F5F8;padding:0 clamp(20px,5vw,48px) clamp(72px,10vw,120px)">
+  <div style="max-width:1320px;margin:0 auto">
+    <div style="display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:baseline;border-top:1px solid rgba(12,27,51,.15);padding-top:28px;margin-bottom:8px">
+      <p style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.12em;color:#0089C4;margin:0">D1 — NEWS &amp; BLOGS</p>
+      <a href="#contact" style="font-size:14px;font-weight:600;border-bottom:2px solid #00A8E8;padding-bottom:2px">All articles →</a>
+    </div>
+    <sc-for list="{{ insights }}" as="art" hint-placeholder-count="3">
+      <a href="#insights" style="display:grid;grid-template-columns:minmax(96px,150px) 1fr auto;gap:16px;align-items:baseline;border-bottom:1px solid rgba(12,27,51,.14);padding:26px 0" style-hover="color:#0089C4">
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:clamp(15px,1.6vw,19px);color:rgba(12,27,51,.5)">{{ art.date }}</span>
+        <span style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:clamp(1.05rem,2.2vw,1.5rem);letter-spacing:-0.01em">{{ art.title }}</span>
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.12em;border:1px solid rgba(12,27,51,.25);padding:5px 10px;border-radius:999px;color:rgba(12,27,51,.6)">{{ art.tag }}</span>
+      </a>
+    </sc-for>
+  </div>
+</section>
+
+<footer id="contact" data-screen-label="Footer" style="background:#071022;color:#F2F5F8;position:relative;overflow:hidden;padding:clamp(64px,9vw,110px) clamp(20px,5vw,48px) 32px">
+  <div aria-hidden="true" style="position:absolute;inset:0;background:repeating-radial-gradient(circle at 15% 110%, transparent 0 58px, rgba(0,168,232,.05) 58px 59px)"></div>
+  <div style="position:relative;max-width:1320px;margin:0 auto">
+    <div style="display:flex;flex-wrap:wrap;gap:clamp(40px,6vw,90px);margin-bottom:clamp(48px,6vw,72px)">
+      <div style="flex:1.2 1 320px;min-width:0">
+        <p style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:26px;margin:0 0 8px">Spatial <span style="color:#00A8E8">Alphabet</span></p>
+        <p style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.12em;color:rgba(242,245,248,.55);margin:0 0 36px">MAP. MODEL. DELIVER.</p>
+        <div style="display:flex;flex-direction:column;gap:24px">
+          <div>
+            <p style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.14em;color:#5FC8EE;margin:0 0 6px">HQ — KELLER, TX, USA</p>
+            <p style="font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:rgba(242,245,248,.65);margin:0">32.9346° N, 97.2517° W</p>
+          </div>
+          <div>
+            <p style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.14em;color:#5FC8EE;margin:0 0 6px">ODC — HYDERABAD, TELANGANA, INDIA</p>
+            <p style="font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:rgba(242,245,248,.65);margin:0">17.3850° N, 78.4867° E</p>
+          </div>
+          <div>
+            <p style="font-size:14.5px;margin:0 0 4px"><a href="mailto:info@spatialalphabet.com" style="color:#F2F5F8" style-hover="color:#5FC8EE">info@spatialalphabet.com</a></p>
+            <p style="font-size:14.5px;margin:0"><a href="tel:+18172310158" style="color:#F2F5F8" style-hover="color:#5FC8EE">+1 (817) 231-0158</a></p>
+          </div>
+          <nav aria-label="Footer" style="display:flex;flex-direction:column;gap:8px;padding-top:8px">
+            <a href="#services" style="color:rgba(242,245,248,.7);font-size:14px" style-hover="color:#5FC8EE">Services</a>
+            <a href="#industries" style="color:rgba(242,245,248,.7);font-size:14px" style-hover="color:#5FC8EE">Industries</a>
+            <a href="#insights" style="color:rgba(242,245,248,.7);font-size:14px" style-hover="color:#5FC8EE">Insights</a>
+            <a href="https://www.linkedin.com/" target="_blank" rel="noopener" style="color:rgba(242,245,248,.7);font-size:14px" style-hover="color:#5FC8EE">LinkedIn ↗</a>
+          </nav>
+        </div>
+      </div>
+      <div style="flex:1.6 1 360px;min-width:0">
+        <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:clamp(1.5rem,3vw,2.2rem);letter-spacing:-0.015em;margin:0 0 8px">Start the conversation.</h2>
+        <p style="font-size:14.5px;color:rgba(242,245,248,.6);margin:0 0 28px">We reply within one business day.</p>
+        <form onSubmit="{{ onSubmit }}" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px">
+          <label style="display:flex;flex-direction:column;gap:6px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.12em;color:rgba(242,245,248,.55)">NAME
+            <input type="text" name="name" required="required" style="background:rgba(242,245,248,.06);border:1px solid rgba(242,245,248,.22);color:#F2F5F8;padding:13px 14px;font-family:'IBM Plex Sans',sans-serif;font-size:15px;border-radius:2px;min-height:44px;box-sizing:border-box" style-focus="border-color:#00A8E8;outline:none">
+          </label>
+          <label style="display:flex;flex-direction:column;gap:6px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.12em;color:rgba(242,245,248,.55)">EMAIL
+            <input type="email" name="email" required="required" style="background:rgba(242,245,248,.06);border:1px solid rgba(242,245,248,.22);color:#F2F5F8;padding:13px 14px;font-family:'IBM Plex Sans',sans-serif;font-size:15px;border-radius:2px;min-height:44px;box-sizing:border-box" style-focus="border-color:#00A8E8;outline:none">
+          </label>
+          <label style="grid-column:1/-1;display:flex;flex-direction:column;gap:6px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.12em;color:rgba(242,245,248,.55)">SERVICE OF INTEREST
+            <select name="service" style="background:rgba(242,245,248,.06);border:1px solid rgba(242,245,248,.22);color:#F2F5F8;padding:13px 14px;font-family:'IBM Plex Sans',sans-serif;font-size:15px;border-radius:2px;min-height:44px;box-sizing:border-box" style-focus="border-color:#00A8E8;outline:none">
+              <option>AI-Powered Geospatial Solutions</option>
+              <option>Engineering Design</option>
+              <option>BIM Modeling</option>
+              <option>Application Development</option>
+              <option>Big Data, Analytics &amp; AI Annotation</option>
+              <option>Talent Acquisition &amp; Workforce Partnership</option>
+              <option>General Software Solutions</option>
+              <option>Pilot program / general inquiry</option>
+            </select>
+          </label>
+          <label style="grid-column:1/-1;display:flex;flex-direction:column;gap:6px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.12em;color:rgba(242,245,248,.55)">MESSAGE
+            <textarea name="message" rows="4" style="background:rgba(242,245,248,.06);border:1px solid rgba(242,245,248,.22);color:#F2F5F8;padding:13px 14px;font-family:'IBM Plex Sans',sans-serif;font-size:15px;border-radius:2px;resize:vertical;box-sizing:border-box"></textarea>
+          </label>
+          <button type="submit" style="grid-column:1/-1;justify-self:start;background:#00A8E8;color:#071022;border:none;cursor:pointer;padding:15px 28px;border-radius:2px;font-weight:600;font-size:15px;font-family:'IBM Plex Sans',sans-serif;min-height:44px" style-hover="background:#5FC8EE">{{ submitLabel }}</button>
+        </form>
+      </div>
+    </div>
+    <div style="border-top:1px solid rgba(242,245,248,.12);padding-top:20px;display:flex;flex-wrap:wrap;gap:12px 28px;justify-content:space-between;font-size:12.5px;color:rgba(242,245,248,.45)">
+      <span>© 2026 Spatial Alphabet. All rights reserved.</span>
+      <span style="font-family:'IBM Plex Mono',monospace;letter-spacing:.08em">AI-ENABLED GEOSPATIAL &amp; ENGINEERING SOLUTIONS</span>
+    </div>
+  </div>
+</footer>
+
+<sc-if value="{{ pill }}" hint-placeholder-val="{{ false }}">
+  <a href="#contact" style="position:fixed;bottom:16px;left:50%;transform:translateX(-50%);z-index:70;background:#00A8E8;color:#071022;padding:14px 30px;border-radius:999px;font-weight:600;font-size:15px;box-shadow:0 12px 30px rgba(0,0,0,.35);min-height:44px;box-sizing:border-box;display:inline-flex;align-items:center">Contact us</a>
+</sc-if>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;heroVariant&quot;: { &quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;A — Living Map&quot;, &quot;B — Expertise Carousel&quot;, &quot;C — Command Center&quot;], &quot;default&quot;: &quot;B — Expertise Carousel&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Hero&quot; },
+  &quot;autoCycleLayers&quot;: { &quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;Hero&quot; },
+  &quot;stickyContactPill&quot;: { &quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;Mobile&quot; }
+}">
+class Component extends DCLogic {
+  state = { open: 0, layer: 0, paused: false, slide: 0, heroPaused: false, menuOpen: false, s: [0, 0, 0, 0], statsDone: false, pill: false, sent: false };
+
+  componentDidMount() {
+    this.layerTimer = setInterval(() => {
+      if (!this.state.paused && (this.props.autoCycleLayers ?? true)) {
+        this.setState(s => ({ layer: (s.layer + 1) % 4 }));
+      }
+    }, 4000);
+    this.slideTimer = setInterval(() => {
+      if (!this.state.heroPaused && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        this.setState(s => ({ slide: (s.slide + 1) % 5 }));
+      }
+    }, 6000);
+    window.addEventListener('scroll', this.onScroll, { passive: true });
+  }
+  componentWillUnmount() {
+    clearInterval(this.layerTimer);
+    clearInterval(this.slideTimer);
+    if (this.raf) cancelAnimationFrame(this.raf);
+    window.removeEventListener('scroll', this.onScroll);
+    if (this.obs) this.obs.disconnect();
+  }
+
+  onScroll = () => {
+    const d = document.documentElement;
+    const show = window.scrollY > (d.scrollHeight - window.innerHeight) * 0.5 && window.innerWidth < 760 && (this.props.stickyContactPill ?? true);
+    if (show !== this.state.pill) this.setState({ pill: show });
+  };
+
+  statsRef = (el) => {
+    if (!el || this.obs) return;
+    this.obs = new IntersectionObserver((en) => {
+      if (en[0].isIntersecting) this.animateStats();
+    }, { threshold: 0.25 });
+    this.obs.observe(el);
+  };
+  animateStats() {
+    if (this.state.statsDone) return;
+    this.setState({ statsDone: true });
+    const T = [6, 20, 100, 2];
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { this.setState({ s: T }); return; }
+    const t0 = performance.now(), D = 1400;
+    const step = (t) => {
+      const k = Math.min(1, (t - t0) / D), e = 1 - Math.pow(1 - k, 3);
+      this.setState({ s: T.map(v => Math.round(v * e)) });
+      if (k < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }
+
+  canvasRef = (el) => {
+    if (!el || this.cv === el) return;
+    this.cv = el;
+    const ctx = el.getContext('2d');
+    const dpr = window.devicePixelRatio || 1;
+    const fit = () => { el.width = el.offsetWidth * dpr; el.height = el.offsetHeight * dpr; };
+    fit();
+    window.addEventListener('resize', fit);
+    const pts = Array.from({ length: 340 }, () => ({ x: Math.random(), y: Math.random(), z: 0.3 + Math.random() * 0.7, v: (Math.random() - 0.5) * 0.00016 }));
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const draw = () => {
+      if (!el.isConnected) return;
+      const w = el.width, h = el.height;
+      ctx.clearRect(0, 0, w, h);
+      for (const p of pts) {
+        p.x += p.v; if (p.x < 0) p.x = 1; if (p.x > 1) p.x = 0;
+        ctx.globalAlpha = 0.1 + p.z * 0.32;
+        ctx.fillStyle = p.z > 0.82 ? '#5FC8EE' : '#28618C';
+        const r = p.z * 1.7 * dpr;
+        ctx.fillRect(p.x * w, p.y * h, r, r);
+      }
+      ctx.globalAlpha = 1;
+      if (!reduced) this.raf = requestAnimationFrame(draw);
+    };
+    draw();
+  };
+
+  crossRef = (el) => { this.cross = el; };
+  heroMove = (e) => {
+    if (!this.cross || window.innerWidth < 900) return;
+    const r = e.currentTarget.getBoundingClientRect();
+    this.cross.style.opacity = '1';
+    this.cross.style.transform = 'translate(' + (e.clientX - r.left) + 'px,' + (e.clientY - r.top) + 'px)';
+  };
+  heroLeave = () => { if (this.cross) this.cross.style.opacity = '0'; };
+
+  renderVals() {
+    const raw = String(this.props.heroVariant ?? 'B');
+    const v = (raw[0] || 'B').toUpperCase();
+    const svc = [
+      ['AI-Powered Geospatial Solutions', 'Location data managed, visualized, and made decision-ready — from raw capture to location-based decision tools.', 'ESRI ARCGIS · QGIS · FME · POSTGIS · AWS · AZURE · LIDAR'],
+      ['Engineering Design', 'Transmission and distribution line design for electrical utilities, delivered first-time-right.', 'PLS-CADD · AUTOCAD · MICROSTATION · OCALC PRO · SPIDA CALC'],
+      ['BIM Modeling', 'Clash-free architectural, structural, and MEP coordination models for US infrastructure projects.', 'AUTODESK REVIT · 3D COORDINATION · MEP'],
+      ['Application Development', 'Mobile GPS apps, web platforms, and custom geospatial software — cloud-native from day one.', 'C# · PYTHON · ML · CLOUD-NATIVE'],
+      ['Big Data, Analytics & AI Annotation', 'Enterprise data pipelines, AI annotation services, and advanced visualization at production scale.', 'TENSORFLOW · ML PIPELINES · ADVANCED VISUALIZATION'],
+      ['Talent Acquisition & Workforce Partnership', 'Certified GIS, PLS-CADD, Revit, AI, and full-stack professionals — US and India, ready to deploy.', 'US + INDIA STAFFING · TEAM SCALING'],
+      ['General Software Solutions', 'Fully custom software, integrations, and productivity systems built around how you already work.', 'CUSTOM BUILD · SYSTEMS INTEGRATION']
+    ];
+    const services = svc.map(([name, promise, tags], i) => ({
+      num: String(i + 1).padStart(2, '0'), name, promise, tags,
+      open: this.state.open === i,
+      mark: this.state.open === i ? '−' : '+',
+      onToggle: () => this.setState(s => ({ open: s.open === i ? -1 : i }))
+    }));
+    const layerNames = ['Satellite', 'LiDAR point cloud', 'Vector network', 'AI analysis'];
+    const caps = ['RAW CAPTURE', 'CLASSIFIED POINT CLOUD', 'DESIGNED NETWORK', 'DECISION-READY'];
+    const L = this.state.layer;
+    const layers = layerNames.map((name, i) => ({
+      name, num: '0' + (i + 1),
+      btnBorder: i === L ? '#00A8E8' : 'rgba(246,243,236,.2)',
+      btnBg: i === L ? 'rgba(0,168,232,.14)' : 'transparent',
+      dotStyle: { width: i === L ? '26px' : '8px', height: '8px', borderRadius: '4px', background: i === L ? '#00A8E8' : 'rgba(246,243,236,.3)', transition: 'all .4s ease', display: 'block' },
+      onSelect: () => this.setState({ layer: i })
+    }));
+    const industries = [
+      ['Electrical Utilities', 'Design-ready data for T&D networks — from pole loading to full corridor design.', 'ind-utilities', 'Transmission corridor photo'],
+      ['Oil & Gas', 'Pipeline routing, integrity data, and as-built records you can defend.', 'ind-oilgas', 'Pipeline / facility aerial'],
+      ['Government', 'Cadastral, parcel, and land-records modernization at county-to-state scale.', 'ind-gov', 'Cadastral map capture'],
+      ['Transportation', 'Rail and roadway corridors surveyed, modeled, and kept current.', 'ind-transport', 'Rail corridor aerial'],
+      ['Infrastructure', 'BIM coordination that keeps horizontal and vertical builds clash-free.', 'ind-infra', 'Revit model screen capture'],
+      ['Urban Planning', 'Zoning, land-use, and growth scenarios grounded in accurate basemaps.', 'ind-urban', 'City basemap / aerial']
+    ].map(([name, line, slot, placeholder]) => ({ name, line, slot, placeholder, src: 'assets/' + slot + '.png' }));
+    const insights = [
+      { date: '07 / 2026', title: 'What zero rework actually costs to build — and what it saves you', tag: 'QUALITY' },
+      { date: '06 / 2026', title: 'Classifying 400 miles of LiDAR: our QC checklist', tag: 'GEOSPATIAL' },
+      { date: '05 / 2026', title: 'The dual-shore playbook: one team across 11.5 time zones', tag: 'OPERATIONS' }
+    ];
+    const slideData = [
+      ['AI-Powered Geospatial Solutions', 'Data management, visualization, and location-based decision tools — decision-ready from day one.', 'ESRI ARCGIS · QGIS · FME · POSTGIS · AWS · AZURE', 'assets/hero-corridor.png', 'LiDAR point-cloud corridor render'],
+      ['Engineering Design', 'Transmission and distribution line design for electrical utilities — first-time-right, every time.', 'PLS-CADD · AUTOCAD · MICROSTATION · OCALC PRO · SPIDA CALC', 'assets/ind-utilities.png', 'T&D corridor design view'],
+      ['BIM Modeling', 'Clash-free architectural, structural, and MEP coordination models for US infrastructure projects.', 'AUTODESK REVIT · 3D COORDINATION · MEP', 'assets/ind-infra.png', 'BIM coordination model'],
+      ['Big Data, Analytics & AI Annotation', 'Enterprise data pipelines, AI annotation services, and advanced visualization at production scale.', 'TENSORFLOW · ML PIPELINES · ADVANCED VISUALIZATION', 'assets/ind-urban.png', 'Urban basemap analysis'],
+      ['Application Development', 'Mobile GPS apps, web platforms, and custom geospatial software — cloud-native from day one.', 'C# · PYTHON · ML · CLOUD-NATIVE', 'assets/ind-transport.png', 'Surveyed rail corridor']
+    ];
+    const S = this.state.slide;
+    const slides = slideData.map(([title, sub, tags, img, alt], i) => ({
+      title, sub, tags, img, alt,
+      counter: '0' + (i + 1) + ' / 05',
+      dotLabel: 'Go to slide ' + (i + 1),
+      wrapStyle: { position: 'absolute', inset: 0, opacity: i === S ? 1 : 0, transition: 'opacity .9s ease', pointerEvents: i === S ? 'auto' : 'none', zIndex: i === S ? 2 : 1 },
+      dotStyle: { width: i === S ? '30px' : '9px', height: '9px', borderRadius: '5px', border: 'none', padding: 0, cursor: 'pointer', background: i === S ? '#00A8E8' : 'rgba(242,245,248,.4)', transition: 'all .4s ease' },
+      onDot: () => this.setState({ slide: i })
+    }));
+    return {
+      isA: v === 'A', isB: v === 'B', isC: v === 'C',
+      slides,
+      menuOpen: this.state.menuOpen,
+      menuColor: this.state.menuOpen ? '#0089C4' : '#0C1B33',
+      menuBg: this.state.menuOpen ? 'rgba(0,168,232,.1)' : 'transparent',
+      openMenu: () => this.setState({ menuOpen: true }),
+      closeMenu: () => this.setState({ menuOpen: false }),
+      toggleMenu: () => this.setState(st => ({ menuOpen: !st.menuOpen })),
+      prevSlide: () => this.setState(st => ({ slide: (st.slide + 4) % 5 })),
+      nextSlide: () => this.setState(st => ({ slide: (st.slide + 1) % 5 })),
+      pauseHero: () => this.setState({ heroPaused: true }),
+      resumeHero: () => this.setState({ heroPaused: false }),
+      services, layers, industries, insights,
+      layerNum: '0' + (L + 1), captionUpper: caps[L],
+      op0: L === 0 ? 1 : 0, op1: L === 1 ? 1 : 0, op2: L === 2 ? 1 : 0, op3: L === 3 ? 1 : 0,
+      pauseLayers: () => this.setState({ paused: true }),
+      resumeLayers: () => this.setState({ paused: false }),
+      s0: this.state.s[0] + '+', s1: this.state.s[1] + '+', s2: this.state.s[2] + '%', s3: String(this.state.s[3]),
+      statsRef: this.statsRef, canvasRef: this.canvasRef, crossRef: this.crossRef,
+      heroMove: this.heroMove, heroLeave: this.heroLeave,
+      pill: this.state.pill,
+      onSubmit: (e) => { e.preventDefault(); this.setState({ sent: true }); },
+      submitLabel: this.state.sent ? 'Sent — we reply within one business day' : 'Send message'
+    };
+  }
+}
+</script>
+</body>
+</html>

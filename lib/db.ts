@@ -1,16 +1,61 @@
 import Database from "better-sqlite3";
-import { mkdirSync } from "node:fs";
+import { mkdirSync, copyFileSync, existsSync } from "node:fs";
 import { join } from "node:path";
+import { tmpdir } from "node:os";
 import { ARTICLES, JOBS } from "@/lib/data";
 
-const DATA_DIR = join(process.cwd(), "data");
-mkdirSync(join(DATA_DIR, "uploads"), { recursive: true });
+function getDbPath(): string {
+  // If running on Vercel or read-only environment, use /tmp
+  if (process.env.VERCEL) {
+    const tmp = join(tmpdir(), "spatial_data");
+    try {
+      mkdirSync(join(tmp, "uploads"), { recursive: true });
+      const seedDbPath = join(process.cwd(), "data", "site.db");
+      const targetDbPath = join(tmp, "site.db");
+      if (!existsSync(targetDbPath) && existsSync(seedDbPath)) {
+        try {
+          copyFileSync(seedDbPath, targetDbPath);
+        } catch {
+          // ignore copy error
+        }
+      }
+      return targetDbPath;
+    } catch {
+      return ":memory:";
+    }
+  }
 
-const db = new Database(join(DATA_DIR, "site.db"));
-// Build workers and the server can open this file concurrently — wait for
-// locks (up to 5s) instead of throwing SQLITE_BUSY.
-db.pragma("busy_timeout = 5000");
-db.pragma("journal_mode = WAL");
+  try {
+    const dataDir = join(process.cwd(), "data");
+    mkdirSync(join(dataDir, "uploads"), { recursive: true });
+    return join(dataDir, "site.db");
+  } catch {
+    const tmp = join(tmpdir(), "spatial_data");
+    try {
+      mkdirSync(join(tmp, "uploads"), { recursive: true });
+      return join(tmp, "site.db");
+    } catch {
+      return ":memory:";
+    }
+  }
+}
+
+let db: InstanceType<typeof Database>;
+
+try {
+  const dbPath = getDbPath();
+  db = new Database(dbPath);
+  if (dbPath !== ":memory:") {
+    db.pragma("busy_timeout = 5000");
+    try {
+      db.pragma("journal_mode = WAL");
+    } catch {
+      // WAL mode may fail on some temporary filesystems
+    }
+  }
+} catch {
+  db = new Database(":memory:");
+}
 
 db.exec(`
 CREATE TABLE IF NOT EXISTS articles (

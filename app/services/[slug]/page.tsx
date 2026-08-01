@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import Breadcrumbs from "@/components/Breadcrumbs";
@@ -64,6 +65,7 @@ export default async function ServicePage({ params }: { params: Promise<Params> 
         eyebrow={`SERVICE ${num} / 07 — ${SITE.offices.keller.coords}`}
         title={svc.name}
         sub={svc.promise}
+        image={{ src: svc.heroImg, alt: svc.heroAlt }}
       >
         <div className="mt-9 flex flex-wrap gap-3.5">
           <Link href="/contact" className="btn-solid">
@@ -77,15 +79,31 @@ export default async function ServicePage({ params }: { params: Promise<Params> 
 
       {/* Problem statement */}
       <section className="bg-bg-light px-[clamp(20px,5vw,48px)] py-[clamp(64px,9vw,110px)]">
-        <Reveal className="wrap">
-          <p className="eyebrow m-0 mb-6 text-accent-hover">THE PROBLEM</p>
-          <h2 className="display m-0 max-w-[22ch] text-[clamp(1.7rem,3.6vw,2.9rem)] font-semibold leading-[1.12]">
-            {svc.problemTitle}
-          </h2>
-          <p className="m-0 mt-6 max-w-[68ch] text-[16.5px] leading-[1.65] text-ink/72">
-            {svc.problem}
-          </p>
-        </Reveal>
+        <div className="wrap flex flex-wrap items-center gap-[clamp(32px,5vw,72px)]">
+          <Reveal className="min-w-0 flex-[1.15_1_340px]">
+            <p className="eyebrow m-0 mb-6 text-accent-hover">THE PROBLEM</p>
+            <h2 className="display m-0 max-w-[22ch] text-[clamp(1.7rem,3.6vw,2.9rem)] font-semibold leading-[1.12]">
+              {svc.problemTitle}
+            </h2>
+            <p className="m-0 mt-6 max-w-[68ch] text-[16.5px] leading-[1.65] text-ink/72">
+              {svc.problem}
+            </p>
+          </Reveal>
+          <Reveal delay={80} className="min-w-0 flex-[1_1_300px]">
+            <div className="relative h-[240px] overflow-hidden rounded-[8px] border border-ink/10 sm:h-[320px]">
+              <Image
+                src={svc.sideImg}
+                alt={svc.sideAlt}
+                fill
+                sizes="(max-width: 768px) 100vw, 560px"
+                className="object-cover"
+              />
+            </div>
+            <p className="m-0 mt-3 font-mono text-[10.5px] tracking-[.14em] text-ink/65">
+              FIG. {num} — {svc.navName.toUpperCase()} WORK PRODUCT
+            </p>
+          </Reveal>
+        </div>
       </section>
 
       {/* What we deliver */}

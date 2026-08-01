@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import PageHero from "@/components/PageHero";
@@ -33,8 +34,18 @@ export default function DownloadsPage() {
               <Reveal
                 key={d.title}
                 delay={(i % 4) * 40}
-                className="flex flex-col rounded-[4px] border border-ink/15 bg-white p-6"
+                className="flex flex-col overflow-hidden rounded-[4px] border border-ink/15 bg-white"
               >
+                <div className="relative h-[128px]">
+                  <Image
+                    src={d.img}
+                    alt=""
+                    fill
+                    sizes="(max-width: 768px) 100vw, 320px"
+                    className="object-cover"
+                  />
+                </div>
+                <div className="flex flex-1 flex-col p-6">
                 <p className="m-0 mb-3 font-mono text-[10.5px] tracking-[.14em] text-accent-hover">
                   {d.kind}
                 </p>
@@ -52,6 +63,7 @@ export default function DownloadsPage() {
                     Download →
                   </a>
                 )}
+                </div>
               </Reveal>
             ))}
           </div>

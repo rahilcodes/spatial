@@ -1,17 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { JOBS } from "@/lib/data";
 
 const MAX_CV_MB = 5;
 const CV_TYPES = [".pdf", ".doc", ".docx"];
 
-// Wire NEXT_PUBLIC_CAREERS_ENDPOINT (multipart-capable form endpoint) to receive applications.
-const ENDPOINT = process.env.NEXT_PUBLIC_CAREERS_ENDPOINT;
+// Applications are stored as leads (CV included) and managed in the /admin panel.
+const ENDPOINT = "/api/careers";
 
 type Errors = { name?: string; email?: string; cv?: string };
 
-export default function CareersForm() {
+export default function CareersForm({ roles }: { roles: string[] }) {
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
   const [errors, setErrors] = useState<Errors>({});
   const [cvName, setCvName] = useState<string>("");
@@ -50,14 +49,12 @@ export default function CareersForm() {
 
     setStatus("sending");
     try {
-      if (ENDPOINT) {
-        const res = await fetch(ENDPOINT, {
-          method: "POST",
-          headers: { Accept: "application/json" },
-          body: data,
-        });
-        if (!res.ok) throw new Error(`Careers endpoint responded ${res.status}`);
-      }
+      const res = await fetch(ENDPOINT, {
+        method: "POST",
+        headers: { Accept: "application/json" },
+        body: data,
+      });
+      if (!res.ok) throw new Error(`Careers endpoint responded ${res.status}`);
       setStatus("sent");
       form.reset();
       setCvName("");
@@ -109,8 +106,8 @@ export default function CareersForm() {
       <label htmlFor="careers-role" className="field-label text-ink/65 sm:col-span-2">
         ROLE
         <select id="careers-role" name="role" className="field-light">
-          {JOBS.map((j) => (
-            <option key={j.slug}>{j.title}</option>
+          {roles.map((r) => (
+            <option key={r}>{r}</option>
           ))}
           <option>General application</option>
         </select>

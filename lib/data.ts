@@ -37,6 +37,10 @@ export type Service = {
   promise: string;
   tags: string;
   tools: string[];
+  heroImg: string;
+  heroAlt: string;
+  sideImg: string;
+  sideAlt: string;
   problemTitle: string;
   problem: string;
   deliver: { title: string; desc: string }[];
@@ -55,6 +59,10 @@ export const SERVICES: Service[] = [
       "Location data managed, visualized, and made decision-ready — from raw capture to location-based decision tools.",
     tags: "ESRI ARCGIS · QGIS · FME · POSTGIS · AWS · AZURE · LIDAR",
     tools: ["Esri ArcGIS", "QGIS", "FME", "PostGIS", "AWS", "Azure", "LiDAR pipelines", "TensorFlow"],
+    heroImg: "/assets/gen/lidar-corridor.png",
+    heroAlt: "Classified LiDAR point cloud of a transmission corridor with conductors and vegetation returns",
+    sideImg: "/assets/gen/terrain-hillshade.png",
+    sideAlt: "Hillshade terrain model with hypsometric tint, contour lines, and a surveyed route",
     problemTitle: "Terabytes of spatial data. Not one decision made faster.",
     problem:
       "Utilities, agencies, and infrastructure owners sit on years of imagery, LiDAR, CAD files, and legacy records that never become answers. The data exists — it just isn't structured, classified, or served in a form anyone can act on. We close that gap: we take spatial data in whatever state it's in and return it managed, validated, and wired into the tools your teams actually use.",
@@ -98,6 +106,10 @@ export const SERVICES: Service[] = [
     promise: "Transmission and distribution line design for electrical utilities, delivered first-time-right.",
     tags: "PLS-CADD · AUTOCAD · MICROSTATION · OCALC PRO · SPIDA CALC",
     tools: ["PLS-CADD", "AutoCAD", "MicroStation", "O-Calc Pro", "SPIDA Calc"],
+    heroImg: "/assets/gen/sag-profile.png",
+    heroAlt: "Transmission line sag profile with lattice structures and clearance envelope",
+    sideImg: "/assets/gen/contour-blueprint.png",
+    sideAlt: "Survey contour plan with traverse stations and benchmarks",
     problemTitle: "Design backlogs don't wait for hiring cycles.",
     problem:
       "Grid modernization, storm hardening, and joint-use demand have utilities carrying design backlogs their in-house teams can't clear. Contract engineers are expensive and inconsistent. We give you a design bench that works to your standards, your templates, and your QC checklist — and delivers work your engineers approve on first review.",
@@ -137,6 +149,10 @@ export const SERVICES: Service[] = [
     promise: "Clash-free architectural, structural, and MEP coordination models for US infrastructure projects.",
     tags: "AUTODESK REVIT · 3D COORDINATION · MEP",
     tools: ["Autodesk Revit", "Navisworks", "3D coordination", "MEP modeling", "Scan-to-BIM"],
+    heroImg: "/assets/gen/bim-iso.png",
+    heroAlt: "Isometric BIM wireframe with a highlighted floor plate and coordinated MEP runs",
+    sideImg: "/assets/gen/pointcloud-building.png",
+    sideAlt: "Laser-scan point cloud of a building facade for scan-to-BIM",
     problemTitle: "Clashes found in the field cost 100× what they cost in the model.",
     problem:
       "Every uncoordinated model ships its problems to the job site, where they become RFIs, change orders, and schedule slip. We build and coordinate architectural, structural, and MEP models to the LOD your contract requires — and we resolve the clashes before anyone pours concrete.",
@@ -176,6 +192,10 @@ export const SERVICES: Service[] = [
     promise: "Mobile GPS apps, web platforms, and custom geospatial software — cloud-native from day one.",
     tags: "C# · PYTHON · ML · CLOUD-NATIVE",
     tools: ["C#", "Python", ".NET", "React", "PostGIS", "AWS", "Azure", "Machine learning"],
+    heroImg: "/assets/gen/vector-map-dark.png",
+    heroAlt: "Dark-theme web map application with a routed corridor between two points",
+    sideImg: "/assets/gen/city-grid-night.png",
+    sideAlt: "Aerial night view of a city street grid",
     problemTitle: "Off-the-shelf software wasn't built for your field workflow.",
     problem:
       "Generic tools force your crews to work around the software instead of through it. We build the applications your workflow actually needs — field data collection, inspection, asset management, map-first web platforms — engineered by people who understand both software and spatial data.",
@@ -215,6 +235,10 @@ export const SERVICES: Service[] = [
     promise: "Enterprise data pipelines, AI annotation services, and advanced visualization at production scale.",
     tags: "TENSORFLOW · ML PIPELINES · ADVANCED VISUALIZATION",
     tools: ["TensorFlow", "Python", "ML pipelines", "Data engineering", "Advanced visualization"],
+    heroImg: "/assets/gen/data-heatmap.png",
+    heroAlt: "Spatial density heatmap rendered over a coordinate grid",
+    sideImg: "/assets/gen/annotation-tiles.png",
+    sideAlt: "Aerial imagery tiles with AI annotation bounding boxes",
     problemTitle: "Models are only as good as the data discipline behind them.",
     problem:
       "AI programs stall on the unglamorous work: labeling at scale, pipeline reliability, and data quality nobody wants to own. That work is exactly what we're built for. Our annotation teams work under the same QC protocol as our engineering deliverables — measured, audited, and first-time-right.",
@@ -254,6 +278,10 @@ export const SERVICES: Service[] = [
     promise: "Certified GIS, PLS-CADD, Revit, AI, and full-stack professionals — US and India, ready to deploy.",
     tags: "US + INDIA STAFFING · TEAM SCALING",
     tools: ["GIS staffing", "PLS-CADD designers", "Revit modelers", "AI/ML engineers", "Full-stack developers"],
+    heroImg: "/assets/gen/network-graph.png",
+    heroAlt: "Two connected talent network clusters representing US and India teams",
+    sideImg: "/assets/gen/globe-timezones.png",
+    sideAlt: "Globe wireframe with an arc linking the Keller and Hyderabad offices",
     problemTitle: "The talent you need exists. Finding it verified is the hard part.",
     problem:
       "Every GIS résumé says ArcGIS; few candidates survive a real production test. Because we run production teams in these exact disciplines, we screen candidates against real work — not keyword matches. You get professionals we would put on our own projects.",
@@ -293,6 +321,10 @@ export const SERVICES: Service[] = [
     promise: "Fully custom software, integrations, and productivity systems built around how you already work.",
     tags: "CUSTOM BUILD · SYSTEMS INTEGRATION",
     tools: ["Custom development", "Systems integration", "Workflow automation", "API development"],
+    heroImg: "/assets/gen/flow-integration.png",
+    heroAlt: "Systems integration diagram with services connected through a central hub",
+    sideImg: "/assets/gen/qc-scatter.png",
+    sideAlt: "Quality control chart with tightening control limits over time",
     problemTitle: "Your workflow shouldn't bend to fit your software.",
     problem:
       "Between the big platforms sit the gaps: the spreadsheet everyone hates, the double entry between two systems, the report that takes a day to build by hand. We build the connective software that closes those gaps — scoped tightly, delivered fast, and maintained like it matters.",
@@ -418,6 +450,8 @@ export type Article = {
   title: string;
   metaTitle: string;
   tag: string;
+  img: string;
+  imgAlt: string;
   description: string;
   readingTime: string;
   body: { h?: string; p: string }[];
@@ -431,6 +465,8 @@ export const ARTICLES: Article[] = [
     title: "What zero rework actually costs to build — and what it saves you",
     metaTitle: "What Zero Rework Costs — and Saves",
     tag: "QUALITY",
+    img: "/assets/gen/qc-scatter.png",
+    imgAlt: "Statistical control chart with tightening quality limits over time",
     description:
       "Zero rework isn't a slogan — it's an investment in training, QC gates, and measurement. Here's what it takes to build and what it returns.",
     readingTime: "5 min read",
@@ -462,6 +498,8 @@ export const ARTICLES: Article[] = [
     title: "Classifying 400 miles of LiDAR: our QC checklist",
     metaTitle: "LiDAR Classification QC Checklist",
     tag: "GEOSPATIAL",
+    img: "/assets/gen/rail-corridor-scan.png",
+    imgAlt: "LiDAR cross-section of a rail corridor showing ballast, rails, and catenary",
     description:
       "The QC checklist we run on corridor LiDAR classification — calibration, gold sets, sampling rates, and the failure modes that slip past automated checks.",
     readingTime: "6 min read",
@@ -497,6 +535,8 @@ export const ARTICLES: Article[] = [
     title: "The dual-shore playbook: one team across 11.5 time zones",
     metaTitle: "The Dual-Shore Delivery Playbook",
     tag: "OPERATIONS",
+    img: "/assets/gen/globe-timezones.png",
+    imgAlt: "Globe wireframe with an arc linking Texas and Hyderabad",
     description:
       "How we run US leadership in Keller and production in Hyderabad as one team — the handoff cadence, the standards pipeline, and what the overlap hours are for.",
     readingTime: "5 min read",
@@ -582,20 +622,21 @@ export const JOBS: Job[] = [
 
 export type DownloadItem = {
   title: string;
+  img: string;
   kind: string;
   desc: string;
   pending: boolean;
 };
 
 export const DOWNLOADS: DownloadItem[] = [
-  { title: "Spatial Alphabet Capability Deck", kind: "PDF · DECK", desc: "Company overview, service lines, delivery model, and QC protocol in one briefing document.", pending: true },
-  { title: "AI-Powered Geospatial — One-Pager", kind: "PDF · SERVICE", desc: "Scope, tools, and delivery standards for geospatial data services.", pending: true },
-  { title: "Engineering Design — One-Pager", kind: "PDF · SERVICE", desc: "T&D design, pole loading, and make-ready capabilities at a glance.", pending: true },
-  { title: "BIM Modeling — One-Pager", kind: "PDF · SERVICE", desc: "Modeling standards, LOD range, and coordination workflow summary.", pending: true },
-  { title: "Big Data & AI Annotation — One-Pager", kind: "PDF · SERVICE", desc: "Annotation accuracy protocol and pipeline capabilities.", pending: true },
-  { title: "Case Study — Utility Corridor Program", kind: "PDF · CASE STUDY", desc: "How a 400-mile LiDAR classification program shipped with zero rework.", pending: true },
-  { title: "Case Study — Parcel Modernization", kind: "PDF · CASE STUDY", desc: "County land-records modernization from paper archive to parcel fabric.", pending: true },
-  { title: "Pilot Program Brief", kind: "PDF · PROGRAM", desc: "How a scoped pilot works: timeline, deliverables, and evaluation criteria.", pending: true },
+  { img: "/assets/gen/lidar-corridor.png", title: "Spatial Alphabet Capability Deck", kind: "PDF · DECK", desc: "Company overview, service lines, delivery model, and QC protocol in one briefing document.", pending: true },
+  { img: "/assets/gen/terrain-hillshade.png", title: "AI-Powered Geospatial — One-Pager", kind: "PDF · SERVICE", desc: "Scope, tools, and delivery standards for geospatial data services.", pending: true },
+  { img: "/assets/gen/sag-profile.png", title: "Engineering Design — One-Pager", kind: "PDF · SERVICE", desc: "T&D design, pole loading, and make-ready capabilities at a glance.", pending: true },
+  { img: "/assets/gen/bim-iso.png", title: "BIM Modeling — One-Pager", kind: "PDF · SERVICE", desc: "Modeling standards, LOD range, and coordination workflow summary.", pending: true },
+  { img: "/assets/gen/annotation-tiles.png", title: "Big Data & AI Annotation — One-Pager", kind: "PDF · SERVICE", desc: "Annotation accuracy protocol and pipeline capabilities.", pending: true },
+  { img: "/assets/gen/rail-corridor-scan.png", title: "Case Study — Utility Corridor Program", kind: "PDF · CASE STUDY", desc: "How a 400-mile LiDAR classification program shipped with zero rework.", pending: true },
+  { img: "/assets/gen/parcel-map.png", title: "Case Study — Parcel Modernization", kind: "PDF · CASE STUDY", desc: "County land-records modernization from paper archive to parcel fabric.", pending: true },
+  { img: "/assets/gen/contour-blueprint.png", title: "Pilot Program Brief", kind: "PDF · PROGRAM", desc: "How a scoped pilot works: timeline, deliverables, and evaluation criteria.", pending: true },
 ];
 
 export const TRUSTED_BY = [

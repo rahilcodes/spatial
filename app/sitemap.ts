@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
-import { ARTICLES, SERVICES, SITE } from "@/lib/data";
+import { SERVICES, SITE } from "@/lib/data";
+import { listArticles } from "@/lib/db";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date("2026-07-27");
@@ -25,9 +26,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified,
       priority: 0.9,
     })),
-    ...ARTICLES.map((a) => ({
+    ...listArticles(true).map((a) => ({
       url: `${SITE.url}/news/${a.slug}`,
-      lastModified: new Date(a.dateISO),
+      lastModified: new Date(a.date_iso),
       priority: 0.5,
     })),
   ];

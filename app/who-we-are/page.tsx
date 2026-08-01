@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import PageHero from "@/components/PageHero";
@@ -71,7 +72,9 @@ export default function WhoWeArePage() {
           <h2 className="display m-0 mb-12 text-[clamp(1.7rem,3.4vw,2.6rem)] font-semibold">
             A surveyed route, not a highlight reel.
           </h2>
-          <ol className="relative m-0 list-none p-0 pl-8 sm:pl-12">
+          <div className="flex flex-wrap gap-[clamp(32px,5vw,72px)]">
+            <div className="min-w-0 flex-[1.15_1_360px]">
+              <ol className="relative m-0 list-none p-0 pl-8 sm:pl-12">
             {/* survey line */}
             <div
               aria-hidden="true"
@@ -98,7 +101,23 @@ export default function WhoWeArePage() {
                 </Reveal>
               </li>
             ))}
-          </ol>
+              </ol>
+            </div>
+            <div className="min-w-0 flex-[1_1_300px] lg:sticky lg:top-24 lg:self-start">
+              <div className="relative h-[260px] overflow-hidden rounded-[8px] border border-ink/10 sm:h-[340px]">
+                <Image
+                  src="/assets/gen/pipeline-route.png"
+                  alt="Surveyed route with stationing ticks crossing hillshade terrain"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 520px"
+                  className="object-cover"
+                />
+              </div>
+              <p className="m-0 mt-3 font-mono text-[10.5px] tracking-[.14em] text-ink/65">
+                SURVEYED ROUTE — STATIONED &amp; QC&apos;D, THE WAY WE RUN THE COMPANY
+              </p>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -135,6 +154,18 @@ export default function WhoWeArePage() {
               GIS and engineering design programs spanning railroad, water, gas, pipeline, water
               resources, urban planning, and cadastral systems.
             </p>
+            <div className="relative mt-7 h-[220px] overflow-hidden rounded-[8px] border border-ink/10">
+              <Image
+                src="/assets/gen/parcel-map.png"
+                alt="Cadastral parcel fabric with survey monuments and road corridors"
+                fill
+                sizes="(max-width: 768px) 100vw, 520px"
+                className="object-cover"
+              />
+            </div>
+            <p className="m-0 mt-3 font-mono text-[10.5px] tracking-[.14em] text-ink/65">
+              PARCEL FABRIC — CADASTRAL HERITAGE
+            </p>
           </div>
         </div>
       </section>
@@ -148,6 +179,15 @@ export default function WhoWeArePage() {
           </h2>
           <div className="grid grid-cols-1 items-stretch gap-6 md:grid-cols-[1fr_auto_1fr]">
             <div className="rounded-[4px] border border-bg-light/16 bg-navy-panel/80 p-7">
+              <div className="relative mb-5 h-[150px] overflow-hidden rounded-[3px]">
+                <Image
+                  src="/assets/gen/keller-map.png"
+                  alt="Street map of Keller, Texas with the HQ location marked"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 560px"
+                  className="object-cover"
+                />
+              </div>
               <p className="m-0 mb-1.5 font-mono text-[11px] tracking-[.14em] text-accent-light">
                 {SITE.offices.keller.label}
               </p>
@@ -169,6 +209,15 @@ export default function WhoWeArePage() {
               <span className="md:hidden">⟵ 24-HR CYCLE ⟶</span>
             </div>
             <div className="rounded-[4px] border border-bg-light/16 bg-navy-panel/80 p-7">
+              <div className="relative mb-5 h-[150px] overflow-hidden rounded-[3px]">
+                <Image
+                  src="/assets/gen/hyderabad-map.png"
+                  alt="Street map of Hyderabad with the offshore development center marked"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 560px"
+                  className="object-cover"
+                />
+              </div>
               <p className="m-0 mb-1.5 font-mono text-[11px] tracking-[.14em] text-accent-light">
                 {SITE.offices.hyderabad.label}
               </p>

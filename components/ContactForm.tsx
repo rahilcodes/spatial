@@ -10,8 +10,8 @@ type Props = {
 
 type Errors = { name?: string; email?: string };
 
-// Wire NEXT_PUBLIC_FORM_ENDPOINT (e.g. a Formspree/Basin URL) to receive submissions.
-const ENDPOINT = process.env.NEXT_PUBLIC_FORM_ENDPOINT;
+// Submissions are stored as leads and managed in the /admin panel.
+const ENDPOINT = "/api/leads";
 
 export default function ContactForm({ variant, idPrefix }: Props) {
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
@@ -43,14 +43,12 @@ export default function ContactForm({ variant, idPrefix }: Props) {
 
     setStatus("sending");
     try {
-      if (ENDPOINT) {
-        const res = await fetch(ENDPOINT, {
-          method: "POST",
-          headers: { Accept: "application/json" },
-          body: data,
-        });
-        if (!res.ok) throw new Error(`Form endpoint responded ${res.status}`);
-      }
+      const res = await fetch(ENDPOINT, {
+        method: "POST",
+        headers: { Accept: "application/json" },
+        body: data,
+      });
+      if (!res.ok) throw new Error(`Form endpoint responded ${res.status}`);
       setStatus("sent");
       form.reset();
     } catch {

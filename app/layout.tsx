@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { IBM_Plex_Mono, IBM_Plex_Sans, Space_Grotesk } from "next/font/google";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import HideOnAdmin from "@/components/HideOnAdmin";
 import MobileContactPill from "@/components/MobileContactPill";
 import { SITE } from "@/lib/data";
 import "./globals.css";
@@ -85,10 +86,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
         />
-        <Header />
+        <HideOnAdmin>
+          <Header />
+        </HideOnAdmin>
         <main id="main">{children}</main>
-        <Footer />
-        <MobileContactPill />
+        <HideOnAdmin>
+          <Footer />
+          <MobileContactPill />
+        </HideOnAdmin>
       </body>
     </html>
   );

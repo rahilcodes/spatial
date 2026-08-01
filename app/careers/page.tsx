@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import CareersForm from "@/components/CareersForm";
 import PageHero from "@/components/PageHero";
 import Reveal from "@/components/Reveal";
-import { JOBS, SITE } from "@/lib/data";
+import { SITE } from "@/lib/data";
+import { listJobs } from "@/lib/db";
 
 export const metadata: Metadata = {
   title: "Careers",
@@ -12,39 +14,41 @@ export const metadata: Metadata = {
   alternates: { canonical: "/careers" },
 };
 
-const jobPostingSchema = JOBS.map((j) => ({
-  "@context": "https://schema.org",
-  "@type": "JobPosting",
-  title: j.title,
-  description: j.blurb,
-  employmentType: "FULL_TIME",
-  datePosted: "2026-07-01",
-  hiringOrganization: {
-    "@type": "Organization",
-    name: SITE.name,
-    sameAs: SITE.url,
-    logo: `${SITE.url}/uploads/spatial-alphabet-logo.png`,
-  },
-  jobLocation: j.office.includes("Keller")
-    ? [
-        {
-          "@type": "Place",
-          address: { "@type": "PostalAddress", addressLocality: "Keller", addressRegion: "TX", addressCountry: "US" },
-        },
-        {
-          "@type": "Place",
-          address: { "@type": "PostalAddress", addressLocality: "Hyderabad", addressRegion: "Telangana", addressCountry: "IN" },
-        },
-      ]
-    : [
-        {
-          "@type": "Place",
-          address: { "@type": "PostalAddress", addressLocality: "Hyderabad", addressRegion: "Telangana", addressCountry: "IN" },
-        },
-      ],
-}));
-
 export default function CareersPage() {
+  const jobs = listJobs(true).map((j) => ({ ...j, skills: JSON.parse(j.skills_json) as string[] }));
+
+  const jobPostingSchema = jobs.map((j) => ({
+    "@context": "https://schema.org",
+    "@type": "JobPosting",
+    title: j.title,
+    description: j.blurb,
+    employmentType: j.type.toUpperCase().replace("-", "_"),
+    datePosted: j.created_at.slice(0, 10),
+    hiringOrganization: {
+      "@type": "Organization",
+      name: SITE.name,
+      sameAs: SITE.url,
+      logo: `${SITE.url}/uploads/spatial-alphabet-logo.png`,
+    },
+    jobLocation: j.office.includes("Keller")
+      ? [
+          {
+            "@type": "Place",
+            address: { "@type": "PostalAddress", addressLocality: "Keller", addressRegion: "TX", addressCountry: "US" },
+          },
+          {
+            "@type": "Place",
+            address: { "@type": "PostalAddress", addressLocality: "Hyderabad", addressRegion: "Telangana", addressCountry: "IN" },
+          },
+        ]
+      : [
+          {
+            "@type": "Place",
+            address: { "@type": "PostalAddress", addressLocality: "Hyderabad", addressRegion: "Telangana", addressCountry: "IN" },
+          },
+        ],
+  }));
+
   return (
     <>
       <script
@@ -86,6 +90,20 @@ export default function CareersPage() {
             </Reveal>
           ))}
         </div>
+        <div className="wrap mt-[clamp(36px,5vw,56px)]">
+          <div className="relative h-[220px] overflow-hidden rounded-[8px] sm:h-[320px]">
+            <Image
+              src="/assets/gen/ortho-farmland.png"
+              alt="Aerial orthophoto of surveyed farmland with field boundaries and access roads"
+              fill
+              sizes="(max-width: 1320px) 100vw, 1320px"
+              className="object-cover"
+            />
+          </div>
+          <p className="m-0 mt-3 font-mono text-[10.5px] tracking-[.14em] text-ink/65">
+            THE WORK — REAL CORRIDORS, REAL COUNTIES, REAL CONSEQUENCES
+          </p>
+        </div>
       </section>
 
       {/* Open roles */}
@@ -93,10 +111,10 @@ export default function CareersPage() {
         <div className="wrap">
           <p className="eyebrow m-0 mb-2 text-accent-hover">OPEN ROLES</p>
           <h2 className="display m-0 mb-8 text-[clamp(1.6rem,3vw,2.4rem)] font-semibold">
-            Five ways in.
+            {jobs.length > 0 ? `${jobs.length} way${jobs.length === 1 ? "" : "s"} in.` : "No open roles right now."}
           </h2>
           <div>
-            {JOBS.map((j, i) => (
+            {jobs.map((j, i) => (
               <Reveal key={j.slug} delay={i * 30} className="border-t border-ink/15 py-6">
                 <div className="flex flex-wrap items-baseline justify-between gap-x-8 gap-y-2">
                   <h3 className="display m-0 text-[clamp(1.15rem,2.2vw,1.5rem)] font-semibold">
@@ -109,13 +127,21 @@ export default function CareersPage() {
                 <p className="m-0 mt-2.5 max-w-[68ch] text-[15px] leading-[1.6] text-ink/72">
                   {j.blurb}
                 </p>
-                <p className="m-0 mt-2.5 font-mono text-[11.5px] tracking-[.06em] text-ink/65">
-                  {j.skills.map((s) => s.toUpperCase()).join(" · ")}
-                </p>
+                {j.skills.length > 0 && (
+                  <p className="m-0 mt-2.5 font-mono text-[11.5px] tracking-[.06em] text-ink/65">
+                    {j.skills.map((s) => s.toUpperCase()).join(" · ")}
+                  </p>
+                )}
               </Reveal>
             ))}
             <div className="border-t border-ink/15" />
           </div>
+          {jobs.length === 0 && (
+            <p className="m-0 mt-6 max-w-[60ch] text-[15px] leading-[1.6] text-ink/70">
+              We still review every strong CV — send a general application below and we&apos;ll keep
+              it on file for the next opening.
+            </p>
+          )}
         </div>
       </section>
 
@@ -131,7 +157,7 @@ export default function CareersPage() {
             within one week.
           </p>
           <div className="relative">
-            <CareersForm />
+            <CareersForm roles={jobs.map((j) => j.title)} />
           </div>
         </div>
       </section>

@@ -1,7 +1,8 @@
 import Link from "next/link";
-import { ARTICLES } from "@/lib/data";
+import { listArticles } from "@/lib/db";
 
 export default function NewsPreview() {
+  const articles = listArticles(true).slice(0, 3);
   return (
     <section className="bg-bg-light px-[clamp(20px,5vw,48px)] pb-[clamp(72px,10vw,120px)]">
       <div className="wrap">
@@ -11,13 +12,13 @@ export default function NewsPreview() {
             All articles →
           </Link>
         </div>
-        {ARTICLES.map((art) => (
+        {articles.map((art) => (
           <Link
             key={art.slug}
             href={`/news/${art.slug}`}
             className="grid grid-cols-[minmax(96px,150px)_1fr] items-baseline gap-4 border-b border-ink/15 py-[26px] transition-colors hover:text-accent-hover sm:grid-cols-[minmax(96px,150px)_1fr_auto]"
           >
-            <span className="font-mono text-[clamp(15px,1.6vw,19px)] text-ink/65">{art.date}</span>
+            <span className="font-mono text-[clamp(15px,1.6vw,19px)] text-ink/65">{art.date_label}</span>
             <span className="display text-[clamp(1.05rem,2.2vw,1.5rem)] font-semibold tracking-[-0.01em]">
               {art.title}
             </span>

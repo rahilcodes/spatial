@@ -5,7 +5,7 @@ export const SITE = {
   email: "info@spatialalphabet.com",
   phone: "+1 (817) 231-0158",
   phoneHref: "tel:+18172310158",
-  linkedin: "https://www.linkedin.com/company/spatial-alphabet",
+  linkedin: "https://www.linkedin.com/company/spatial-alphabet-int-inc/",
   offices: {
     keller: {
       label: "HQ — KELLER, TX, USA",
@@ -52,169 +52,154 @@ export type Service = {
 
 export const SERVICES: Service[] = [
   {
-    slug: "ai-powered-geospatial",
-    name: "AI-Powered Geospatial Solutions",
-    navName: "AI-Powered Geospatial",
+    slug: "integrated-engineering-services",
+    name: "Integrated Engineering Services",
+    navName: "Integrated Engineering Services",
     promise:
-      "Location data managed, visualized, and made decision-ready — from raw capture to location-based decision tools.",
-    tags: "ESRI ARCGIS · QGIS · FME · POSTGIS · AWS · AZURE · LIDAR",
-    tools: ["Esri ArcGIS", "QGIS", "FME", "PostGIS", "AWS", "Azure", "LiDAR pipelines", "TensorFlow"],
-    heroImg: "/assets/gen/lidar-corridor.png",
-    heroAlt: "Classified LiDAR point cloud of a transmission corridor with conductors and vegetation returns",
-    sideImg: "/assets/gen/terrain-hillshade.png",
-    sideAlt: "Hillshade terrain model with hypsometric tint, contour lines, and a surveyed route",
-    problemTitle: "Terabytes of spatial data. Not one decision made faster.",
-    problem:
-      "Utilities, agencies, and infrastructure owners sit on years of imagery, LiDAR, CAD files, and legacy records that never become answers. The data exists — it just isn't structured, classified, or served in a form anyone can act on. We close that gap: we take spatial data in whatever state it's in and return it managed, validated, and wired into the tools your teams actually use.",
-    deliver: [
-      {
-        title: "Geodatabase design & migration",
-        desc: "Enterprise geodatabase architecture, schema design, and clean migration from shapefiles, CAD, and paper archives.",
-      },
-      {
-        title: "LiDAR classification & feature extraction",
-        desc: "Point-cloud classification, vectorization, and asset extraction at corridor scale — QC'd against your spec, not ours.",
-      },
-      {
-        title: "Data conversion & digitization",
-        desc: "High-volume conversion with 100% first-time-right delivery, from raster capture to structured, attributed features.",
-      },
-      {
-        title: "Web maps, dashboards & decision tools",
-        desc: "ArcGIS Online / Enterprise apps and custom web mapping that put current, trusted data in front of field and office teams.",
-      },
-      {
-        title: "AI-assisted spatial analytics",
-        desc: "Machine-learning models for change detection, asset condition, and network analysis — trained on your data, validated by our QC.",
-      },
-    ],
-    process: [
-      { num: "01", title: "Audit", desc: "We inventory your data sources, formats, and target systems, and define the acceptance spec together." },
-      { num: "02", title: "Pilot", desc: "A bounded slice — one county, one corridor, one dataset — delivered to production standard in one to three weeks." },
-      { num: "03", title: "Production", desc: "Dual-shore teams scale the validated workflow, with QC gates on every batch before it reaches you." },
-      { num: "04", title: "Sustain", desc: "Documented workflows, update cycles, and support — so the data stays decision-ready after handoff." },
-    ],
-    industries: ["Electrical Utilities", "Oil & Gas", "Government", "Urban Planning"],
-    metaTitle: "AI-Powered Geospatial Solutions | Spatial Alphabet",
-    metaDescription:
-      "GIS data management, LiDAR classification, and AI-assisted spatial analytics delivered first-time-right — Esri ArcGIS, QGIS, FME, PostGIS.",
-  },
-  {
-    slug: "engineering-design",
-    name: "Engineering Design",
-    navName: "Engineering Design",
-    promise: "Transmission and distribution line design for electrical utilities, delivered first-time-right.",
-    tags: "PLS-CADD · AUTOCAD · MICROSTATION · OCALC PRO · SPIDA CALC",
-    tools: ["PLS-CADD", "AutoCAD", "MicroStation", "O-Calc Pro", "SPIDA Calc"],
+      "Telecom, power line, and electrical utility network engineering — delivered first-time-right for overhead utility construction.",
+    tags: "PLS-CADD · PLS-POLE · AUTOCAD · OCALC PRO · SPIDA CALC",
+    tools: ["PLS-CADD", "PLS-POLE", "AutoCAD", "O-Calc Pro", "SPIDA Calc", "MicroStation"],
     heroImg: "/assets/gen/sag-profile.png",
     heroAlt: "Transmission line sag profile with lattice structures and clearance envelope",
     sideImg: "/assets/gen/contour-blueprint.png",
     sideAlt: "Survey contour plan with traverse stations and benchmarks",
     problemTitle: "Design backlogs don't wait for hiring cycles.",
     problem:
-      "Grid modernization, storm hardening, and joint-use demand have utilities carrying design backlogs their in-house teams can't clear. Contract engineers are expensive and inconsistent. We give you a design bench that works to your standards, your templates, and your QC checklist — and delivers work your engineers approve on first review.",
+      "Grid modernization, storm hardening, fiber build-outs, and joint-use demand leave utilities and telecoms carrying engineering backlogs their in-house teams can't clear. We give you an integrated engineering bench — telecom, power line, and electrical utility design — that works to your standards, your templates, and your QC checklist, and delivers packages your engineers approve on first review.",
     deliver: [
       {
-        title: "Transmission & distribution line design",
-        desc: "PLS-CADD modeling, structure spotting, sag-tension analysis, and full corridor design packages.",
+        title: "Telecom Engineering",
+        desc: "Pole loading analysis, fiber network design (HLD/LLD), and permitting for wireline and wireless build-outs.",
       },
       {
-        title: "Pole loading analysis",
-        desc: "O-Calc Pro and SPIDA Calc structural analysis for make-ready, joint use, and NESC compliance.",
+        title: "Power Line Systems",
+        desc: "Transmission and distribution line engineering using PLS-CADD and PLS-POLE.",
       },
       {
-        title: "Make-ready engineering",
-        desc: "Attachment surveys, clearance resolution, and construction-ready make-ready packages for fiber and 5G programs.",
-      },
-      {
-        title: "As-built & records updates",
-        desc: "Field-to-office reconciliation that keeps your GIS and design records matching what's actually on the pole.",
+        title: "Electrical Utility Network Design",
+        desc: "AutoCAD-based existing and proposed engineering design drawings for overhead utility construction.",
       },
     ],
     process: [
       { num: "01", title: "Standards intake", desc: "We absorb your design standards, assembly units, and QC criteria before the first structure is modeled." },
-      { num: "02", title: "Pilot circuit", desc: "One feeder or line section designed end-to-end, reviewed against your acceptance checklist." },
+      { num: "02", title: "Pilot circuit", desc: "One feeder, line section, or fiber route designed end-to-end, reviewed against your acceptance checklist." },
       { num: "03", title: "Scaled delivery", desc: "Hyderabad execution with US engineering oversight — throughput that flexes with your program." },
       { num: "04", title: "Approval & handoff", desc: "Deliverables arrive construction-ready, with QC evidence attached. Zero rework is the spec." },
     ],
-    industries: ["Electrical Utilities", "Infrastructure", "Transportation"],
-    metaTitle: "Engineering Design — T&D Line Design | Spatial Alphabet",
+    industries: ["Electrical Utilities", "Telecommunications", "Transportation"],
+    metaTitle: "Integrated Engineering Services | Spatial Alphabet",
     metaDescription:
-      "PLS-CADD transmission and distribution design, O-Calc and SPIDA pole loading, and make-ready engineering for electrical utilities — first-time-right.",
+      "Telecom engineering, power line systems (PLS-CADD/PLS-POLE), and AutoCAD electrical utility network design for overhead utility construction — first-time-right.",
   },
   {
-    slug: "bim-modeling",
-    name: "BIM Modeling",
-    navName: "BIM Modeling",
-    promise: "Clash-free architectural, structural, and MEP coordination models for US infrastructure projects.",
-    tags: "AUTODESK REVIT · 3D COORDINATION · MEP",
-    tools: ["Autodesk Revit", "Navisworks", "3D coordination", "MEP modeling", "Scan-to-BIM"],
+    slug: "bim",
+    name: "BIM",
+    navName: "BIM",
+    promise: "Scan to BIM, scan to CAD, and paper to CAD — accurate, coordinated models from any source.",
+    tags: "AUTODESK REVIT · NAVISWORKS · AUTOCAD · SCAN-TO-BIM",
+    tools: ["Autodesk Revit", "Navisworks", "AutoCAD", "Scan-to-BIM", "Point-cloud processing"],
     heroImg: "/assets/gen/bim-iso.png",
     heroAlt: "Isometric BIM wireframe with a highlighted floor plate and coordinated MEP runs",
     sideImg: "/assets/gen/pointcloud-building.png",
     sideAlt: "Laser-scan point cloud of a building facade for scan-to-BIM",
-    problemTitle: "Clashes found in the field cost 100× what they cost in the model.",
+    problemTitle: "Clashes found in the field cost 100x what they cost in the model.",
     problem:
-      "Every uncoordinated model ships its problems to the job site, where they become RFIs, change orders, and schedule slip. We build and coordinate architectural, structural, and MEP models to the LOD your contract requires — and we resolve the clashes before anyone pours concrete.",
+      "Every uncoordinated model, every out-of-date drawing, and every paper archive ships its problems downstream — as RFIs, change orders, and schedule slip. We convert reality into accurate digital models: point clouds into BIM, scans into CAD, and paper into structured drawings, coordinated to the standard your project requires.",
     deliver: [
       {
-        title: "Architectural, structural & MEP modeling",
-        desc: "Revit models built to LOD 200–400 from drawings, point clouds, or design intent — to your template and standards.",
+        title: "Scan to BIM",
+        desc: "As-built Revit models from laser scans and point clouds for renovation, retrofit, and facility management.",
       },
       {
-        title: "Clash detection & 3D coordination",
-        desc: "Navisworks-driven coordination cycles with documented clash resolution, not just clash reports.",
+        title: "Scan to CAD",
+        desc: "2D and 3D CAD deliverables generated from reality-capture data, to your layer and template standards.",
       },
       {
-        title: "Scan-to-BIM",
-        desc: "As-built models from laser scans for renovation, retrofit, and facility management programs.",
-      },
-      {
-        title: "Shop & fabrication support",
-        desc: "Model-derived sheets and schedules that keep detailers, fabricators, and field crews on one geometry.",
+        title: "Paper to CAD",
+        desc: "Legacy drawings and paper archives digitized into clean, editable, structured CAD.",
       },
     ],
     process: [
-      { num: "01", title: "Scope & standards", desc: "BIM execution plan review — LOD, naming, templates, and coordination cadence agreed up front." },
-      { num: "02", title: "Pilot package", desc: "One level, one zone, or one discipline modeled and coordinated to prove the workflow." },
-      { num: "03", title: "Model production", desc: "Dual-shore modeling with scheduled coordination cycles and clash-resolution logs." },
-      { num: "04", title: "Delivery & audit", desc: "Clash-free federated model, QC evidence, and clean handoff to your VDC team." },
+      { num: "01", title: "Scope & standards", desc: "LOD, naming, templates, and coordinate system agreed up front." },
+      { num: "02", title: "Pilot package", desc: "One level, zone, or drawing set converted to prove the workflow." },
+      { num: "03", title: "Model production", desc: "Dual-shore modeling with scheduled QC on every batch." },
+      { num: "04", title: "Delivery & audit", desc: "Coordinated model or CAD set, QC evidence, and clean handoff to your team." },
     ],
-    industries: ["Infrastructure", "Government", "Urban Planning"],
-    metaTitle: "BIM Modeling & 3D Coordination | Spatial Alphabet",
+    industries: ["Government & Public Sector", "Transportation", "Oil & Gas"],
+    metaTitle: "BIM — Scan to BIM, Scan to CAD, Paper to CAD | Spatial Alphabet",
     metaDescription:
-      "Revit BIM modeling, clash detection, and MEP coordination for US infrastructure projects. LOD 200–400, scan-to-BIM, clash-free delivery.",
+      "Scan to BIM, scan to CAD, and paper to CAD — accurate Revit and AutoCAD deliverables from point clouds, scans, and legacy drawings.",
+  },
+  {
+    slug: "ai-powered-geospatial",
+    name: "AI-Powered Geospatial",
+    navName: "AI-Powered Geospatial",
+    promise:
+      "LiDAR, LULC, and utility mapping plus high-volume vectorization — location data made decision-ready.",
+    tags: "ESRI ARCGIS · QGIS · FME · POSTGIS · LIDAR · AWS · AZURE",
+    tools: ["Esri ArcGIS", "QGIS", "FME", "PostGIS", "LiDAR pipelines", "AWS", "Azure"],
+    heroImg: "/assets/gen/lidar-corridor.png",
+    heroAlt: "Classified LiDAR point cloud of a transmission corridor with conductors and vegetation returns",
+    sideImg: "/assets/gen/terrain-hillshade.png",
+    sideAlt: "Hillshade terrain model with hypsometric tint, contour lines, and a surveyed route",
+    problemTitle: "Terabytes of spatial data. Not one decision made faster.",
+    problem:
+      "Utilities, agencies, and infrastructure owners sit on years of imagery, LiDAR, and legacy records that never become answers. We close that gap: raw capture turned into classified, attributed, decision-ready geospatial data — QC'd against your spec, not ours.",
+    deliver: [
+      {
+        title: "LiDAR Mapping",
+        desc: "Point-cloud classification, feature extraction, and asset mapping at corridor scale.",
+      },
+      {
+        title: "LULC Mapping",
+        desc: "Land-use / land-cover classification and change detection from multi-source imagery.",
+      },
+      {
+        title: "Utility Mapping",
+        desc: "Network mapping and connectivity-clean utility data — electric, gas, water, and telecom.",
+      },
+      {
+        title: "Vectorization",
+        desc: "High-volume raster-to-vector and digitization with 100% first-time-right delivery.",
+      },
+    ],
+    process: [
+      { num: "01", title: "Audit", desc: "We inventory your data sources, formats, and target systems, and define the acceptance spec together." },
+      { num: "02", title: "Pilot", desc: "A bounded slice — one county, one corridor, one dataset — delivered to production standard." },
+      { num: "03", title: "Production", desc: "Dual-shore teams scale the validated workflow, with QC gates on every batch." },
+      { num: "04", title: "Sustain", desc: "Documented workflows, update cycles, and support so the data stays decision-ready." },
+    ],
+    industries: ["Electrical Utilities", "Oil & Gas", "Government & Public Sector", "Transportation"],
+    metaTitle: "AI-Powered Geospatial — LiDAR, LULC, Utility Mapping | Spatial Alphabet",
+    metaDescription:
+      "LiDAR mapping, LULC classification, utility mapping, and high-volume vectorization — location data made decision-ready. Esri ArcGIS, QGIS, FME, PostGIS.",
   },
   {
     slug: "application-development",
     name: "Application Development",
     navName: "Application Development",
-    promise: "Mobile GPS apps, web platforms, and custom geospatial software — cloud-native from day one.",
-    tags: "C# · PYTHON · ML · CLOUD-NATIVE",
-    tools: ["C#", "Python", ".NET", "React", "PostGIS", "AWS", "Azure", "Machine learning"],
+    promise: "Desktop GIS customizations, web platforms, and mobile apps — built for field-to-office workflows.",
+    tags: "ESRI · QGIS · C# · PYTHON · REACT · CLOUD-NATIVE",
+    tools: ["C#", "Python", ".NET", "React", "Esri SDKs", "QGIS plugins", "AWS", "Azure"],
     heroImg: "/assets/gen/vector-map-dark.png",
     heroAlt: "Dark-theme web map application with a routed corridor between two points",
     sideImg: "/assets/gen/city-grid-night.png",
     sideAlt: "Aerial night view of a city street grid",
     problemTitle: "Off-the-shelf software wasn't built for your field workflow.",
     problem:
-      "Generic tools force your crews to work around the software instead of through it. We build the applications your workflow actually needs — field data collection, inspection, asset management, map-first web platforms — engineered by people who understand both software and spatial data.",
+      "Generic tools force your crews to work around the software instead of through it. We build the applications your workflow actually needs — desktop GIS extensions, map-first web platforms, and offline-capable mobile apps — engineered by people who understand both software and spatial data.",
     deliver: [
       {
-        title: "Mobile GPS & field apps",
-        desc: "Offline-capable collection and inspection apps with survey-grade GPS integration and clean sync to your systems of record.",
+        title: "Desktop (ESRI, QGIS customizations)",
+        desc: "ArcGIS Pro add-ins, QGIS plugins, and geoprocessing tools that automate your desktop workflow.",
       },
       {
-        title: "Web platforms & portals",
-        desc: "Map-centric web applications — dashboards, viewers, and workflow tools — built cloud-native on AWS or Azure.",
+        title: "Web Apps",
+        desc: "Map-centric web platforms — dashboards, viewers, and workflow tools — built cloud-native.",
       },
       {
-        title: "Custom geospatial software",
-        desc: "Processing pipelines, automation tools, and integrations that connect GIS, design, and enterprise systems.",
-      },
-      {
-        title: "ML-powered features",
-        desc: "Detection, extraction, and prediction models embedded where your users work — not in a separate data-science silo.",
+        title: "Mobile Apps",
+        desc: "Offline-capable field collection and inspection apps with survey-grade GPS and clean sync.",
       },
     ],
     process: [
@@ -223,85 +208,71 @@ export const SERVICES: Service[] = [
       { num: "03", title: "Build & integrate", desc: "Iterative delivery with automated testing, staged releases, and your team in the loop." },
       { num: "04", title: "Operate", desc: "Cloud deployment, monitoring, and a support path that doesn't end at launch." },
     ],
-    industries: ["Electrical Utilities", "Oil & Gas", "Transportation", "Government"],
+    industries: ["Electrical Utilities", "Oil & Gas", "Transportation", "Government & Public Sector"],
     metaTitle: "Geospatial Application Development | Spatial Alphabet",
     metaDescription:
-      "Custom mobile GPS apps, web mapping platforms, and geospatial software in C#, Python, and cloud-native stacks — built for field-to-office workflows.",
+      "Desktop GIS customizations (ESRI, QGIS), map-first web platforms, and offline mobile apps — built for field-to-office workflows.",
   },
   {
-    slug: "big-data-analytics-ai-annotation",
-    name: "Big Data, Analytics & AI Annotation",
-    navName: "Big Data & AI Annotation",
-    promise: "Enterprise data pipelines, AI annotation services, and advanced visualization at production scale.",
-    tags: "TENSORFLOW · ML PIPELINES · ADVANCED VISUALIZATION",
-    tools: ["TensorFlow", "Python", "ML pipelines", "Data engineering", "Advanced visualization"],
+    slug: "big-data-analytics",
+    name: "Big Data Analytics",
+    navName: "Big Data Analytics",
+    promise: "AI/ML automation, product development, and custom software solutions at production scale.",
+    tags: "TENSORFLOW · ML PIPELINES · AUTOMATION · CUSTOM BUILD",
+    tools: ["TensorFlow", "Python", "ML pipelines", "Data engineering", "Systems integration"],
     heroImg: "/assets/gen/data-heatmap.png",
     heroAlt: "Spatial density heatmap rendered over a coordinate grid",
     sideImg: "/assets/gen/annotation-tiles.png",
     sideAlt: "Aerial imagery tiles with AI annotation bounding boxes",
-    problemTitle: "Models are only as good as the data discipline behind them.",
+    problemTitle: "Models and reports are only as good as the data discipline behind them.",
     problem:
-      "AI programs stall on the unglamorous work: labeling at scale, pipeline reliability, and data quality nobody wants to own. That work is exactly what we're built for. Our annotation teams work under the same QC protocol as our engineering deliverables — measured, audited, and first-time-right.",
+      "AI programs stall on the unglamorous work: pipeline reliability, labeling at scale, and the connective software nobody wants to own. That work is exactly what we're built for — automation, products, and custom systems delivered under the same QC protocol as our engineering work.",
     deliver: [
       {
-        title: "AI training-data annotation",
-        desc: "Image, LiDAR, and geospatial feature labeling with documented accuracy rates and multi-pass QC.",
+        title: "Automation with AI/ML",
+        desc: "Machine-learning models and automated pipelines for detection, extraction, and prediction at scale.",
       },
       {
-        title: "Enterprise data pipelines",
-        desc: "Ingestion, transformation, and validation pipelines that make large, messy datasets dependable.",
+        title: "Product Development",
+        desc: "End-to-end product builds — from concept and data pipeline to a maintained, shipping application.",
       },
       {
-        title: "Analytics & advanced visualization",
-        desc: "Decision dashboards and spatial analytics that turn pipeline output into operational answers.",
-      },
-      {
-        title: "Model support services",
-        desc: "Ground-truth validation, edge-case mining, and continuous labeling loops for models in production.",
+        title: "Custom Software Solutions",
+        desc: "Connective software, integrations, and workflow automation built around how your teams already work.",
       },
     ],
     process: [
-      { num: "01", title: "Spec & gold set", desc: "We formalize the labeling spec and build a gold-standard set to calibrate annotators and QC." },
-      { num: "02", title: "Pilot batch", desc: "A measured batch with published accuracy metrics — you audit before we scale." },
-      { num: "03", title: "Scaled annotation", desc: "Hyderabad production teams with layered QC sampling and drift monitoring." },
-      { num: "04", title: "Feedback loop", desc: "Error analysis and spec refinement cycles that improve both the labels and the model." },
+      { num: "01", title: "Map the gap", desc: "We document the current workflow and quantify what the gap actually costs." },
+      { num: "02", title: "Pilot / prototype", desc: "A measured slice with published metrics — you evaluate before we scale." },
+      { num: "03", title: "Build & scale", desc: "Iterative delivery with layered QC and drift monitoring." },
+      { num: "04", title: "Support", desc: "Documentation, training, and a maintenance path sized to the system." },
     ],
-    industries: ["Electrical Utilities", "Urban Planning", "Transportation", "Government"],
-    metaTitle: "Big Data, Analytics & AI Annotation | Spatial Alphabet",
+    industries: ["Electrical Utilities", "Government & Public Sector", "Transportation", "Oil & Gas"],
+    metaTitle: "Big Data Analytics, AI/ML & Custom Software | Spatial Alphabet",
     metaDescription:
-      "AI training-data annotation, enterprise data pipelines, and advanced visualization at production scale — with documented accuracy and multi-pass QC.",
+      "AI/ML automation, product development, and custom software solutions at production scale — pipelines, analytics, and connective systems.",
   },
   {
     slug: "talent-acquisition",
-    name: "Talent Acquisition & Workforce Partnership",
+    name: "Talent Acquisition",
     navName: "Talent Acquisition",
-    promise: "Certified GIS, PLS-CADD, Revit, AI, and full-stack professionals — US and India, ready to deploy.",
-    tags: "US + INDIA STAFFING · TEAM SCALING",
-    tools: ["GIS staffing", "PLS-CADD designers", "Revit modelers", "AI/ML engineers", "Full-stack developers"],
+    promise: "Staff augmentation, workforce planning, and executive search — production-tested GIS and engineering talent.",
+    tags: "STAFF AUGMENTATION · RPO · EXECUTIVE SEARCH · US + INDIA",
+    tools: ["Staff augmentation", "Strategic workforce planning", "Executive search", "RPO", "Employer branding"],
     heroImg: "/assets/gen/network-graph.png",
     heroAlt: "Two connected talent network clusters representing US and India teams",
     sideImg: "/assets/gen/globe-timezones.png",
     sideAlt: "Globe wireframe with an arc linking the Keller and Hyderabad offices",
     problemTitle: "The talent you need exists. Finding it verified is the hard part.",
     problem:
-      "Every GIS résumé says ArcGIS; few candidates survive a real production test. Because we run production teams in these exact disciplines, we screen candidates against real work — not keyword matches. You get professionals we would put on our own projects.",
+      "Every GIS resume says ArcGIS; few candidates survive a real production test. Because we run production teams in these exact disciplines, we screen candidates against real work — not keyword matches — and support the full hiring lifecycle from sourcing to executive search to RPO.",
     deliver: [
-      {
-        title: "Direct placement",
-        desc: "Certified GIS analysts, PLS-CADD designers, Revit modelers, AI/ML engineers, and full-stack developers — US and India.",
-      },
-      {
-        title: "Staff augmentation",
-        desc: "Production-tested professionals embedded in your team, on your tools, under your management.",
-      },
-      {
-        title: "Dedicated offshore teams",
-        desc: "A named team in our Hyderabad ODC, trained on your standards and scaled on your schedule.",
-      },
-      {
-        title: "Workforce partnership",
-        desc: "Long-term capacity planning — training pipelines and bench depth aligned to your program roadmap.",
-      },
+      { title: "Staff Augmentation", desc: "Production-tested professionals embedded in your team, on your tools, under your management." },
+      { title: "Strategic Workforce Planning", desc: "Long-term capacity planning — training pipelines and bench depth aligned to your roadmap." },
+      { title: "Employer Branding", desc: "Positioning and outreach that make your roles visible to the candidates worth hiring." },
+      { title: "Active Candidate Sourcing", desc: "Targeted sourcing of GIS, engineering, and software talent across the US and India." },
+      { title: "Executive Search", desc: "Discreet, senior-level search for leadership and specialist roles." },
+      { title: "Recruitment Process Outsourcing (RPO)", desc: "We run all or part of your recruiting function as a managed, measurable service." },
     ],
     process: [
       { num: "01", title: "Profile", desc: "We define the role against real deliverables — tools, standards, and output expectations." },
@@ -309,56 +280,12 @@ export const SERVICES: Service[] = [
       { num: "03", title: "Deploy", desc: "Placement or team stand-up with onboarding support and a defined ramp plan." },
       { num: "04", title: "Retain", desc: "Check-ins, performance reviews, and backfill guarantees that protect your program." },
     ],
-    industries: ["Electrical Utilities", "Oil & Gas", "Government", "Infrastructure"],
-    metaTitle: "GIS & Engineering Talent Acquisition | Spatial Alphabet",
+    industries: ["Electrical Utilities", "Telecommunications", "Oil & Gas", "Government & Public Sector"],
+    metaTitle: "Talent Acquisition — Staffing, RPO, Executive Search | Spatial Alphabet",
     metaDescription:
-      "Production-tested GIS, PLS-CADD, Revit, AI, and full-stack professionals — direct placement, staff augmentation, and dedicated offshore teams.",
-  },
-  {
-    slug: "general-software",
-    name: "General Software Solutions",
-    navName: "General Software",
-    promise: "Fully custom software, integrations, and productivity systems built around how you already work.",
-    tags: "CUSTOM BUILD · SYSTEMS INTEGRATION",
-    tools: ["Custom development", "Systems integration", "Workflow automation", "API development"],
-    heroImg: "/assets/gen/flow-integration.png",
-    heroAlt: "Systems integration diagram with services connected through a central hub",
-    sideImg: "/assets/gen/qc-scatter.png",
-    sideAlt: "Quality control chart with tightening control limits over time",
-    problemTitle: "Your workflow shouldn't bend to fit your software.",
-    problem:
-      "Between the big platforms sit the gaps: the spreadsheet everyone hates, the double entry between two systems, the report that takes a day to build by hand. We build the connective software that closes those gaps — scoped tightly, delivered fast, and maintained like it matters.",
-    deliver: [
-      {
-        title: "Custom business applications",
-        desc: "Purpose-built tools for the workflows that off-the-shelf software ignores.",
-      },
-      {
-        title: "Systems integration",
-        desc: "APIs and middleware that make your GIS, ERP, and operational systems share one version of the truth.",
-      },
-      {
-        title: "Workflow automation",
-        desc: "Automation of repetitive reporting, processing, and data-movement tasks — hours back, errors out.",
-      },
-      {
-        title: "Modernization",
-        desc: "Legacy tools rebuilt on maintainable, cloud-ready foundations without disrupting operations.",
-      },
-    ],
-    process: [
-      { num: "01", title: "Map the gap", desc: "We document the current workflow and quantify what the gap actually costs." },
-      { num: "02", title: "Scope tight", desc: "A fixed, bounded first release — the smallest build that removes the pain." },
-      { num: "03", title: "Build & ship", desc: "Short iterations with working software in your hands from the first weeks." },
-      { num: "04", title: "Support", desc: "Documentation, training, and a maintenance path sized to the tool." },
-    ],
-    industries: ["Government", "Infrastructure", "Oil & Gas", "Urban Planning"],
-    metaTitle: "Custom Software & Integrations | Spatial Alphabet",
-    metaDescription:
-      "Custom business applications, systems integration, and workflow automation — connective software built around how your teams already work.",
+      "Staff augmentation, strategic workforce planning, employer branding, candidate sourcing, executive search, and RPO — production-tested GIS and engineering talent.",
   },
 ];
-
 export type Industry = {
   slug: string;
   name: string;
@@ -372,13 +299,25 @@ export const INDUSTRIES: Industry[] = [
   {
     slug: "electrical-utilities",
     name: "Electrical Utilities",
-    line: "Design-ready data for T&D networks — from pole loading to full corridor design.",
+    line: "Design-ready data and engineering for T&D networks — from pole loading to full corridor design.",
     img: "/assets/ind-utilities.png",
     alt: "High-voltage transmission corridor at dusk",
     help: [
-      { title: "T&D line design", desc: "PLS-CADD corridor design, structure spotting, and sag-tension packages your engineers approve first pass." },
+      { title: "T&D line engineering", desc: "PLS-CADD corridor design, structure spotting, and sag-tension packages your engineers approve first pass." },
       { title: "Pole loading & make-ready", desc: "O-Calc and SPIDA analysis at program scale for joint use, fiber, and 5G attachment demand." },
-      { title: "Network GIS", desc: "Connectivity-clean network data — conversion, migration, and as-built reconciliation." },
+      { title: "Network GIS & mapping", desc: "Connectivity-clean network data — conversion, migration, and as-built reconciliation." },
+    ],
+  },
+  {
+    slug: "telecommunications",
+    name: "Telecommunications",
+    line: "Fiber network design, pole attachment engineering, and permitting for wireline and wireless build-outs.",
+    img: "/assets/ind-urban.png",
+    alt: "Dense urban network aerial view",
+    help: [
+      { title: "Fiber network design", desc: "HLD and LLD fiber design, route planning, and construction-ready drawing packages." },
+      { title: "Pole loading & make-ready", desc: "Attachment analysis and make-ready engineering for fiber and small-cell deployment." },
+      { title: "Permitting support", desc: "Permit-ready documentation that keeps build schedules moving." },
     ],
   },
   {
@@ -394,18 +333,6 @@ export const INDUSTRIES: Industry[] = [
     ],
   },
   {
-    slug: "government",
-    name: "Government",
-    line: "Cadastral, parcel, and land-records modernization at county-to-state scale.",
-    img: "/assets/ind-gov.png",
-    alt: "Cadastral parcel map capture",
-    help: [
-      { title: "Parcel & cadastral mapping", desc: "Parcel fabric migration, deed research, and boundary QC at county-to-state scale." },
-      { title: "Land-records modernization", desc: "Digitization and structuring of legacy records into searchable, connected systems." },
-      { title: "Public-facing maps", desc: "Viewers and open-data portals citizens can actually use." },
-    ],
-  },
-  {
     slug: "transportation",
     name: "Transportation",
     line: "Rail and roadway corridors surveyed, modeled, and kept current.",
@@ -418,31 +345,18 @@ export const INDUSTRIES: Industry[] = [
     ],
   },
   {
-    slug: "infrastructure",
-    name: "Infrastructure",
-    line: "BIM coordination that keeps horizontal and vertical builds clash-free.",
-    img: "/assets/ind-infra.png",
-    alt: "BIM coordination model screen capture",
+    slug: "government-public-sector",
+    name: "Government & Public Sector",
+    line: "Cadastral, parcel, and land-records modernization at county-to-state scale.",
+    img: "/assets/ind-gov.png",
+    alt: "Cadastral parcel map capture",
     help: [
-      { title: "BIM modeling & coordination", desc: "Revit models at LOD 200–400 with documented clash resolution before construction." },
-      { title: "Scan-to-BIM", desc: "As-built models from point clouds for retrofit and facility management." },
-      { title: "Program data management", desc: "One geometry, one truth — across designers, fabricators, and field crews." },
-    ],
-  },
-  {
-    slug: "urban-planning",
-    name: "Urban Planning",
-    line: "Zoning, land-use, and growth scenarios grounded in accurate basemaps.",
-    img: "/assets/ind-urban.png",
-    alt: "City basemap aerial view",
-    help: [
-      { title: "Basemap development", desc: "Accurate, current basemaps as the foundation for every planning decision." },
-      { title: "Zoning & land-use data", desc: "Structured, queryable zoning layers replacing PDF archives." },
-      { title: "Growth scenario analysis", desc: "Spatial analytics for infrastructure demand, density, and development impact." },
+      { title: "Parcel & cadastral mapping", desc: "Parcel fabric migration, deed research, and boundary QC at county-to-state scale." },
+      { title: "Land-records modernization", desc: "Digitization and structuring of legacy records into searchable, connected systems." },
+      { title: "Public-facing maps", desc: "Viewers and open-data portals citizens can actually use." },
     ],
   },
 ];
-
 export type Article = {
   slug: string;
   date: string;
@@ -650,41 +564,41 @@ export const TRUSTED_BY = [
 
 export const HERO_SLIDES = [
   {
-    title: "AI-Powered Geospatial Solutions",
-    sub: "Data management, visualization, and location-based decision tools — decision-ready from day one.",
-    tags: "ESRI ARCGIS · QGIS · FME · POSTGIS · AWS · AZURE",
+    title: "Integrated Engineering Services",
+    sub: "Telecom, power line, and electrical utility network engineering — first-time-right, every time.",
+    tags: "PLS-CADD · PLS-POLE · AUTOCAD · OCALC PRO · SPIDA CALC",
+    img: "/assets/ind-utilities.png",
+    alt: "Transmission and distribution corridor at dusk",
+    href: "/services/integrated-engineering-services",
+  },
+  {
+    title: "AI-Powered Geospatial",
+    sub: "LiDAR, LULC, and utility mapping plus high-volume vectorization — location data made decision-ready.",
+    tags: "ESRI ARCGIS · QGIS · FME · POSTGIS · LIDAR · AWS",
     img: "/assets/hero-corridor.png",
     alt: "LiDAR point-cloud corridor render",
     href: "/services/ai-powered-geospatial",
   },
   {
-    title: "Engineering Design",
-    sub: "Transmission and distribution line design for electrical utilities — first-time-right, every time.",
-    tags: "PLS-CADD · AUTOCAD · MICROSTATION · OCALC PRO · SPIDA CALC",
-    img: "/assets/ind-utilities.png",
-    alt: "Transmission and distribution corridor design view",
-    href: "/services/engineering-design",
-  },
-  {
-    title: "BIM Modeling",
-    sub: "Clash-free architectural, structural, and MEP coordination models for US infrastructure projects.",
-    tags: "AUTODESK REVIT · 3D COORDINATION · MEP",
+    title: "BIM",
+    sub: "Scan to BIM, scan to CAD, and paper to CAD — accurate, coordinated models from any source.",
+    tags: "AUTODESK REVIT · NAVISWORKS · AUTOCAD · SCAN-TO-BIM",
     img: "/assets/ind-infra.png",
     alt: "BIM coordination model",
-    href: "/services/bim-modeling",
+    href: "/services/bim",
   },
   {
-    title: "Big Data, Analytics & AI Annotation",
-    sub: "Enterprise data pipelines, AI annotation services, and advanced visualization at production scale.",
-    tags: "TENSORFLOW · ML PIPELINES · ADVANCED VISUALIZATION",
+    title: "Big Data Analytics",
+    sub: "AI/ML automation, product development, and custom software solutions at production scale.",
+    tags: "TENSORFLOW · ML PIPELINES · AUTOMATION · CUSTOM BUILD",
     img: "/assets/ind-urban.png",
     alt: "Urban basemap analysis",
-    href: "/services/big-data-analytics-ai-annotation",
+    href: "/services/big-data-analytics",
   },
   {
     title: "Application Development",
-    sub: "Mobile GPS apps, web platforms, and custom geospatial software — cloud-native from day one.",
-    tags: "C# · PYTHON · ML · CLOUD-NATIVE",
+    sub: "Desktop GIS customizations, web platforms, and mobile apps — built for field-to-office workflows.",
+    tags: "ESRI · QGIS · C# · PYTHON · REACT · CLOUD-NATIVE",
     img: "/assets/ind-transport.png",
     alt: "Surveyed rail corridor",
     href: "/services/application-development",
@@ -692,12 +606,25 @@ export const HERO_SLIDES = [
 ];
 
 export const SERVICE_OPTIONS = [
-  "AI-Powered Geospatial Solutions",
-  "Engineering Design",
-  "BIM Modeling",
+  "Integrated Engineering Services",
+  "BIM",
+  "AI-Powered Geospatial",
   "Application Development",
-  "Big Data, Analytics & AI Annotation",
-  "Talent Acquisition & Workforce Partnership",
-  "General Software Solutions",
+  "Big Data Analytics",
+  "Talent Acquisition",
   "Pilot program / general inquiry",
+];
+
+export const MISSION =
+  "To be a trusted leader in IT-managed services, empowering businesses to achieve their goals through innovative technology (Geospatial, Cybersecurity, and AI), seamless support, and comprehensive solutions.";
+
+export const VISION =
+  "To deliver reliable, innovative, and customized IT-managed services that enable businesses to thrive in a digital-first world.";
+
+export const CORE_VALUES: { title: string; desc: string }[] = [
+  { title: "Employee Well-Being", desc: "Our people come first — a healthy, supported team is what makes first-time-right delivery repeatable." },
+  { title: "Honesty", desc: "Straight answers on scope, timelines, and fit — even when the honest answer is no." },
+  { title: "Integrity", desc: "We hold every deliverable to the same standard, on both shores, whether or not anyone is watching." },
+  { title: "Teamwork", desc: "US leadership and Hyderabad execution operate as one accountable team across every engagement." },
+  { title: "Accountability", desc: "We own the outcome. QC evidence travels with every deliverable, and we stand behind it." },
 ];

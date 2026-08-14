@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { SITE } from "@/lib/data";
 
-const TARGETS = [6, 20, 100, 2];
+const TARGETS = [7, 20, 100, 2];
 const LABELS = ["YEARS ACTIVE", "YEARS LEADERSHIP DEPTH", "FIRST-TIME-RIGHT QUALITY", "GLOBAL OFFICES"];
 
 function format(values: number[]): string[] {
@@ -12,13 +12,19 @@ function format(values: number[]): string[] {
 
 export default function StatsBand() {
   const ref = useRef<HTMLDivElement>(null);
-  const [values, setValues] = useState([0, 0, 0, 0]);
+  // Initialize to the real targets so server-rendered / no-JS / pre-scroll
+  // markup never shows literal zeros.
+  const [values, setValues] = useState(TARGETS);
   const [inView, setInView] = useState(false);
   const done = useRef(false);
 
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
+    // With JS + motion allowed, zero the counters so they can animate up on scroll.
+    if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setValues([0, 0, 0, 0]);
+    }
     const obs = new IntersectionObserver(
       (entries) => {
         if (!entries[0].isIntersecting || done.current) return;

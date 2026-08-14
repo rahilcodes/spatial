@@ -95,11 +95,11 @@ export default function Header() {
           <Image
             src="/uploads/spatial-alphabet-logo.png"
             alt="Spatial Alphabet"
-            width={172}
-            height={40}
+            width={236}
+            height={55}
             priority
             className="w-auto transition-[height] duration-200"
-            style={{ height: scrolled ? 28 : 34 }}
+            style={{ height: scrolled ? 38 : 48 }}
           />
         </Link>
 

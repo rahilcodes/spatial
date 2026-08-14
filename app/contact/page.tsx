@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import ContactForm from "@/components/ContactForm";
 import PageHero from "@/components/PageHero";
@@ -15,14 +16,18 @@ const OFFICES = [
   {
     key: "keller",
     office: SITE.offices.keller,
-    mapSrc: "https://www.google.com/maps?q=Keller,+TX,+USA&output=embed",
+    mapSrc: "https://www.google.com/maps?q=32.9346,-97.2517&z=14&output=embed",
     mapTitle: "Map — Keller, Texas office",
+    mapsLink: "https://www.google.com/maps/search/?api=1&query=32.9346,-97.2517",
+    qr: "/assets/gen/qr-keller.png",
   },
   {
     key: "hyderabad",
     office: SITE.offices.hyderabad,
-    mapSrc: "https://www.google.com/maps?q=Hyderabad,+Telangana,+India&output=embed",
+    mapSrc: "https://www.google.com/maps?q=17.3850,78.4867&z=14&output=embed",
     mapTitle: "Map — Hyderabad, Telangana office",
+    mapsLink: "https://www.google.com/maps/search/?api=1&query=17.3850,78.4867",
+    qr: "/assets/gen/qr-hyderabad.png",
   },
 ];
 
@@ -55,12 +60,12 @@ export default function ContactPage() {
 
           {/* Offices */}
           <div className="flex min-w-0 flex-[1_1_320px] flex-col gap-9">
-            {OFFICES.map(({ key, office, mapSrc, mapTitle }) => (
+            {OFFICES.map(({ key, office, mapSrc, mapTitle, mapsLink, qr }) => (
               <div key={key}>
                 <p className="m-0 mb-1.5 font-mono text-[11px] tracking-[.14em] text-accent-hover">
                   {office.label}
                 </p>
-                <p className="m-0 mb-3.5 font-mono text-[12.5px] text-ink/65">{office.coords}</p>
+                <p className="m-0 mb-3.5 font-mono text-[12.5px] text-ink/65">📍 {office.coords}</p>
                 <div className="overflow-hidden rounded-[4px] border border-ink/15">
                   <iframe
                     src={mapSrc}
@@ -71,6 +76,30 @@ export default function ContactPage() {
                     referrerPolicy="no-referrer-when-downgrade"
                     className="block border-0"
                   />
+                </div>
+                <div className="mt-3 flex items-center gap-4">
+                  <a href={mapsLink} target="_blank" rel="noopener noreferrer" className="shrink-0" aria-label={`Scan or open directions to the ${office.city} office`}>
+                    <Image
+                      src={qr}
+                      alt={`QR code linking to the ${office.city} office location on Google Maps`}
+                      width={80}
+                      height={80}
+                      className="rounded-[3px] border border-ink/15 bg-white"
+                    />
+                  </a>
+                  <div>
+                    <p className="m-0 font-mono text-[10.5px] tracking-[.12em] text-ink/65">
+                      SCAN FOR DIRECTIONS
+                    </p>
+                    <a
+                      href={mapsLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-[14px] font-semibold text-accent-hover"
+                    >
+                      Open in Google Maps ↗
+                    </a>
+                  </div>
                 </div>
               </div>
             ))}

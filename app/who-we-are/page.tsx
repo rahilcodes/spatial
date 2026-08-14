@@ -4,7 +4,7 @@ import Link from "next/link";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import PageHero from "@/components/PageHero";
 import Reveal from "@/components/Reveal";
-import { SITE } from "@/lib/data";
+import { CORE_VALUES, MISSION, SITE, VISION } from "@/lib/data";
 
 export const metadata: Metadata = {
   title: "Who We Are",
@@ -32,7 +32,7 @@ const WAYPOINTS = [
   {
     year: "TODAY",
     title: "One team, two shores",
-    desc: "Six-plus years in, the model is proven: US-facing leadership, Hyderabad execution at scale, and a first-time-right record our clients audit for themselves through pilot programs.",
+    desc: "Seven years in, the model is proven: US-facing leadership, Hyderabad execution at scale, and a first-time-right record our clients audit for themselves through pilot programs.",
   },
 ];
 
@@ -125,7 +125,7 @@ export default function WhoWeArePage() {
       <section className="bg-bg-light-2 px-[clamp(20px,5vw,48px)] py-[clamp(64px,9vw,110px)]">
         <div className="wrap flex flex-wrap gap-[clamp(36px,5vw,80px)]">
           <Reveal className="min-w-0 flex-[1_1_340px]">
-            <p className="eyebrow m-0 mb-[22px] text-accent-hover">A2 — LEADERSHIP PHILOSOPHY</p>
+            <p className="eyebrow m-0 mb-[22px] text-accent-hover">A2 — OUR LEADERSHIP</p>
             <h2 className="display m-0 text-[clamp(1.8rem,3.6vw,2.9rem)] font-semibold leading-[1.12]">
               ~20 years of programs where wrong data has consequences.
             </h2>
@@ -170,10 +170,42 @@ export default function WhoWeArePage() {
         </div>
       </section>
 
+      {/* Mission, Vision & Core Values */}
+      <section className="bg-bg-light px-[clamp(20px,5vw,48px)] py-[clamp(64px,9vw,110px)]">
+        <div className="wrap">
+          <p className="eyebrow m-0 mb-2 text-accent-hover">A3 — MISSION, VISION &amp; VALUES</p>
+          <h2 className="display m-0 mb-10 text-[clamp(1.7rem,3.4vw,2.6rem)] font-semibold">
+            What we&apos;re here to do — and how we do it.
+          </h2>
+          <div className="mb-12 grid grid-cols-1 gap-6 md:grid-cols-2">
+            <Reveal className="rounded-[6px] border border-ink/12 bg-bg-light-2/60 p-7">
+              <p className="m-0 mb-3 font-mono text-[11px] tracking-[.14em] text-accent-hover">MISSION</p>
+              <p className="m-0 text-[17px] leading-[1.6] text-ink/80">{MISSION}</p>
+            </Reveal>
+            <Reveal delay={80} className="rounded-[6px] border border-ink/12 bg-bg-light-2/60 p-7">
+              <p className="m-0 mb-3 font-mono text-[11px] tracking-[.14em] text-accent-hover">VISION</p>
+              <p className="m-0 text-[17px] leading-[1.6] text-ink/80">{VISION}</p>
+            </Reveal>
+          </div>
+          <p className="m-0 mb-5 font-mono text-[11px] tracking-[.14em] text-ink/65">CORE VALUES</p>
+          <div className="grid grid-cols-[repeat(auto-fit,minmax(220px,1fr))] gap-[clamp(20px,3vw,36px)]">
+            {CORE_VALUES.map((v, i) => (
+              <Reveal key={v.title} delay={i * 40} className="border-t-2 border-ink pt-[18px]">
+                <p className="m-0 mb-2 font-mono text-[12px] text-accent-hover">
+                  {String(i + 1).padStart(2, "0")}
+                </p>
+                <h3 className="display m-0 mb-2 text-[17px] font-semibold">{v.title}</h3>
+                <p className="m-0 text-[14.5px] leading-[1.6] text-ink/70">{v.desc}</p>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Dual-shore model diagram */}
       <section className="dotgrid-dark relative bg-navy-deepest px-[clamp(20px,5vw,48px)] py-[clamp(64px,9vw,110px)] text-bg-light">
         <div className="wrap relative">
-          <p className="eyebrow m-0 mb-2 text-accent-light">A3 — THE DUAL-SHORE MODEL</p>
+          <p className="eyebrow m-0 mb-2 text-accent-light">A4 — THE DUAL-SHORE MODEL</p>
           <h2 className="display m-0 mb-10 max-w-[24ch] text-[clamp(1.7rem,3.4vw,2.6rem)] font-semibold">
             US leadership sets the standard. Hyderabad executes at scale.
           </h2>
@@ -243,7 +275,7 @@ export default function WhoWeArePage() {
       {/* Team grid — intentionally empty slots */}
       <section className="bg-bg-light px-[clamp(20px,5vw,48px)] py-[clamp(64px,9vw,110px)]">
         <div className="wrap">
-          <p className="eyebrow m-0 mb-2 text-accent-hover">A4 — LEADERSHIP TEAM</p>
+          <p className="eyebrow m-0 mb-2 text-accent-hover">A5 — LEADERSHIP TEAM</p>
           <h2 className="display m-0 mb-8 text-[clamp(1.6rem,3vw,2.4rem)] font-semibold">
             The people behind the protocol.
           </h2>

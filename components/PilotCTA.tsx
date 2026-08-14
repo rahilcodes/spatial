@@ -24,7 +24,7 @@ type Props = {
 export default function PilotCTA({
   eyebrow = "C2 — PILOT PROGRAM",
   heading = "Not ready to commit? Start with a pilot.",
-  ctaLabel = "Scope a pilot →",
+  ctaLabel = "Scope a Pilot →",
 }: Props) {
   return (
     <section className="bg-bg-light px-[clamp(20px,5vw,48px)] pb-[clamp(72px,10vw,120px)]">

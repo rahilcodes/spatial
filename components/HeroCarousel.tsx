@@ -39,8 +39,6 @@ export default function HeroCarousel() {
     <section
       aria-roledescription="carousel"
       aria-label="Core expertise"
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
       onFocusCapture={() => setPaused(true)}
       onBlurCapture={() => setPaused(false)}
       onTouchStart={onTouchStart}
@@ -70,11 +68,16 @@ export default function HeroCarousel() {
             fill
             priority={i === 0}
             sizes="100vw"
-            className="object-cover brightness-[.42] saturate-[1.05]"
+            className="object-cover brightness-[.72] saturate-[1.1] contrast-[1.05]"
+          />
+          {/* Left-weighted scrim keeps headline legible while the imagery stays clearly visible */}
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 bg-[linear-gradient(90deg,rgba(4,10,22,.82)_0%,rgba(4,10,22,.5)_45%,rgba(4,10,22,.12)_100%)]"
           />
           <div
             aria-hidden="true"
-            className="absolute inset-0 bg-[linear-gradient(90deg,rgba(4,10,22,.9)_0%,rgba(4,10,22,.55)_55%,rgba(4,10,22,.22)_100%)]"
+            className="absolute inset-x-0 bottom-0 h-28 bg-[linear-gradient(180deg,transparent,rgba(4,10,22,.55))]"
           />
           <div className="wrap relative box-border flex min-h-[88vh] flex-col justify-center px-[clamp(64px,7vw,100px)] pb-[90px] pt-[110px]">
             <p className="eyebrow m-0 mb-[18px] text-accent-light">
@@ -91,7 +94,7 @@ export default function HeroCarousel() {
             </p>
             <div className="flex flex-wrap gap-3.5">
               <Link href="/contact" className="btn-solid">
-                Start a Pilot →
+                Scope a Pilot →
               </Link>
               <Link href={sl.href} className="btn-ghost">
                 Explore Services

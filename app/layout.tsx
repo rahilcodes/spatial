@@ -75,6 +75,8 @@ const organizationSchema = {
   ],
 };
 
+const clarityId = process.env.NEXT_PUBLIC_CLARITY_ID;
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${spaceGrotesk.variable} ${plexSans.variable} ${plexMono.variable}`}>
@@ -86,6 +88,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
         />
+        {/* Microsoft Clarity — free-tier page + behavior analytics. Activates only
+            once NEXT_PUBLIC_CLARITY_ID is set in the environment. */}
+        {clarityId && (
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","${clarityId}");`,
+            }}
+          />
+        )}
         <HideOnAdmin>
           <Header />
         </HideOnAdmin>

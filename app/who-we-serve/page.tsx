@@ -24,7 +24,7 @@ export default function WhoWeServePage() {
         ]}
       />
       <PageHero
-        eyebrow="WHO WE SERVE — SIX SECTORS"
+        eyebrow="WHO WE SERVE — FIVE SECTORS"
         title="Industries where wrong data has consequences."
         sub="Our roots run through railroad, water, gas pipeline, and cadastral programs — sectors where an error becomes a field crew at the wrong location. That heritage shapes how we serve every industry below."
       >
@@ -56,7 +56,7 @@ export default function WhoWeServePage() {
           >
             <Reveal className="min-w-0 flex-[1_1_320px]">
               <p className="eyebrow m-0 mb-3 text-accent-hover">
-                {String(i + 1).padStart(2, "0")} / 06 — INDUSTRY
+                {String(i + 1).padStart(2, "0")} / 05 — INDUSTRY
               </p>
               <h2 className="display m-0 mb-3 text-[clamp(1.7rem,3.2vw,2.5rem)] font-semibold">
                 {ind.name}

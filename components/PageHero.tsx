@@ -8,10 +8,14 @@ type Props = {
   children?: React.ReactNode;
 };
 
-/** Dark hero band shared by all subpages, with optional full-bleed imagery. */
+/**
+ * Dark hero band shared by every subpage. Uniform height, padding, and
+ * left-aligned/vertically-centered content so all page banners match — with or
+ * without a background image.
+ */
 export default function PageHero({ eyebrow, title, sub, image, children }: Props) {
   return (
-    <section className="carto-dark relative overflow-hidden bg-navy-deepest px-[clamp(20px,5vw,48px)] pb-[clamp(56px,7vw,90px)] pt-[clamp(72px,9vw,120px)] text-bg-light">
+    <section className="carto-dark relative flex min-h-[clamp(300px,42vh,440px)] items-center overflow-hidden bg-navy-deepest px-[clamp(20px,5vw,48px)] py-[clamp(56px,7vw,88px)] text-bg-light">
       {image && (
         <>
           <Image
@@ -20,7 +24,7 @@ export default function PageHero({ eyebrow, title, sub, image, children }: Props
             fill
             priority
             sizes="100vw"
-            className="object-cover opacity-[.5] saturate-[1.05]"
+            className="object-cover opacity-[.55] saturate-[1.1]"
           />
           <div
             aria-hidden="true"

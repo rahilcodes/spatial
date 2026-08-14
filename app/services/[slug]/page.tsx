@@ -69,7 +69,7 @@ export default async function ServicePage({ params }: { params: Promise<Params> 
       >
         <div className="mt-9 flex flex-wrap gap-3.5">
           <Link href="/contact" className="btn-solid">
-            Scope a pilot →
+            Scope a Pilot →
           </Link>
           <Link href="/downloads" className="btn-ghost">
             Get the one-pager

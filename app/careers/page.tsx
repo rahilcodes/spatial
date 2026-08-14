@@ -91,17 +91,17 @@ export default function CareersPage() {
           ))}
         </div>
         <div className="wrap mt-[clamp(36px,5vw,56px)]">
-          <div className="relative h-[220px] overflow-hidden rounded-[8px] sm:h-[320px]">
+          <div className="relative h-[220px] overflow-hidden rounded-[8px] bg-navy-deepest sm:h-[320px]">
             <Image
-              src="/assets/gen/ortho-farmland.png"
-              alt="Aerial orthophoto of surveyed farmland with field boundaries and access roads"
+              src="/assets/gen/globe-timezones.png"
+              alt="Globe wireframe with an arc connecting the Keller and Hyderabad offices — one team across two shores"
               fill
               sizes="(max-width: 1320px) 100vw, 1320px"
               className="object-cover"
             />
           </div>
           <p className="m-0 mt-3 font-mono text-[10.5px] tracking-[.14em] text-ink/65">
-            THE WORK — REAL CORRIDORS, REAL COUNTIES, REAL CONSEQUENCES
+            ONE TEAM, TWO SHORES — KELLER, TEXAS &amp; HYDERABAD, INDIA
           </p>
         </div>
       </section>

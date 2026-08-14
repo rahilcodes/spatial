@@ -2,7 +2,7 @@ import Database from "better-sqlite3";
 import { mkdirSync, copyFileSync, existsSync } from "node:fs";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
-import { ARTICLES, JOBS } from "@/lib/data";
+import { ARTICLES, JOBS, DOWNLOADS } from "@/lib/data";
 
 function getDbPath(): string {
   // If running on Vercel or read-only environment, use /tmp
@@ -46,7 +46,7 @@ try {
   const dbPath = getDbPath();
   db = new Database(dbPath);
   if (dbPath !== ":memory:") {
-    db.pragma("busy_timeout = 5000");
+    db.pragma("busy_timeout = 10000");
     try {
       db.pragma("journal_mode = WAL");
     } catch {
@@ -87,6 +87,20 @@ CREATE TABLE IF NOT EXISTS jobs (
   created_at TEXT NOT NULL DEFAULT (datetime('now')),
   updated_at TEXT NOT NULL DEFAULT (datetime('now'))
 );
+CREATE TABLE IF NOT EXISTS downloads (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  title TEXT NOT NULL,
+  kind TEXT NOT NULL DEFAULT 'PDF · RESOURCE',
+  descr TEXT NOT NULL DEFAULT '',
+  img TEXT NOT NULL DEFAULT '/assets/gen/terrain-hillshade.png',
+  file_path TEXT,
+  file_name TEXT,
+  url TEXT,
+  published INTEGER NOT NULL DEFAULT 1,
+  sort INTEGER NOT NULL DEFAULT 0,
+  created_at TEXT NOT NULL DEFAULT (datetime('now')),
+  updated_at TEXT NOT NULL DEFAULT (datetime('now'))
+);
 CREATE TABLE IF NOT EXISTS leads (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   kind TEXT NOT NULL CHECK (kind IN ('contact','careers')),
@@ -112,14 +126,30 @@ const seedJobs = db.prepare(`
   INSERT OR IGNORE INTO jobs (slug, title, office, type, blurb, skills_json)
   VALUES (@slug, @title, @office, @type, @blurb, @skills)
 `);
-db.transaction(() => {
+const seedDownloads = db.prepare(`
+  INSERT INTO downloads (title, kind, descr, img, published, sort)
+  VALUES (@title, @kind, @descr, @img, 1, @sort)
+`);
+const seedAll = db.transaction(() => {
   if ((db.prepare("SELECT COUNT(*) AS n FROM articles").get() as { n: number }).n === 0) {
     for (const a of ARTICLES) seedArticles.run({ ...a, body: JSON.stringify(a.body) });
   }
   if ((db.prepare("SELECT COUNT(*) AS n FROM jobs").get() as { n: number }).n === 0) {
     for (const j of JOBS) seedJobs.run({ ...j, skills: JSON.stringify(j.skills) });
   }
-})();
+  if ((db.prepare("SELECT COUNT(*) AS n FROM downloads").get() as { n: number }).n === 0) {
+    DOWNLOADS.forEach((d, i) => seedDownloads.run({ title: d.title, kind: d.kind, descr: d.desc, img: d.img, sort: i }));
+  }
+});
+try {
+  // IMMEDIATE takes the write lock up front, avoiding SQLITE_BUSY_SNAPSHOT when
+  // several build workers open the DB at once. If another worker is already
+  // seeding, we simply skip — the data will be present either way.
+  seedAll.immediate();
+} catch (err) {
+  const code = (err as { code?: string }).code;
+  if (code !== "SQLITE_BUSY" && code !== "SQLITE_BUSY_SNAPSHOT") throw err;
+}
 
 /* ---------------- Types ---------------- */
 export type ArticleRow = {
@@ -162,6 +192,20 @@ export type LeadRow = {
   cv_name: string | null;
   status: "new" | "contacted" | "closed";
   notes: string;
+  created_at: string;
+  updated_at: string;
+};
+export type DownloadRow = {
+  id: number;
+  title: string;
+  kind: string;
+  descr: string;
+  img: string;
+  file_path: string | null;
+  file_name: string | null;
+  url: string | null;
+  published: number;
+  sort: number;
   created_at: string;
   updated_at: string;
 };
@@ -225,6 +269,35 @@ export function upsertJob(j: Omit<JobRow, "id" | "created_at" | "updated_at"> & 
 }
 export function deleteJob(id: number) {
   db.prepare("DELETE FROM jobs WHERE id = ?").run(id);
+}
+
+/* ---------------- Downloads ---------------- */
+export function listDownloads(publishedOnly = false): DownloadRow[] {
+  return db
+    .prepare(`SELECT * FROM downloads ${publishedOnly ? "WHERE published = 1" : ""} ORDER BY sort ASC, id ASC`)
+    .all() as DownloadRow[];
+}
+export function getDownloadById(id: number): DownloadRow | undefined {
+  return db.prepare("SELECT * FROM downloads WHERE id = ?").get(id) as DownloadRow | undefined;
+}
+export function upsertDownload(d: Omit<DownloadRow, "id" | "created_at" | "updated_at"> & { id?: number }): number {
+  if (d.id) {
+    db.prepare(
+      `UPDATE downloads SET title=@title, kind=@kind, descr=@descr, img=@img, file_path=@file_path,
+       file_name=@file_name, url=@url, published=@published, sort=@sort, updated_at=datetime('now') WHERE id=@id`
+    ).run(d);
+    return d.id;
+  }
+  const res = db
+    .prepare(
+      `INSERT INTO downloads (title, kind, descr, img, file_path, file_name, url, published, sort)
+       VALUES (@title, @kind, @descr, @img, @file_path, @file_name, @url, @published, @sort)`
+    )
+    .run(d);
+  return Number(res.lastInsertRowid);
+}
+export function deleteDownload(id: number) {
+  db.prepare("DELETE FROM downloads WHERE id = ?").run(id);
 }
 
 /* ---------------- Leads ---------------- */

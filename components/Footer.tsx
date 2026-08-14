@@ -71,9 +71,17 @@ export default function Footer() {
           </div>
           <div className="min-w-0 flex-[1.6_1_360px]">
             <h2 className="display m-0 mb-2 text-[clamp(1.5rem,3vw,2.2rem)] font-semibold">
-              Start the conversation.
+              <Link href="/contact" className="transition-colors hover:text-accent-light">
+                Start the conversation.
+              </Link>
             </h2>
-            <p className="m-0 mb-7 text-[14.5px] text-bg-light/60">We reply within one business day.</p>
+            <p className="m-0 mb-7 text-[14.5px] text-bg-light/60">
+              Fill the form below, or{" "}
+              <Link href="/contact" className="text-accent-light underline underline-offset-2">
+                open the full contact page
+              </Link>
+              . We reply within one business day.
+            </p>
             <div className="relative">
               <ContactForm variant="dark" idPrefix="footer" />
             </div>

@@ -84,9 +84,8 @@ export default function Header() {
     }`;
 
   return (
-    <header
-      className="sticky top-0 z-[60] border-b border-ink/10 bg-bg-light/90 backdrop-blur-[10px]"
-    >
+    <>
+      <header className="sticky top-0 z-[60] border-b border-ink/10 bg-bg-light/90 backdrop-blur-[10px]">
       <div
         className="wrap flex items-center justify-between gap-4 px-[clamp(16px,4vw,40px)] transition-[padding] duration-200"
         style={{ paddingBlock: scrolled ? 8 : 14 }}
@@ -177,8 +176,10 @@ export default function Header() {
           <span aria-hidden="true" className="block h-[2px] w-[18px] bg-ink" />
         </button>
       </div>
+      </header>
 
-      {/* Full-screen mobile menu */}
+      {/* Full-screen mobile menu — rendered outside <header> so its fixed
+          positioning is relative to the viewport, not the backdrop-blur header */}
       {mobileOpen && (
         <div
           ref={mobileRef}
@@ -278,6 +279,6 @@ export default function Header() {
           </nav>
         </div>
       )}
-    </header>
+    </>
   );
 }

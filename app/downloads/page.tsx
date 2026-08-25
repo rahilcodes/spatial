@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import Breadcrumbs from "@/components/Breadcrumbs";
+import DownloadButton from "@/components/DownloadButton";
 import PageHero from "@/components/PageHero";
 import Reveal from "@/components/Reveal";
 import { listDownloads } from "@/lib/db";
@@ -32,7 +33,7 @@ export default function DownloadsPage() {
         <div className="wrap">
           <div className="grid grid-cols-[repeat(auto-fill,minmax(270px,1fr))] gap-6">
             {downloads.map((d, i) => {
-              const href = d.file_path ? `/api/download/${d.id}` : d.url || null;
+              const downloadable = Boolean(d.file_path || d.url);
               return (
                 <Reveal
                   key={d.id}
@@ -46,14 +47,8 @@ export default function DownloadsPage() {
                     <p className="m-0 mb-3 font-mono text-[10.5px] tracking-[.14em] text-accent-hover">{d.kind}</p>
                     <h2 className="display m-0 mb-2 text-[17px] font-semibold leading-snug">{d.title}</h2>
                     <p className="m-0 mb-6 text-[14px] leading-[1.6] text-ink/68">{d.descr}</p>
-                    {href ? (
-                      <a
-                        href={href}
-                        {...(d.url && !d.file_path ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                        className="hit-area mt-auto w-max text-[14px] font-semibold text-accent-hover"
-                      >
-                        Download →
-                      </a>
+                    {downloadable ? (
+                      <DownloadButton id={d.id} title={d.title} />
                     ) : (
                       <p className="m-0 mt-auto w-max rounded-[3px] border border-dashed border-ink/30 px-3 py-2 font-mono text-[10.5px] tracking-[.12em] text-ink/65">
                         CLIENT TO SUPPLY

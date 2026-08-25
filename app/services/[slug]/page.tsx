@@ -25,6 +25,8 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
   };
 }
 
+const TOTAL = SERVICES.length;
+
 export default async function ServicePage({ params }: { params: Promise<Params> }) {
   const { slug } = await params;
   const idx = SERVICES.findIndex((s) => s.slug === slug);
@@ -40,12 +42,15 @@ export default async function ServicePage({ params }: { params: Promise<Params> 
     name: svc.name,
     description: svc.promise,
     url: `${SITE.url}/services/${svc.slug}`,
-    provider: {
-      "@type": "Organization",
-      name: SITE.name,
-      url: SITE.url,
-    },
+    provider: { "@type": "Organization", name: SITE.name, url: SITE.url },
     areaServed: ["United States", "India"],
+    hasOfferCatalog: {
+      "@type": "OfferCatalog",
+      name: `${svc.name} capabilities`,
+      itemListElement: svc.groups.flatMap((g) =>
+        g.items.map((it) => ({ "@type": "Offer", itemOffered: { "@type": "Service", name: it.title } }))
+      ),
+    },
   };
 
   return (
@@ -62,7 +67,7 @@ export default async function ServicePage({ params }: { params: Promise<Params> 
         ]}
       />
       <PageHero
-        eyebrow={`SERVICE ${num} / 07 — ${SITE.offices.keller.coords}`}
+        eyebrow={`SERVICE ${num} / 0${TOTAL} — ${SITE.offices.keller.coords}`}
         title={svc.name}
         sub={svc.promise}
         image={{ src: svc.heroImg, alt: svc.heroAlt }}
@@ -82,7 +87,7 @@ export default async function ServicePage({ params }: { params: Promise<Params> 
         <div className="wrap flex flex-wrap items-center gap-[clamp(32px,5vw,72px)]">
           <Reveal className="min-w-0 flex-[1.15_1_340px]">
             <p className="eyebrow m-0 mb-6 text-accent-hover">THE PROBLEM</p>
-            <h2 className="display m-0 max-w-[22ch] text-[clamp(1.7rem,3.6vw,2.9rem)] font-semibold leading-[1.12]">
+            <h2 className="display m-0 max-w-[24ch] text-[clamp(1.7rem,3.6vw,2.9rem)] font-semibold leading-[1.12]">
               {svc.problemTitle}
             </h2>
             <p className="m-0 mt-6 max-w-[68ch] text-[16.5px] leading-[1.65] text-ink/72">
@@ -90,13 +95,13 @@ export default async function ServicePage({ params }: { params: Promise<Params> 
             </p>
           </Reveal>
           <Reveal delay={80} className="min-w-0 flex-[1_1_300px]">
-            <div className="relative h-[240px] overflow-hidden rounded-[8px] border border-ink/10 sm:h-[320px]">
+            <div className="relative h-[240px] overflow-hidden rounded-[8px] border border-ink/12 bg-white sm:h-[320px]">
               <Image
                 src={svc.sideImg}
                 alt={svc.sideAlt}
                 fill
                 sizes="(max-width: 768px) 100vw, 560px"
-                className="object-cover"
+                className="object-contain p-3"
               />
             </div>
             <p className="m-0 mt-3 font-mono text-[10.5px] tracking-[.14em] text-ink/65">
@@ -106,30 +111,58 @@ export default async function ServicePage({ params }: { params: Promise<Params> 
         </div>
       </section>
 
-      {/* What we deliver */}
+      {/* What we deliver — nested capability groups */}
       <section className="bg-bg-light-2 px-[clamp(20px,5vw,48px)] py-[clamp(64px,9vw,110px)]">
         <div className="wrap">
           <p className="eyebrow m-0 mb-2 text-accent-hover">WHAT WE DELIVER</p>
-          <h2 className="display m-0 mb-8 text-[clamp(1.6rem,3vw,2.4rem)] font-semibold">
-            Scannable scope. No mystery line items.
+          <h2 className="display m-0 mb-2 text-[clamp(1.6rem,3vw,2.4rem)] font-semibold">
+            {svc.groups.length > 1 ? `${svc.groups.length} capability areas.` : "Scannable scope, no mystery line items."}
           </h2>
-          <div>
-            {svc.deliver.map((d, i) => (
-              <Reveal
-                key={d.title}
-                delay={i * 40}
-                className="grid grid-cols-[44px_1fr] gap-3 border-t border-ink/15 py-6 sm:grid-cols-[52px_minmax(200px,320px)_1fr] sm:gap-6"
-              >
-                <span className="font-mono text-[13px] text-ink/65">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <h3 className="display m-0 text-[18px] font-semibold leading-snug">{d.title}</h3>
-                <p className="col-start-2 m-0 text-[15px] leading-[1.6] text-ink/70 sm:col-start-3">
-                  {d.desc}
-                </p>
+          <div className="mt-10 flex flex-col gap-[clamp(44px,6vw,80px)]">
+            {svc.groups.map((g, gi) => (
+              <Reveal key={g.title}>
+                <div className="flex flex-wrap gap-[clamp(28px,4vw,60px)]">
+                  <div className="min-w-0 flex-[1.4_1_360px]">
+                    <div className="mb-2 flex items-baseline gap-3">
+                      <span className="font-mono text-[13px] text-accent-hover">
+                        {String(gi + 1).padStart(2, "0")}
+                      </span>
+                      <h3 className="display text-[clamp(1.25rem,2.6vw,1.9rem)] font-semibold leading-tight">
+                        {g.title}
+                      </h3>
+                    </div>
+                    {g.intro && (
+                      <p className="m-0 mb-5 max-w-[62ch] text-[15.5px] leading-[1.6] text-ink/72">{g.intro}</p>
+                    )}
+                    <div>
+                      {g.items.map((it) => (
+                        <div
+                          key={it.title}
+                          className="grid grid-cols-1 gap-1 border-t border-ink/15 py-4 sm:grid-cols-[minmax(180px,260px)_1fr] sm:gap-6"
+                        >
+                          <h4 className="display m-0 text-[15.5px] font-semibold leading-snug">{it.title}</h4>
+                          <p className="m-0 text-[14.5px] leading-[1.6] text-ink/70">{it.desc}</p>
+                        </div>
+                      ))}
+                      <div className="border-t border-ink/15" />
+                    </div>
+                  </div>
+                  {g.img && (
+                    <div className="min-w-0 flex-[1_1_300px]">
+                      <div className="relative h-[220px] overflow-hidden rounded-[8px] border border-ink/12 bg-white sm:h-[300px] lg:sticky lg:top-24">
+                        <Image
+                          src={g.img}
+                          alt={g.imgAlt ?? ""}
+                          fill
+                          sizes="(max-width: 768px) 100vw, 520px"
+                          className="object-contain p-3"
+                        />
+                      </div>
+                    </div>
+                  )}
+                </div>
               </Reveal>
             ))}
-            <div className="border-t border-ink/15" />
           </div>
         </div>
       </section>
@@ -192,10 +225,7 @@ export default async function ServicePage({ params }: { params: Promise<Params> 
         </div>
       </section>
 
-      <PilotCTA
-        eyebrow="PILOT PROGRAM"
-        heading={`Scope a pilot for ${svc.navName.toLowerCase()}.`}
-      />
+      <PilotCTA eyebrow="PILOT PROGRAM" heading={`Scope a pilot for ${svc.navName.toLowerCase()}.`} />
     </>
   );
 }

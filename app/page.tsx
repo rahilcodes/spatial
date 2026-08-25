@@ -87,13 +87,13 @@ export default function HomePage() {
         </Reveal>
       </section>
 
-      {/* Services index */}
-      <section className="bg-bg-light px-[clamp(20px,5vw,48px)] pb-[clamp(72px,10vw,120px)]">
+      {/* What We Deliver — services index */}
+      <section id="services" className="scroll-mt-24 bg-bg-light px-[clamp(20px,5vw,48px)] pb-[clamp(72px,10vw,120px)]">
         <div className="wrap">
           <div className="mb-5 flex flex-wrap items-baseline justify-between gap-4 border-t border-ink/15 pt-7">
-            <p className="eyebrow m-0 text-accent-hover">B1 — SERVICES</p>
+            <p className="eyebrow m-0 text-accent-hover">B1 — WHAT WE DELIVER</p>
             <h2 className="display m-0 text-[clamp(1.7rem,3.4vw,2.6rem)] font-semibold">
-              Seven disciplines. One accountable partner.
+              Four capability pillars. One accountable team.
             </h2>
           </div>
           <ServicesIndex />

@@ -10,7 +10,7 @@ import { INDUSTRIES } from "@/lib/data";
 export const metadata: Metadata = {
   title: "Who We Serve",
   description:
-    "Electrical utilities, oil & gas, government, transportation, infrastructure, and urban planning — industries where wrong spatial data has consequences.",
+    "Electrical Utilities, Telecommunications, Oil & Gas, Transportation, and Government & Public Sector — five sectors served from one US + India delivery model.",
   alternates: { canonical: "/who-we-serve" },
 };
 
@@ -25,8 +25,8 @@ export default function WhoWeServePage() {
       />
       <PageHero
         eyebrow="WHO WE SERVE — FIVE SECTORS"
-        title="Industries where wrong data has consequences."
-        sub="Our roots run through railroad, water, gas pipeline, and cadastral programs — sectors where an error becomes a field crew at the wrong location. That heritage shapes how we serve every industry below."
+        title="Five sectors, one delivery model."
+        sub="Spatial Alphabet applies its engineering, AI-powered geospatial, application-development, and talent-acquisition capabilities across five core industry sectors — the same US + India team, applied locally in each market."
       >
         <nav aria-label="Industries on this page" className="mt-9 flex flex-wrap gap-2.5">
           {INDUSTRIES.map((ind) => (
@@ -54,35 +54,43 @@ export default function WhoWeServePage() {
               i % 2 === 1 ? "flex-row-reverse" : ""
             }`}
           >
-            <Reveal className="min-w-0 flex-[1_1_320px]">
+            <Reveal className="min-w-0 flex-[1_1_340px]">
               <p className="eyebrow m-0 mb-3 text-accent-hover">
                 {String(i + 1).padStart(2, "0")} / 05 — INDUSTRY
               </p>
               <h2 className="display m-0 mb-3 text-[clamp(1.7rem,3.2vw,2.5rem)] font-semibold">
                 {ind.name}
               </h2>
-              <p className="m-0 mb-7 max-w-[52ch] text-[16px] leading-[1.65] text-ink/72">
-                {ind.line}
-              </p>
-              <div className="relative mb-2 h-[220px] max-w-[520px] overflow-hidden rounded-[8px]">
-                <Image
-                  src={ind.img}
-                  alt={ind.alt}
-                  fill
-                  sizes="(max-width: 768px) 100vw, 520px"
-                  className="object-cover"
-                />
-              </div>
+              <p className="m-0 mb-6 max-w-[52ch] text-[16px] leading-[1.65] text-ink/75">{ind.line}</p>
+              <figure className="m-0">
+                <div className="relative mb-2 h-[240px] max-w-[540px] overflow-hidden rounded-[8px] border border-ink/10">
+                  <Image
+                    src={ind.img}
+                    alt={ind.alt}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 540px"
+                    className="object-cover"
+                  />
+                </div>
+                <figcaption className="m-0 max-w-[540px] font-mono text-[10.5px] leading-relaxed tracking-[.06em] text-ink/60">
+                  {ind.caption}
+                </figcaption>
+              </figure>
             </Reveal>
-            <div className="min-w-0 flex-[1_1_340px]">
-              <p className="m-0 mb-5 font-mono text-[11px] tracking-[.14em] text-ink/65">
-                HOW WE HELP
-              </p>
-              <div className="flex flex-col gap-6">
+            <div className="min-w-0 flex-[1.05_1_360px]">
+              <div className="mb-8 flex flex-col gap-4">
+                {ind.narrative.map((para, k) => (
+                  <p key={k} className="m-0 max-w-[64ch] text-[15.5px] leading-[1.7] text-ink/78">
+                    {para}
+                  </p>
+                ))}
+              </div>
+              <p className="m-0 mb-5 font-mono text-[11px] tracking-[.14em] text-ink/65">HOW WE HELP</p>
+              <div className="flex flex-col gap-5">
                 {ind.help.map((h, j) => (
-                  <Reveal key={h.title} delay={j * 50} className="border-t border-ink/20 pt-4">
-                    <h3 className="display m-0 mb-1.5 text-[17px] font-semibold">{h.title}</h3>
-                    <p className="m-0 text-[14.5px] leading-[1.6] text-ink/70">{h.desc}</p>
+                  <Reveal key={h.title} delay={j * 40} className="border-t border-ink/20 pt-3.5">
+                    <h3 className="display m-0 mb-1 text-[16px] font-semibold">{h.title}</h3>
+                    <p className="m-0 text-[14px] leading-[1.6] text-ink/70">{h.desc}</p>
                   </Reveal>
                 ))}
               </div>

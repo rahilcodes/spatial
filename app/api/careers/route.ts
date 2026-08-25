@@ -3,6 +3,7 @@ import { writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { NextRequest, NextResponse } from "next/server";
 import { createLead } from "@/lib/db";
+import { normalizeEmail, OTP_ENABLED, verifyGrant } from "@/lib/otp";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const CV_TYPES = [".pdf", ".doc", ".docx"];
@@ -28,6 +29,13 @@ export async function POST(req: NextRequest) {
 
   if (!name || !EMAIL_RE.test(email)) {
     return NextResponse.json({ error: "Name and a valid email are required" }, { status: 400 });
+  }
+  // OTP gate: the applicant's email must be verified (grant cookie bound to it).
+  if (OTP_ENABLED) {
+    const token = req.cookies.get("sa_careers_grant")?.value;
+    if (!verifyGrant(token, "careers", normalizeEmail(email))) {
+      return NextResponse.json({ error: "Please verify your email with the code we sent before submitting." }, { status: 403 });
+    }
   }
   if (!(cv instanceof File) || cv.size === 0) {
     return NextResponse.json({ error: "A CV attachment is required" }, { status: 400 });

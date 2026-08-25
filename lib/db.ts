@@ -101,6 +101,17 @@ CREATE TABLE IF NOT EXISTS downloads (
   created_at TEXT NOT NULL DEFAULT (datetime('now')),
   updated_at TEXT NOT NULL DEFAULT (datetime('now'))
 );
+CREATE TABLE IF NOT EXISTS otps (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  email TEXT NOT NULL,
+  purpose TEXT NOT NULL,
+  ref TEXT NOT NULL DEFAULT '',
+  code_hash TEXT NOT NULL,
+  attempts INTEGER NOT NULL DEFAULT 0,
+  consumed INTEGER NOT NULL DEFAULT 0,
+  expires_at INTEGER NOT NULL,
+  created_at TEXT NOT NULL DEFAULT (datetime('now'))
+);
 CREATE TABLE IF NOT EXISTS leads (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   kind TEXT NOT NULL CHECK (kind IN ('contact','careers')),
@@ -353,6 +364,45 @@ export function leadCounts(): { total: number; fresh: number; contact: number; c
   const contact = (db.prepare("SELECT COUNT(*) AS n FROM leads WHERE kind = 'contact'").get() as { n: number }).n;
   const careers = (db.prepare("SELECT COUNT(*) AS n FROM leads WHERE kind = 'careers'").get() as { n: number }).n;
   return { total, fresh, contact, careers };
+}
+
+/* ---------------- OTPs ---------------- */
+export type OtpRow = {
+  id: number;
+  email: string;
+  purpose: string;
+  ref: string;
+  code_hash: string;
+  attempts: number;
+  consumed: number;
+  expires_at: number;
+  created_at: string;
+};
+export function insertOtp(o: { email: string; purpose: string; ref: string; code_hash: string; expires_at: number }): number {
+  // Clear any prior unconsumed codes for this exact target.
+  db.prepare("DELETE FROM otps WHERE email = @email AND purpose = @purpose AND ref = @ref AND consumed = 0").run(o);
+  const res = db
+    .prepare("INSERT INTO otps (email, purpose, ref, code_hash, expires_at) VALUES (@email, @purpose, @ref, @code_hash, @expires_at)")
+    .run(o);
+  return Number(res.lastInsertRowid);
+}
+export function latestOtp(email: string, purpose: string, ref: string): OtpRow | undefined {
+  return db
+    .prepare("SELECT * FROM otps WHERE email = ? AND purpose = ? AND ref = ? AND consumed = 0 ORDER BY id DESC LIMIT 1")
+    .get(email, purpose, ref) as OtpRow | undefined;
+}
+export function bumpOtpAttempts(id: number) {
+  db.prepare("UPDATE otps SET attempts = attempts + 1 WHERE id = ?").run(id);
+}
+export function consumeOtp(id: number) {
+  db.prepare("UPDATE otps SET consumed = 1 WHERE id = ?").run(id);
+}
+export function recentOtpCount(email: string, secondsWindow: number): number {
+  return (
+    db
+      .prepare(`SELECT COUNT(*) AS n FROM otps WHERE email = ? AND created_at >= datetime('now', ?)`)
+      .get(email, `-${secondsWindow} seconds`) as { n: number }
+  ).n;
 }
 
 export default db;

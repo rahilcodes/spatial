@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import Link from "next/link";
 import HeroCarousel from "@/components/HeroCarousel";
-import TrustMarquee from "@/components/TrustMarquee";
+import HeroFrame from "@/components/HeroFrame";
 import ServicesIndex from "@/components/ServicesIndex";
 import StatsBand from "@/components/StatsBand";
 import IndustriesStrip from "@/components/IndustriesStrip";
 import PilotCTA from "@/components/PilotCTA";
-import NewsPreview from "@/components/NewsPreview";
+import NewsPreview, { NewsPreviewSkeleton } from "@/components/NewsPreview";
 import Reveal from "@/components/Reveal";
 
 export const metadata: Metadata = {
@@ -15,6 +16,9 @@ export const metadata: Metadata = {
     "Geospatial intelligence, engineering design, BIM, and software — delivered first-time-right by dual-shore teams in Texas and Hyderabad.",
   alternates: { canonical: "/" },
 };
+
+// Reads the DB (NewsPreview) — render fresh so new articles show immediately.
+export const dynamic = "force-dynamic";
 
 const WHY_POINTS = [
   {
@@ -63,8 +67,9 @@ const WHY_POINTS = [
 export default function HomePage() {
   return (
     <>
-      <HeroCarousel />
-      <TrustMarquee />
+      <HeroFrame>
+        <HeroCarousel />
+      </HeroFrame>
 
       {/* Intro statement */}
       <section className="bg-bg-light px-[clamp(20px,5vw,48px)] py-[clamp(72px,10vw,130px)]">
@@ -128,7 +133,9 @@ export default function HomePage() {
       <StatsBand />
       <IndustriesStrip />
       <PilotCTA />
-      <NewsPreview />
+      <Suspense fallback={<NewsPreviewSkeleton />}>
+        <NewsPreview />
+      </Suspense>
     </>
   );
 }

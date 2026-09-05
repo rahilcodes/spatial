@@ -1,8 +1,7 @@
-import { randomBytes } from "node:crypto";
-import { writeFile } from "node:fs/promises";
-import { join } from "node:path";
 import { NextRequest, NextResponse } from "next/server";
 import { createLead } from "@/lib/db";
+import { uploadBlob } from "@/lib/blob";
+import { sendLeadNotification } from "@/lib/mailer";
 import { normalizeEmail, OTP_ENABLED, verifyGrant } from "@/lib/otp";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -48,18 +47,22 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "CV must be under 5 MB" }, { status: 400 });
   }
 
-  const storedName = `cv-${Date.now()}-${randomBytes(6).toString("hex")}${ext}`;
-  const storedPath = join(process.cwd(), "data", "uploads", storedName);
-  await writeFile(storedPath, Buffer.from(await cv.arrayBuffer()));
+  let cvUrl: string;
+  try {
+    cvUrl = await uploadBlob("cv", cv);
+  } catch {
+    return NextResponse.json({ error: "Could not store the CV. Please try again." }, { status: 500 });
+  }
 
-  createLead({
+  await createLead({
     kind: "careers",
     name,
     email,
     topic: role,
     message,
-    cv_path: storedName,
+    cv_path: cvUrl,
     cv_name: cv.name.slice(0, 200),
   });
+  await sendLeadNotification({ kind: "careers", name, email, topic: role, message, cvUrl });
   return NextResponse.json({ ok: true });
 }

@@ -207,19 +207,10 @@ export default function WhoWeArePage() {
         <div className="wrap relative">
           <p className="eyebrow m-0 mb-2 text-accent-light">A4 — THE DUAL-SHORE MODEL</p>
           <h2 className="display m-0 mb-10 max-w-[24ch] text-[clamp(1.7rem,3.4vw,2.6rem)] font-semibold">
-            US leadership sets the standard. Hyderabad executes at scale.
+            One accountable team, working across two shores.
           </h2>
           <div className="grid grid-cols-1 items-stretch gap-6 md:grid-cols-[1fr_auto_1fr]">
             <div className="rounded-[4px] border border-bg-light/16 bg-navy-panel/80 p-7">
-              <div className="relative mb-5 h-[150px] overflow-hidden rounded-[3px]">
-                <Image
-                  src="/assets/gen/keller-map.png"
-                  alt="Street map of Keller, Texas with the HQ location marked"
-                  fill
-                  sizes="(max-width: 768px) 100vw, 560px"
-                  className="object-cover"
-                />
-              </div>
               <p className="m-0 mb-1.5 font-mono text-[11px] tracking-[.14em] text-accent-light">
                 {SITE.offices.keller.label}
               </p>
@@ -241,15 +232,6 @@ export default function WhoWeArePage() {
               <span className="md:hidden">⟵ 24-HR CYCLE ⟶</span>
             </div>
             <div className="rounded-[4px] border border-bg-light/16 bg-navy-panel/80 p-7">
-              <div className="relative mb-5 h-[150px] overflow-hidden rounded-[3px]">
-                <Image
-                  src="/assets/gen/hyderabad-map.png"
-                  alt="Street map of Hyderabad with the offshore development center marked"
-                  fill
-                  sizes="(max-width: 768px) 100vw, 560px"
-                  className="object-cover"
-                />
-              </div>
               <p className="m-0 mb-1.5 font-mono text-[11px] tracking-[.14em] text-accent-light">
                 {SITE.offices.hyderabad.label}
               </p>
@@ -269,34 +251,6 @@ export default function WhoWeArePage() {
             and your program moves while you sleep — an 11.5-hour offset turned into a 24-hour
             work cycle.
           </p>
-        </div>
-      </section>
-
-      {/* Team grid — intentionally empty slots */}
-      <section className="bg-bg-light px-[clamp(20px,5vw,48px)] py-[clamp(64px,9vw,110px)]">
-        <div className="wrap">
-          <p className="eyebrow m-0 mb-2 text-accent-hover">A5 — LEADERSHIP TEAM</p>
-          <h2 className="display m-0 mb-8 text-[clamp(1.6rem,3vw,2.4rem)] font-semibold">
-            The people behind the protocol.
-          </h2>
-          <div className="grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-4">
-            {[1, 2, 3, 4].map((n) => (
-              <div
-                key={n}
-                className="flex aspect-[3/4] flex-col items-center justify-center gap-3 rounded-[4px] border border-dashed border-ink/30 bg-bg-light-2/60 p-4 text-center"
-              >
-                <span
-                  aria-hidden="true"
-                  className="block h-10 w-10 rounded-full border border-ink/30"
-                />
-                <p className="m-0 font-mono text-[10.5px] tracking-[.12em] text-ink/65">
-                  PHOTO &amp; BIO
-                  <br />
-                  CLIENT TO SUPPLY
-                </p>
-              </div>
-            ))}
-          </div>
         </div>
       </section>
 

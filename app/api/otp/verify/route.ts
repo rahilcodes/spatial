@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
   const code = String(body?.code || "");
   if (!PURPOSES.includes(purpose)) return NextResponse.json({ error: "Invalid request." }, { status: 400 });
 
-  const result = verifyOtp(email, purpose, ref, code);
+  const result = await verifyOtp(email, purpose, ref, code);
   if (!result.ok) return NextResponse.json({ error: result.reason }, { status: 400 });
 
   // Grant binds to the download id (download) or the verified email (careers).

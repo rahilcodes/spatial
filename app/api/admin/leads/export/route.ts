@@ -10,7 +10,7 @@ export async function GET() {
   const unauthorized = await requireAdminApi();
   if (unauthorized) return unauthorized;
 
-  const rows = listLeads();
+  const rows = await listLeads();
   const header = "id,kind,name,email,topic,message,status,notes,cv_name,created_at";
   const body = rows
     .map((l) =>

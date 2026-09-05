@@ -15,7 +15,7 @@ export default async function AdminJobEditor({
   const { id } = await params;
   const { error } = await searchParams;
   const isNew = id === "new";
-  const job = isNew ? undefined : getJobById(Number(id));
+  const job = isNew ? undefined : await getJobById(Number(id));
   if (!isNew && !job) notFound();
 
   const skills = job ? (JSON.parse(job.skills_json) as string[]).join(", ") : "";

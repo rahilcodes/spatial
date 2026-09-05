@@ -3,7 +3,7 @@ const nextConfig = {
   images: {
     formats: ["image/avif", "image/webp"],
   },
-  serverExternalPackages: ["better-sqlite3", "nodemailer"],
+  serverExternalPackages: ["pg", "nodemailer"],
 };
 
 export default nextConfig;

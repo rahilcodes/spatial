@@ -23,9 +23,9 @@ export function normalizeEmail(e: string): string {
 }
 
 /** Generates a 6-digit code, stores its hash, and returns the plaintext for delivery. */
-export function createOtp(email: string, purpose: string, ref: string): string {
+export async function createOtp(email: string, purpose: string, ref: string): Promise<string> {
   const code = String(randomInt(0, 1_000_000)).padStart(6, "0");
-  insertOtp({
+  await insertOtp({
     email: normalizeEmail(email),
     purpose,
     ref,
@@ -35,17 +35,17 @@ export function createOtp(email: string, purpose: string, ref: string): string {
   return code;
 }
 
-export function verifyOtp(email: string, purpose: string, ref: string, code: string): { ok: boolean; reason?: string } {
-  const row = latestOtp(normalizeEmail(email), purpose, ref);
+export async function verifyOtp(email: string, purpose: string, ref: string, code: string): Promise<{ ok: boolean; reason?: string }> {
+  const row = await latestOtp(normalizeEmail(email), purpose, ref);
   if (!row) return { ok: false, reason: "No code found — request a new one." };
-  if (row.expires_at < Date.now()) return { ok: false, reason: "Code expired — request a new one." };
+  if (Number(row.expires_at) < Date.now()) return { ok: false, reason: "Code expired — request a new one." };
   if (row.attempts >= MAX_ATTEMPTS) return { ok: false, reason: "Too many attempts — request a new code." };
-  bumpOtpAttempts(row.id);
+  await bumpOtpAttempts(row.id);
   const expected = Buffer.from(row.code_hash);
   const got = Buffer.from(hmac(`${purpose}:${ref}:${code.trim()}`));
   const match = expected.length === got.length && timingSafeEqual(expected, got);
   if (!match) return { ok: false, reason: "Incorrect code." };
-  consumeOtp(row.id);
+  await consumeOtp(row.id);
   return { ok: true };
 }
 

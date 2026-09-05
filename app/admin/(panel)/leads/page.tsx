@@ -9,7 +9,7 @@ export default async function AdminLeadsPage({
   searchParams: Promise<{ status?: string; kind?: string }>;
 }) {
   const { status, kind } = await searchParams;
-  const leads = listLeads({ status, kind });
+  const leads = await listLeads({ status, kind });
 
   const filterLink = (label: string, params: string, active: boolean) => (
     <Link

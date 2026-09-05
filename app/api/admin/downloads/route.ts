@@ -1,10 +1,8 @@
-import { randomBytes } from "node:crypto";
-import { writeFile } from "node:fs/promises";
-import { join } from "node:path";
 import { revalidatePath } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 import { requireAdminApi } from "@/lib/auth";
 import { deleteDownload, getDownloadById, upsertDownload } from "@/lib/db";
+import { uploadBlob } from "@/lib/blob";
 
 const MAX_BYTES = 25 * 1024 * 1024;
 const ALLOWED = [".pdf", ".doc", ".docx", ".ppt", ".pptx", ".zip", ".xls", ".xlsx"];
@@ -18,7 +16,7 @@ export async function POST(req: NextRequest) {
   const id = Number(data.get("id") || 0) || undefined;
 
   if (action === "delete") {
-    if (id) deleteDownload(id);
+    if (id) await deleteDownload(id);
     revalidatePath("/downloads");
     return NextResponse.redirect(new URL("/admin/downloads", req.url), 303);
   }
@@ -28,7 +26,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.redirect(new URL(`/admin/downloads/${id ?? "new"}?error=required`, req.url), 303);
   }
 
-  const existing = id ? getDownloadById(id) : undefined;
+  const existing = id ? await getDownloadById(id) : undefined;
 
   // Handle optional file upload (replaces any prior file).
   let filePath = existing?.file_path ?? null;
@@ -42,13 +40,15 @@ export async function POST(req: NextRequest) {
     if (file.size > MAX_BYTES) {
       return NextResponse.redirect(new URL(`/admin/downloads/${id ?? "new"}?error=filesize`, req.url), 303);
     }
-    const stored = `dl-${Date.now()}-${randomBytes(6).toString("hex")}${ext}`;
-    await writeFile(join(process.cwd(), "data", "uploads", stored), Buffer.from(await file.arrayBuffer()));
-    filePath = stored;
-    fileName = file.name.slice(0, 200);
+    try {
+      filePath = await uploadBlob("downloads", file);
+      fileName = file.name.slice(0, 200);
+    } catch {
+      return NextResponse.redirect(new URL(`/admin/downloads/${id ?? "new"}?error=upload`, req.url), 303);
+    }
   }
 
-  upsertDownload({
+  await upsertDownload({
     id,
     title: title.slice(0, 200),
     kind: String(data.get("kind") || "").trim() || "PDF · RESOURCE",

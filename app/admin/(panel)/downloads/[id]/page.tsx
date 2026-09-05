@@ -30,7 +30,7 @@ export default async function AdminDownloadEditor({
   const { id } = await params;
   const { error } = await searchParams;
   const isNew = id === "new";
-  const item = isNew ? undefined : getDownloadById(Number(id));
+  const item = isNew ? undefined : await getDownloadById(Number(id));
   if (!isNew && !item) notFound();
 
   return (

@@ -9,13 +9,11 @@ import { getArticle, listArticles, type ArticleBody } from "@/lib/db";
 
 type Params = { slug: string };
 
-export function generateStaticParams(): Params[] {
-  return listArticles(true).map((a) => ({ slug: a.slug }));
-}
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }: { params: Promise<Params> }): Promise<Metadata> {
   const { slug } = await params;
-  const art = getArticle(slug);
+  const art = await getArticle(slug);
   if (!art || !art.published) return {};
   return {
     title: art.meta_title,
@@ -31,14 +29,12 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
 
 export default async function ArticlePage({ params }: { params: Promise<Params> }) {
   const { slug } = await params;
-  const art = getArticle(slug);
+  const art = await getArticle(slug);
   if (!art || !art.published) notFound();
 
   const body = JSON.parse(art.body_json) as ArticleBody;
   const url = `${SITE.url}/news/${art.slug}`;
-  const related = listArticles(true)
-    .filter((a) => a.slug !== art.slug)
-    .slice(0, 3);
+  const related = (await listArticles(true)).filter((a) => a.slug !== art.slug).slice(0, 3);
 
   const articleSchema = {
     "@context": "https://schema.org",

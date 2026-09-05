@@ -2,7 +2,9 @@ import type { MetadataRoute } from "next";
 import { SERVICES, SITE } from "@/lib/data";
 import { listArticles } from "@/lib/db";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export const dynamic = "force-dynamic";
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const lastModified = new Date("2026-07-27");
 
   const staticPages = [
@@ -26,7 +28,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified,
       priority: 0.9,
     })),
-    ...listArticles(true).map((a) => ({
+    ...(await listArticles(true)).map((a) => ({
       url: `${SITE.url}/news/${a.slug}`,
       lastModified: new Date(a.date_iso),
       priority: 0.5,

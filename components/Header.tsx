@@ -6,9 +6,19 @@ import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { SERVICES } from "@/lib/data";
 
+const NAV = [
+  { href: "/", label: "Home" },
+  { href: "/who-we-are", label: "Who We Are" },
+];
+const NAV_TAIL = [
+  { href: "/who-we-serve", label: "Who We Serve" },
+  { href: "/news", label: "News & Blog" },
+  { href: "/careers", label: "Careers" },
+  { href: "/downloads", label: "Downloads" },
+];
+
 export default function Header() {
   const pathname = usePathname();
-  const [scrolled, setScrolled] = useState(false);
   const [ddOpen, setDdOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileSvcOpen, setMobileSvcOpen] = useState(false);
@@ -17,20 +27,11 @@ export default function Header() {
   const hamburgerRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 10);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  // Close menus on navigation.
-  useEffect(() => {
     setDdOpen(false);
     setMobileOpen(false);
     setMobileSvcOpen(false);
   }, [pathname]);
 
-  // Esc closes dropdown / mobile menu; mobile menu traps focus and locks scroll.
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
@@ -41,9 +42,7 @@ export default function Header() {
         }
       }
       if (e.key === "Tab" && mobileOpen && mobileRef.current) {
-        const focusables = mobileRef.current.querySelectorAll<HTMLElement>(
-          'a[href], button:not([disabled])'
-        );
+        const focusables = mobileRef.current.querySelectorAll<HTMLElement>('a[href], button:not([disabled])');
         if (focusables.length === 0) return;
         const first = focusables[0];
         const last = focusables[focusables.length - 1];
@@ -62,10 +61,7 @@ export default function Header() {
 
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? "hidden" : "";
-    if (mobileOpen) {
-      const firstLink = mobileRef.current?.querySelector<HTMLElement>("button, a");
-      firstLink?.focus();
-    }
+    if (mobileOpen) mobileRef.current?.querySelector<HTMLElement>("button, a")?.focus();
     return () => {
       document.body.style.overflow = "";
     };
@@ -75,107 +71,89 @@ export default function Header() {
     (href: string) => (href === "/" ? pathname === "/" : pathname.startsWith(href)),
     [pathname]
   );
-
   const servicesActive = pathname.startsWith("/services");
 
   const navLinkCls = (active: boolean) =>
-    `text-[14px] font-medium transition-colors hover:text-accent-hover ${
-      active ? "text-accent-hover" : "text-ink"
+    `whitespace-nowrap rounded-[5px] px-[clamp(6px,0.9vw,12px)] py-2 text-[13.5px] font-medium transition-colors hover:bg-bg-light/10 hover:text-accent-light ${
+      active ? "text-accent-light" : "text-bg-light/85"
     }`;
 
   return (
     <>
-      <header className="sticky top-0 z-[60] border-b border-ink/10 bg-bg-light/90 backdrop-blur-[10px]">
-      <div
-        className="wrap flex items-center justify-between gap-4 px-[clamp(16px,4vw,40px)] transition-[padding] duration-200"
-        style={{ paddingBlock: scrolled ? 8 : 14 }}
-      >
-        <Link href="/" aria-label="Spatial Alphabet — home" className="flex items-center">
-          <Image
-            src="/uploads/spatial-alphabet-logo.png"
-            alt="Spatial Alphabet"
-            width={236}
-            height={55}
-            priority
-            className="w-auto transition-[height] duration-200"
-            style={{ height: scrolled ? 38 : 48 }}
-          />
-        </Link>
+      <header className="sticky top-0 z-[60] h-[72px] border-b border-bg-light/10 bg-navy-deepest/95 backdrop-blur-[10px]">
+        <div className="wrap flex h-full items-center justify-between gap-3 px-[clamp(16px,3vw,40px)]">
+          <Link href="/" aria-label="Spatial Alphabet — home" className="flex shrink-0 items-center">
+            <Image
+              src="/uploads/spatial-alphabet-logo-white.png"
+              alt="Spatial Alphabet"
+              width={236}
+              height={70}
+              priority
+              className="h-[46px] w-auto"
+            />
+          </Link>
 
-        {/* Desktop nav */}
-        <nav aria-label="Primary" className="hidden items-center gap-[clamp(12px,1.8vw,26px)] lg:flex">
-          <Link href="/" className={navLinkCls(isActive("/"))}>
-            Home
-          </Link>
-          <Link href="/who-we-are" className={navLinkCls(isActive("/who-we-are"))}>
-            Who We Are
-          </Link>
-          <div
-            ref={ddRef}
-            className="relative"
-            onMouseEnter={() => setDdOpen(true)}
-            onMouseLeave={() => setDdOpen(false)}
-          >
-            <button
-              type="button"
-              onClick={() => setDdOpen((o) => !o)}
-              aria-expanded={ddOpen}
-              aria-haspopup="true"
-              className={`inline-flex min-h-[44px] cursor-pointer items-center gap-1.5 rounded-[3px] px-3 text-[14px] font-medium transition-colors ${
-                ddOpen || servicesActive ? "bg-accent/10 text-accent-hover" : "text-ink"
-              }`}
+          {/* Desktop nav — one line */}
+          <nav aria-label="Primary" className="hidden items-center gap-[clamp(2px,0.6vw,8px)] lg:flex">
+            {NAV.map((n) => (
+              <Link key={n.href} href={n.href} className={navLinkCls(isActive(n.href))}>
+                {n.label}
+              </Link>
+            ))}
+            <div ref={ddRef} className="relative" onMouseEnter={() => setDdOpen(true)} onMouseLeave={() => setDdOpen(false)}>
+              <button
+                type="button"
+                onClick={() => setDdOpen((o) => !o)}
+                aria-expanded={ddOpen}
+                aria-haspopup="true"
+                className={`inline-flex cursor-pointer items-center gap-1 whitespace-nowrap rounded-[5px] px-[clamp(6px,0.9vw,12px)] py-2 text-[13.5px] font-medium transition-colors hover:bg-bg-light/10 ${
+                  ddOpen || servicesActive ? "text-accent-light" : "text-bg-light/85"
+                }`}
+              >
+                What We Deliver <span aria-hidden="true" className="text-[8px]">▼</span>
+              </button>
+              {ddOpen && (
+                <div className="absolute left-0 top-full flex min-w-[280px] flex-col rounded-[6px] border border-ink/10 bg-white py-2 shadow-[0_18px_40px_-8px_rgba(4,10,22,.5)]">
+                  {SERVICES.map((s) => (
+                    <Link
+                      key={s.slug}
+                      href={`/services/${s.slug}`}
+                      onClick={() => setDdOpen(false)}
+                      className="flex min-h-[44px] items-center px-[20px] py-[10px] text-[14px] text-ink transition-colors hover:bg-accent/10 hover:text-accent-hover"
+                    >
+                      {s.navName}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
+            {NAV_TAIL.map((n) => (
+              <Link key={n.href} href={n.href} className={navLinkCls(isActive(n.href))}>
+                {n.label}
+              </Link>
+            ))}
+            <Link
+              href="/contact"
+              className="ml-1 inline-flex shrink-0 items-center whitespace-nowrap rounded-[6px] bg-accent px-4 py-2.5 text-[13.5px] font-semibold text-navy-deepest transition-colors hover:bg-accent-light"
             >
-              What We Deliver <span aria-hidden="true" className="text-[9px] text-accent-hover">▼</span>
-            </button>
-            {ddOpen && (
-              <div className="absolute left-0 top-full flex min-w-[280px] flex-col rounded-[4px] border border-ink/10 bg-white py-2.5 shadow-[0_18px_40px_-8px_rgba(12,27,51,.25)]">
-                {SERVICES.map((s) => (
-                  <Link
-                    key={s.slug}
-                    href={`/services/${s.slug}`}
-                    onClick={() => setDdOpen(false)}
-                    className="flex min-h-[44px] items-center px-[22px] py-[11px] text-[14.5px] transition-colors hover:bg-accent/10 hover:text-accent-hover"
-                  >
-                    {s.navName}
-                  </Link>
-                ))}
-              </div>
-            )}
-          </div>
-          <Link href="/who-we-serve" className={navLinkCls(isActive("/who-we-serve"))}>
-            Who We Serve
-          </Link>
-          <Link href="/news" className={navLinkCls(isActive("/news"))}>
-            News & Blog
-          </Link>
-          <Link href="/careers" className={navLinkCls(isActive("/careers"))}>
-            Careers
-          </Link>
-          <Link href="/downloads" className={navLinkCls(isActive("/downloads"))}>
-            Downloads
-          </Link>
-          <Link
-            href="/contact"
-            className="inline-flex min-h-[44px] items-center rounded-[4px] bg-navy-btn px-5 text-[14px] font-semibold text-bg-light transition-colors hover:bg-accent hover:text-navy-deepest"
-          >
-            Contact Us
-          </Link>
-        </nav>
+              Contact Us
+            </Link>
+          </nav>
 
-        {/* Mobile hamburger */}
-        <button
-          ref={hamburgerRef}
-          type="button"
-          onClick={() => setMobileOpen(true)}
-          aria-expanded={mobileOpen}
-          aria-label="Open menu"
-          className="flex h-11 w-11 cursor-pointer flex-col items-center justify-center gap-[5px] rounded-[3px] border border-ink/20 bg-transparent lg:hidden"
-        >
-          <span aria-hidden="true" className="block h-[2px] w-[18px] bg-ink" />
-          <span aria-hidden="true" className="block h-[2px] w-[18px] bg-ink" />
-          <span aria-hidden="true" className="block h-[2px] w-[18px] bg-ink" />
-        </button>
-      </div>
+          {/* Mobile hamburger */}
+          <button
+            ref={hamburgerRef}
+            type="button"
+            onClick={() => setMobileOpen(true)}
+            aria-expanded={mobileOpen}
+            aria-label="Open menu"
+            className="flex h-11 w-11 shrink-0 cursor-pointer flex-col items-center justify-center gap-[5px] rounded-[4px] border border-bg-light/25 bg-transparent lg:hidden"
+          >
+            <span aria-hidden="true" className="block h-[2px] w-[18px] bg-bg-light" />
+            <span aria-hidden="true" className="block h-[2px] w-[18px] bg-bg-light" />
+            <span aria-hidden="true" className="block h-[2px] w-[18px] bg-bg-light" />
+          </button>
+        </div>
       </header>
 
       {/* Full-screen mobile menu — rendered outside <header> so its fixed
@@ -188,13 +166,13 @@ export default function Header() {
           aria-label="Menu"
           className="carto-dark mobile-menu-open fixed inset-0 z-[80] flex flex-col overflow-y-auto bg-navy-deepest lg:hidden"
         >
-          <div className="flex items-center justify-between px-5 py-3.5">
+          <div className="flex h-[72px] items-center justify-between px-5">
             <Image
-              src="/uploads/spatial-alphabet-logo.png"
+              src="/uploads/spatial-alphabet-logo-white.png"
               alt="Spatial Alphabet"
-              width={148}
-              height={34}
-              className="h-[30px] w-auto brightness-0 invert"
+              width={200}
+              height={60}
+              className="h-[42px] w-auto"
             />
             <button
               type="button"
@@ -208,11 +186,8 @@ export default function Header() {
               ✕
             </button>
           </div>
-          <nav aria-label="Mobile" className="flex flex-1 flex-col gap-1 px-6 pb-10 pt-6">
-            {[
-              { href: "/", label: "Home" },
-              { href: "/who-we-are", label: "Who We Are" },
-            ].map((item, i) => (
+          <nav aria-label="Mobile" className="flex flex-1 flex-col gap-1 px-6 pb-10 pt-4">
+            {NAV.map((item, i) => (
               <Link
                 key={item.href}
                 href={item.href}
@@ -248,12 +223,7 @@ export default function Header() {
                 </div>
               )}
             </div>
-            {[
-              { href: "/who-we-serve", label: "Who We Serve" },
-              { href: "/news", label: "News & Blog" },
-              { href: "/careers", label: "Careers" },
-              { href: "/downloads", label: "Downloads" },
-            ].map((item, i) => (
+            {NAV_TAIL.map((item, i) => (
               <Link
                 key={item.href}
                 href={item.href}
@@ -265,17 +235,11 @@ export default function Header() {
             ))}
             <Link
               href="/contact"
-              className="mobile-menu-link mt-6 inline-flex min-h-[48px] w-max items-center rounded-[4px] bg-accent px-7 text-[16px] font-semibold text-navy-deepest"
+              className="mobile-menu-link mt-6 inline-flex min-h-[48px] w-max items-center rounded-[6px] bg-accent px-7 text-[16px] font-semibold text-navy-deepest"
               style={{ transitionDelay: "420ms" }}
             >
               Contact Us
             </Link>
-            <p
-              className="mobile-menu-link mt-auto pt-10 font-mono text-[11px] tracking-[.14em] text-bg-light/55"
-              style={{ transitionDelay: "480ms" }}
-            >
-              MAP. MODEL. DELIVER.
-            </p>
           </nav>
         </div>
       )}

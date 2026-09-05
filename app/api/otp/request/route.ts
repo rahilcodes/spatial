@@ -17,11 +17,11 @@ export async function POST(req: NextRequest) {
   if (!PURPOSES.includes(purpose)) return NextResponse.json({ error: "Invalid request." }, { status: 400 });
 
   // Simple rate limit: max 3 codes per email per minute.
-  if (recentOtpCount(email, 60) >= 3) {
+  if ((await recentOtpCount(email, 60)) >= 3) {
     return NextResponse.json({ error: "Too many requests — wait a minute and try again." }, { status: 429 });
   }
 
-  const code = createOtp(email, purpose, ref);
+  const code = await createOtp(email, purpose, ref);
   const label = purpose === "careers" ? "your job application" : "your download";
   const delivered = await sendOtpEmail(email, code, label).catch(() => false);
 

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import ContactForm from "@/components/ContactForm";
 import { SITE } from "@/lib/data";
@@ -9,9 +10,13 @@ export default function Footer() {
       <div className="wrap relative">
         <div className="mb-[clamp(48px,6vw,72px)] flex flex-wrap gap-[clamp(40px,6vw,90px)]">
           <div className="min-w-0 flex-[1.2_1_320px]">
-            <p className="display m-0 mb-2 text-[26px] font-bold">
-              Spatial <span className="text-accent">Alphabet</span>
-            </p>
+            <Image
+              src="/uploads/spatial-alphabet-logo-white.png"
+              alt="Spatial Alphabet"
+              width={230}
+              height={68}
+              className="mb-3 h-[52px] w-auto"
+            />
             <p className="eyebrow m-0 mb-9 text-bg-light/55">MAP. MODEL. DELIVER.</p>
             <div className="flex flex-col gap-6">
               <div>

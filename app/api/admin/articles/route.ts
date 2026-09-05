@@ -48,8 +48,8 @@ export async function POST(req: NextRequest) {
 
   if (action === "delete") {
     if (id) {
-      const existing = getArticleById(id);
-      deleteArticle(id);
+      const existing = await getArticleById(id);
+      await deleteArticle(id);
       revalidateNews(undefined, existing?.slug);
     }
     return NextResponse.redirect(new URL("/admin/articles", req.url), 303);
@@ -62,14 +62,14 @@ export async function POST(req: NextRequest) {
   }
 
   let slug = slugify(String(data.get("slug") || "") || title);
-  const existing = id ? getArticleById(id) : undefined;
+  const existing = id ? await getArticleById(id) : undefined;
   // Keep slugs unique without clobbering another article.
-  const clash = getArticle(slug);
+  const clash = await getArticle(slug);
   if (clash && clash.id !== id) slug = `${slug}-${Date.now() % 10000}`;
 
   const dateISO = String(data.get("date_iso") || "").trim() || new Date().toISOString().slice(0, 10);
   const [yy, mm] = dateISO.split("-");
-  const savedId = upsertArticle({
+  const savedId = await upsertArticle({
     id,
     slug,
     title,

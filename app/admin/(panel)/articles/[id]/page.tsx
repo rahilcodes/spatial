@@ -44,7 +44,7 @@ export default async function AdminArticleEditor({
   const { id } = await params;
   const { error } = await searchParams;
   const isNew = id === "new";
-  const article = isNew ? undefined : getArticleById(Number(id));
+  const article = isNew ? undefined : await getArticleById(Number(id));
   if (!isNew && !article) notFound();
 
   const bodyText = article ? bodyToText(JSON.parse(article.body_json) as ArticleBody) : "";

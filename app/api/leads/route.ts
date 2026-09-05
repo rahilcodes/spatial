@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createLead } from "@/lib/db";
+import { sendLeadNotification } from "@/lib/mailer";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -25,6 +26,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Name and a valid email are required" }, { status: 400 });
   }
 
-  createLead({ kind: "contact", name, email, topic, message });
+  await createLead({ kind: "contact", name, email, topic, message });
+  await sendLeadNotification({ kind: "contact", name, email, topic, message });
   return NextResponse.json({ ok: true });
 }

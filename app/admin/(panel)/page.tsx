@@ -1,11 +1,11 @@
 import Link from "next/link";
 import { leadCounts, listArticles, listJobs, listLeads } from "@/lib/db";
 
-export default function AdminDashboard() {
-  const counts = leadCounts();
-  const articles = listArticles();
-  const jobs = listJobs();
-  const recent = listLeads().slice(0, 6);
+export default async function AdminDashboard() {
+  const counts = await leadCounts();
+  const articles = await listArticles();
+  const jobs = await listJobs();
+  const recent = (await listLeads()).slice(0, 6);
 
   const tiles = [
     { label: "NEW LEADS", value: counts.fresh, href: "/admin/leads?status=new", accent: counts.fresh > 0 },

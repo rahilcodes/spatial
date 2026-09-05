@@ -13,9 +13,9 @@ export async function POST(req: NextRequest) {
 
   if (id) {
     if (action === "delete") {
-      deleteLead(id);
+      await deleteLead(id);
     } else {
-      updateLead(id, {
+      await updateLead(id, {
         status: String(data.get("status") || "") || undefined,
         notes: data.has("notes") ? String(data.get("notes")).slice(0, 5000) : undefined,
       });

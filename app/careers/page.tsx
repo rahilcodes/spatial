@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import { Suspense } from "react";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import CareersForm from "@/components/CareersForm";
 import PageHero from "@/components/PageHero";
 import Reveal from "@/components/Reveal";
+import { SkeletonRows } from "@/components/Skeleton";
 import { SITE } from "@/lib/data";
 import { listJobs } from "@/lib/db";
 
@@ -14,8 +16,14 @@ export const metadata: Metadata = {
   alternates: { canonical: "/careers" },
 };
 
-export default function CareersPage() {
-  const jobs = listJobs(true).map((j) => ({ ...j, skills: JSON.parse(j.skills_json) as string[] }));
+export const dynamic = "force-dynamic";
+
+/**
+ * Open roles + application form. Both need the job list, so they stream in
+ * together behind Suspense; the banner and culture section above render at once.
+ */
+async function RolesAndApply() {
+  const jobs = (await listJobs(true)).map((j) => ({ ...j, skills: JSON.parse(j.skills_json) as string[] }));
 
   const jobPostingSchema = jobs.map((j) => ({
     "@context": "https://schema.org",
@@ -55,56 +63,6 @@ export default function CareersPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jobPostingSchema) }}
       />
-      <Breadcrumbs
-        crumbs={[
-          { name: "Home", href: "/" },
-          { name: "Careers", href: "/careers" },
-        ]}
-      />
-      <PageHero
-        eyebrow="CAREERS — TWO OFFICES, ONE STANDARD"
-        title="Do work that ships right the first time."
-        sub="We hire people who take pride in a deliverable that survives client review untouched. In return: real training, real standards, and programs where your work carries weight — in Keller, Texas and Hyderabad, India."
-      />
-
-      {/* Culture */}
-      <section className="bg-bg-light px-[clamp(20px,5vw,48px)] py-[clamp(56px,8vw,96px)]">
-        <div className="wrap grid grid-cols-[repeat(auto-fit,minmax(260px,1fr))] gap-[clamp(24px,3vw,40px)]">
-          {[
-            {
-              k: "TRAINING FIRST",
-              p: "Nobody touches production data until they've passed our gold-standard calibration. You'll be trained to a spec, not thrown at a backlog.",
-            },
-            {
-              k: "QC IS A CRAFT",
-              p: "First-time-right isn't pressure — it's process. Layered review means you learn from every error before it compounds.",
-            },
-            {
-              k: "TWO SHORES, ONE TEAM",
-              p: "Keller sets standards, Hyderabad executes at scale, and a daily handoff keeps both shores moving as one program.",
-            },
-          ].map((c, i) => (
-            <Reveal key={c.k} delay={i * 50} className="border-t-2 border-ink pt-[18px]">
-              <p className="m-0 mb-2 font-mono text-[12px] tracking-[.12em] text-accent-hover">{c.k}</p>
-              <p className="m-0 text-[15px] leading-[1.65] text-ink/72">{c.p}</p>
-            </Reveal>
-          ))}
-        </div>
-        <div className="wrap mt-[clamp(36px,5vw,56px)]">
-          <div className="relative h-[220px] overflow-hidden rounded-[8px] bg-navy-deepest sm:h-[320px]">
-            <Image
-              src="/assets/gen/globe-timezones.png"
-              alt="Globe wireframe with an arc connecting the Keller and Hyderabad offices — one team across two shores"
-              fill
-              sizes="(max-width: 1320px) 100vw, 1320px"
-              className="object-cover"
-            />
-          </div>
-          <p className="m-0 mt-3 font-mono text-[10.5px] tracking-[.14em] text-ink/65">
-            ONE TEAM, TWO SHORES — KELLER, TEXAS &amp; HYDERABAD, INDIA
-          </p>
-        </div>
-      </section>
 
       {/* Open roles */}
       <section className="bg-bg-light-2 px-[clamp(20px,5vw,48px)] py-[clamp(56px,8vw,96px)]">
@@ -161,6 +119,79 @@ export default function CareersPage() {
           </div>
         </div>
       </section>
+    </>
+  );
+}
+
+function RolesSkeleton() {
+  return (
+    <section aria-hidden="true" className="bg-bg-light-2 px-[clamp(20px,5vw,48px)] py-[clamp(56px,8vw,96px)]">
+      <div className="wrap">
+        <p className="eyebrow m-0 mb-2 text-accent-hover">OPEN ROLES</p>
+        <span className="mb-8 block h-8 w-40 animate-pulse rounded bg-ink/10" />
+        <SkeletonRows rows={3} />
+      </div>
+    </section>
+  );
+}
+
+export default function CareersPage() {
+  return (
+    <>
+      <Breadcrumbs
+        crumbs={[
+          { name: "Home", href: "/" },
+          { name: "Careers", href: "/careers" },
+        ]}
+      />
+      <PageHero
+        eyebrow="CAREERS — TWO OFFICES, ONE STANDARD"
+        title="Do work that ships right the first time."
+        sub="We hire people who take pride in a deliverable that survives client review untouched. In return: real training, real standards, and programs where your work carries weight — in Keller, Texas and Hyderabad, India."
+      />
+
+      {/* Culture */}
+      <section className="bg-bg-light px-[clamp(20px,5vw,48px)] py-[clamp(56px,8vw,96px)]">
+        <div className="wrap grid grid-cols-[repeat(auto-fit,minmax(260px,1fr))] gap-[clamp(24px,3vw,40px)]">
+          {[
+            {
+              k: "TRAINING FIRST",
+              p: "Nobody touches production data until they've passed our gold-standard calibration. You'll be trained to a spec, not thrown at a backlog.",
+            },
+            {
+              k: "QC IS A CRAFT",
+              p: "First-time-right isn't pressure — it's process. Layered review means you learn from every error before it compounds.",
+            },
+            {
+              k: "TWO SHORES, ONE TEAM",
+              p: "Keller sets standards, Hyderabad executes at scale, and a daily handoff keeps both shores moving as one program.",
+            },
+          ].map((c, i) => (
+            <Reveal key={c.k} delay={i * 50} className="border-t-2 border-ink pt-[18px]">
+              <p className="m-0 mb-2 font-mono text-[12px] tracking-[.12em] text-accent-hover">{c.k}</p>
+              <p className="m-0 text-[15px] leading-[1.65] text-ink/72">{c.p}</p>
+            </Reveal>
+          ))}
+        </div>
+        <div className="wrap mt-[clamp(36px,5vw,56px)]">
+          <div className="relative h-[220px] overflow-hidden rounded-[8px] bg-navy-deepest sm:h-[320px]">
+            <Image
+              src="/assets/gen/globe-timezones.png"
+              alt="Globe wireframe with an arc connecting the Keller and Hyderabad offices — one team across two shores"
+              fill
+              sizes="(max-width: 1320px) 100vw, 1320px"
+              className="object-cover"
+            />
+          </div>
+          <p className="m-0 mt-3 font-mono text-[10.5px] tracking-[.14em] text-ink/65">
+            ONE TEAM, TWO SHORES — KELLER, TEXAS &amp; HYDERABAD, INDIA
+          </p>
+        </div>
+      </section>
+
+      <Suspense fallback={<RolesSkeleton />}>
+        <RolesAndApply />
+      </Suspense>
     </>
   );
 }

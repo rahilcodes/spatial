@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { listDownloads } from "@/lib/db";
 
-export default function AdminDownloadsPage() {
-  const downloads = listDownloads();
+export default async function AdminDownloadsPage() {
+  const downloads = await listDownloads();
   return (
     <>
       <div className="mb-6 flex flex-wrap items-center justify-between gap-3">

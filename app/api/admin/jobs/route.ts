@@ -2,7 +2,7 @@ import { revalidatePath } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 import { requireAdminApi } from "@/lib/auth";
 import { slugify } from "@/lib/article-body";
-import { deleteJob, getJobById, listJobs, upsertJob } from "@/lib/db";
+import { deleteJob, listJobs, upsertJob } from "@/lib/db";
 
 export async function POST(req: NextRequest) {
   const unauthorized = await requireAdminApi();
@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
   const id = Number(data.get("id") || 0) || undefined;
 
   if (action === "delete") {
-    if (id) deleteJob(id);
+    if (id) await deleteJob(id);
     revalidatePath("/careers");
     return NextResponse.redirect(new URL("/admin/jobs", req.url), 303);
   }
@@ -25,7 +25,7 @@ export async function POST(req: NextRequest) {
   }
 
   let slug = slugify(title);
-  if (listJobs().some((j) => j.slug === slug && j.id !== id)) slug = `${slug}-${Date.now() % 10000}`;
+  if ((await listJobs()).some((j) => j.slug === slug && j.id !== id)) slug = `${slug}-${Date.now() % 10000}`;
 
   const skills = String(data.get("skills") || "")
     .split(",")
@@ -33,7 +33,7 @@ export async function POST(req: NextRequest) {
     .filter(Boolean)
     .slice(0, 12);
 
-  upsertJob({
+  await upsertJob({
     id,
     slug,
     title,

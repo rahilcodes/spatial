@@ -19,6 +19,54 @@ function getTransport(): Transporter | null {
   return transporter;
 }
 
+/** Notifies the company inbox of a new lead. Best-effort — never blocks the submission. */
+export async function sendLeadNotification(lead: {
+  kind: "contact" | "careers";
+  name: string;
+  email: string;
+  topic: string;
+  message: string;
+  cvUrl?: string | null;
+}): Promise<void> {
+  const t = getTransport();
+  const to = process.env.LEADS_NOTIFY_EMAIL;
+  if (!t || !to) return;
+  const from = SMTP_FROM || `Spatial Alphabet <${SMTP_USER}>`;
+  const kindLabel = lead.kind === "careers" ? "Job application" : "Contact enquiry";
+  const rows: [string, string][] = [
+    ["Type", kindLabel],
+    ["Name", lead.name],
+    ["Email", lead.email],
+    [lead.kind === "careers" ? "Role" : "Service", lead.topic || "—"],
+    ["Message", lead.message || "—"],
+  ];
+  if (lead.cvUrl) rows.push(["CV", lead.cvUrl]);
+  try {
+    await t.sendMail({
+      from,
+      to,
+      replyTo: lead.email,
+      subject: `New ${kindLabel.toLowerCase()} — ${lead.name}`,
+      text: rows.map(([k, v]) => `${k}: ${v}`).join("\n"),
+      html: `<div style="font-family:Arial,Helvetica,sans-serif;max-width:560px">
+        <h2 style="color:#0C1B33;font-size:18px;margin:0 0 12px">New ${kindLabel.toLowerCase()}</h2>
+        <table style="border-collapse:collapse;font-size:14px;color:#0C1B33">
+          ${rows
+            .map(
+              ([k, v]) =>
+                `<tr><td style="padding:6px 12px 6px 0;font-weight:700;vertical-align:top;color:#00719F">${k}</td><td style="padding:6px 0">${
+                  k === "CV" ? `<a href="${v}">Download CV</a>` : String(v).replace(/</g, "&lt;")
+                }</td></tr>`
+            )
+            .join("")}
+        </table>
+      </div>`,
+    });
+  } catch {
+    // never fail the user's submission because notification email failed
+  }
+}
+
 /** Returns true if the email was dispatched, false if SMTP isn't configured (dev fallback). */
 export async function sendOtpEmail(to: string, code: string, purposeLabel: string): Promise<boolean> {
   const t = getTransport();

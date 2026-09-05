@@ -69,6 +69,8 @@ const organizationSchema = {
     {
       "@type": "PostalAddress",
       addressLocality: "Hyderabad",
+      streetAddress: "B Block 609, 6th Floor, Asian Sun City, Kondapur, Forest Dept Colony, Gachibowli, Kothaguda",
+      postalCode: "500084",
       addressRegion: "Telangana",
       addressCountry: "IN",
     },

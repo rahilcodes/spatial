@@ -4,7 +4,11 @@ import { Suspense } from "react";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import PageHero from "@/components/PageHero";
 import { SkeletonRows } from "@/components/Skeleton";
-import { listArticles } from "@/lib/db";
+import { ARTICLES } from "@/lib/data";
+import { listArticles, type ArticleRow } from "@/lib/db";
+import { withSeedFallback } from "@/lib/fallback";
+
+type Teaser = Pick<ArticleRow, "slug" | "date_label" | "title" | "description" | "tag">;
 
 export const metadata: Metadata = {
   title: "News & Blog",
@@ -17,7 +21,14 @@ export const dynamic = "force-dynamic";
 
 /** Streams in behind Suspense so the page shell and navigation never wait on the database. */
 async function ArticleList() {
-  const articles = await listArticles(true);
+  const articles = await withSeedFallback<Teaser[]>(
+    "news",
+    () => listArticles(true),
+    () =>
+      [...ARTICLES]
+        .sort((a, b) => b.dateISO.localeCompare(a.dateISO))
+        .map((a) => ({ slug: a.slug, date_label: a.date, title: a.title, description: a.description, tag: a.tag }))
+  );
   return (
     <>
       {articles.map((art) => (

@@ -235,6 +235,7 @@ export default function WhoWeArePage() {
               <p className="m-0 mb-1.5 font-mono text-[11px] tracking-[.14em] text-accent-light">
                 {SITE.offices.hyderabad.label}
               </p>
+              <p className="m-0 mb-2 text-[13.5px] leading-[1.5] text-bg-light/80">{SITE.offices.hyderabad.address}</p>
               <p className="m-0 mb-4 font-mono text-[12.5px] text-bg-light/60">
                 {SITE.offices.hyderabad.coords}
               </p>

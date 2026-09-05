@@ -7,7 +7,11 @@ import DownloadButton from "@/components/DownloadButton";
 import PageHero from "@/components/PageHero";
 import Reveal from "@/components/Reveal";
 import { SkeletonCards } from "@/components/Skeleton";
-import { listDownloads } from "@/lib/db";
+import { DOWNLOADS } from "@/lib/data";
+import { listDownloads, type DownloadRow } from "@/lib/db";
+import { withSeedFallback } from "@/lib/fallback";
+
+type DownloadItem = Pick<DownloadRow, "id" | "title" | "kind" | "descr" | "img" | "file_path" | "url">;
 
 export const metadata: Metadata = {
   title: "Downloads",
@@ -20,7 +24,20 @@ export const dynamic = "force-dynamic";
 
 /** Streams in behind Suspense so the page shell and navigation never wait on the database. */
 async function DownloadGrid() {
-  const downloads = await listDownloads(true);
+  const downloads = await withSeedFallback<DownloadItem[]>(
+    "downloads",
+    () => listDownloads(true),
+    () =>
+      DOWNLOADS.map((d, i) => ({
+        id: i + 1,
+        title: d.title,
+        kind: d.kind,
+        descr: d.desc,
+        img: d.img,
+        file_path: null,
+        url: null,
+      }))
+  );
   return (
     <div className="grid grid-cols-[repeat(auto-fill,minmax(270px,1fr))] gap-6">
       {downloads.map((d, i) => {

@@ -31,6 +31,7 @@ export default function Footer() {
                 <p className="m-0 mb-1.5 font-mono text-[11px] tracking-[.14em] text-accent-light">
                   {SITE.offices.hyderabad.label}
                 </p>
+                <p className="m-0 mb-1 max-w-[34ch] text-[13px] leading-[1.5] text-bg-light/75">{SITE.offices.hyderabad.address}</p>
                 <p className="m-0 font-mono text-[12.5px] text-bg-light/65">
                   {SITE.offices.hyderabad.coords}
                 </p>

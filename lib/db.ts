@@ -28,6 +28,11 @@ function getPool(): Pool {
   return pool;
 }
 
+/** Connectivity probe used by /api/health: one round-trip, no schema setup. */
+export async function pingDb(): Promise<void> {
+  await getPool().query("SELECT 1");
+}
+
 const NOW = "to_char((now() AT TIME ZONE 'utc'),'YYYY-MM-DD HH24:MI:SS')";
 
 let readyPromise: Promise<void> | null = null;

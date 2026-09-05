@@ -24,9 +24,9 @@ const OFFICES = [
   {
     key: "hyderabad",
     office: SITE.offices.hyderabad,
-    mapSrc: "https://www.google.com/maps?q=17.3850,78.4867&z=14&output=embed",
+    mapSrc: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3806.0244859804698!2d78.3630982!3d17.4585421!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bcb910043006eab%3A0x7a6c6902d99fd6b!2sSpatial%20Alphabet%20.Int.Inc!5e0!3m2!1sen!2sin!4v1788584948427!5m2!1sen!2sin",
     mapTitle: "Map — Hyderabad, Telangana office",
-    mapsLink: "https://www.google.com/maps/search/?api=1&query=17.3850,78.4867",
+    mapsLink: "https://www.google.com/maps/search/?api=1&query=17.4585421,78.3630982",
     qr: "/assets/gen/qr-hyderabad.png",
   },
 ];
@@ -65,6 +65,9 @@ export default function ContactPage() {
                 <p className="m-0 mb-1.5 font-mono text-[11px] tracking-[.14em] text-accent-hover">
                   {office.label}
                 </p>
+                {office.address && (
+                  <p className="m-0 mb-1.5 max-w-[40ch] text-[13.5px] leading-[1.5] text-ink/75">{office.address}</p>
+                )}
                 <p className="m-0 mb-3.5 font-mono text-[12.5px] text-ink/65">📍 {office.coords}</p>
                 <div className="overflow-hidden rounded-[4px] border border-ink/15">
                   <iframe

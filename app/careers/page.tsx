@@ -6,8 +6,19 @@ import CareersForm from "@/components/CareersForm";
 import PageHero from "@/components/PageHero";
 import Reveal from "@/components/Reveal";
 import { SkeletonRows } from "@/components/Skeleton";
-import { SITE } from "@/lib/data";
+import { JOBS, SITE } from "@/lib/data";
 import { listJobs } from "@/lib/db";
+import { withSeedFallback } from "@/lib/fallback";
+
+type JobItem = {
+  slug: string;
+  title: string;
+  office: string;
+  type: string;
+  blurb: string;
+  skills: string[];
+  created_at: string;
+};
 
 export const metadata: Metadata = {
   title: "Careers",
@@ -23,7 +34,11 @@ export const dynamic = "force-dynamic";
  * together behind Suspense; the banner and culture section above render at once.
  */
 async function RolesAndApply() {
-  const jobs = (await listJobs(true)).map((j) => ({ ...j, skills: JSON.parse(j.skills_json) as string[] }));
+  const jobs = await withSeedFallback<JobItem[]>(
+    "careers",
+    async () => (await listJobs(true)).map((j) => ({ ...j, skills: JSON.parse(j.skills_json) as string[] })),
+    () => JOBS.map((j) => ({ ...j, created_at: new Date().toISOString() }))
+  );
 
   const jobPostingSchema = jobs.map((j) => ({
     "@context": "https://schema.org",

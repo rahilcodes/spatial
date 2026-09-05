@@ -10,7 +10,7 @@ const OUT = join(dirname(fileURLToPath(import.meta.url)), "..", "public", "asset
 
 const offices = [
   { name: "qr-keller", lat: 32.9346, lng: -97.2517 },
-  { name: "qr-hyderabad", lat: 17.385, lng: 78.4867 },
+  { name: "qr-hyderabad", lat: 17.4585421, lng: 78.3630982 },
 ];
 
 const opts = {
